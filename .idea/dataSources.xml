@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="TheHydrant" uuid="f03a3a31-3bef-45e6-b2a5-f48d8951f2bc">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:/D:\Dev\WestHarbourBar\TheHydrant</jdbc-url>
+    </data-source>
+  </component>
+</project>
