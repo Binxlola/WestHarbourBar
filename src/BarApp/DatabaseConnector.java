@@ -1,5 +1,13 @@
 package BarApp;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,5 +68,19 @@ public class DatabaseConnector {
      */
     private static String getSizableField(String fieldName, String fieldType, int size, boolean isPrimary) {
         return String.format("%s %s(%s)%s", fieldName, fieldType, size, isPrimary ? " primary key" : "");
+    }
+
+    public void storeData(Object data) {
+        StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+        Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+
+        SessionFactory factory = meta.getSessionFactoryBuilder().build();
+        Session session = factory.openSession();
+        Transaction t = session.beginTransaction();
+
+        session.save(data);
+        t.commit();
+        factory.close();
+        session.close();
     }
 }

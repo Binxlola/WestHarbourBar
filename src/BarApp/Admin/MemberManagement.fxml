@@ -16,7 +16,7 @@
             </ScrollPane>
             <HBox GridPane.columnIndex="0"
                   GridPane.rowIndex="1">
-                <Button text="Add"/>
+                <Button fx:id="memberAdd" text="Add"/>
                 <Button text="Remove"/>
             </HBox>
 
