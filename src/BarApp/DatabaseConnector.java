@@ -8,7 +8,12 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import java.io.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,12 +23,19 @@ public class DatabaseConnector {
     final static String LINE_SEPARATOR = System.getProperty("line.separator");
     final static String SELECT_ALL = "select * from";
 
-    public static void buildDefaultTables(Connection conn) {
-        try {
-            createUsersTable(conn);
-        } catch (Exception e) {
-            
+    public static void buildDefaultTables(Connection conn) throws SQLException, IOException {
+        String url = "jdbc:h2:/" + System.getProperty("user.dir") + "/TheHydrant";
+        Connection con = DriverManager.getConnection(url + ";IFEXISTS=TRUE", "Admin", "Admin");
+        String scriptFilePath = "D:\\Dev\\WestHarbourBar\\exportScript.sql";
+        BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath));
+
+        String query = reader.readLine();
+        while (query != null) {
+
+            con.createStatement().execute(query);
+            query = reader.readLine();
         }
+
     }
 
     /**
@@ -70,7 +82,7 @@ public class DatabaseConnector {
         return String.format("%s %s(%s)%s", fieldName, fieldType, size, isPrimary ? " primary key" : "");
     }
 
-    public void storeData(Object data) {
+    public static void storeData(Object data) {
         StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
         Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
 

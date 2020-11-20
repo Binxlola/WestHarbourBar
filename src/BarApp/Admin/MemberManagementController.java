@@ -5,8 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,9 +37,11 @@ public class MemberManagementController extends AnchorPane implements Initializa
 
         Object source = actionEvent.getSource();
         if(source.equals(memberAdd)) {
-            Dialog<ButtonType> root = new Dialog<>();
-            root.setHeaderText("hello this is to add a mamber");
-            root.showAndWait();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(new MemberAddController(stage)));
+            stage.show();
         }
     }
 

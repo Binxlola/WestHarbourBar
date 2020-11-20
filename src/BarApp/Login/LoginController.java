@@ -59,21 +59,24 @@ public class LoginController extends AnchorPane implements Initializable {
         if(source.equals(loginBtn)) {
             if(!this.validateForm(currentForm)) {
 
-                try {
-                    isConnected = this.connectDB(isAdmin ? adminName.getText() : userIDField.getText(), isAdmin ? adminPassword.getText() : "");
-                } catch (Exception e) {
-                    errorBox.setText("There was an error connection to the Database");
-                }
+//                try {
+//                    isConnected = this.connectDB(isAdmin ? adminName.getText() : userIDField.getText(), isAdmin ? adminPassword.getText() : "");
+//                } catch (Exception e) {
+//                    errorBox.setText("There was an error connection to the Database");
+//                }
+//
+//                if(isConnected) {
+//                    Parent root = isAdmin ? new AdminController() : new MainController();
+//
+//                    userIDField.clear();
+//                    errorBox.setText("");
+//
+//                    // Change and set new Scene eg. The shop window
+//                    this._Main.setScene(new Scene(root));
+//                }
 
-                if(isConnected) {
-                    Parent root = isAdmin ? new AdminController() : new MainController();
-
-                    userIDField.clear();
-                    errorBox.setText("");
-
-                    // Change and set new Scene eg. The shop window
-                    this._Main.setScene(new Scene(root));
-                }
+                Parent root = isAdmin ? new AdminController() : new MainController();
+                this._Main.setScene(new Scene(root));
             }
         }else if(source.equals(adminLogin)) {
             this.userLoginForm.setVisible(isAdmin);
@@ -94,7 +97,7 @@ public class LoginController extends AnchorPane implements Initializable {
      * @return A boolean notifying if a connection has been made successfully
      * @throws SQLException An exception thrown from a connection attempt to database
      */
-    private boolean connectDB(String username, String password) throws SQLException {
+    private boolean connectDB(String username, String password) throws SQLException, IOException {
         boolean isConnected = false;
         String url = "jdbc:h2:/" + System.getProperty("user.dir") + "/TheHydrant";
         try {
