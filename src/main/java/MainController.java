@@ -13,12 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import main.java.Settings.SettingsController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainController extends AnchorPane implements Initializable {
+public class MainController extends AnchorPane implements Initializable, RootController {
 
     private String ID;
     @FXML private Button menu;
@@ -26,8 +27,8 @@ public class MainController extends AnchorPane implements Initializable {
     private Node primaryNode;
 
     // Transition Variables
-    TranslateTransition openNav;
-    TranslateTransition closeNav;
+    private TranslateTransition openNav;
+    private TranslateTransition closeNav;
 
     public MainController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main.fxml"));
@@ -42,19 +43,22 @@ public class MainController extends AnchorPane implements Initializable {
 
     public void setID(String ID) {this.ID = ID;}
 
-    private void prepareSlideMenuAnimation() {
+    @Override
+    public void calcNavDimensions(Number rootWidth, Number rootHeight) {
+        navList.setPrefWidth(rootWidth.doubleValue());
+        navList.setTranslateX((-1 * rootWidth.doubleValue()));
+    }
+
+    @Override
+    public void prepareMenuAnimation() {
         openNav = new TranslateTransition(new Duration(350), navList);
         closeNav = new TranslateTransition(new Duration(350), navList);
         openNav.setToX(0);
-
         menu.setOnAction(this::openCloseNav);
     }
 
-    /**
-     * Event handler for the navigation opening and closing logic
-     * @param e The event (Not currently required)
-     */
-    protected void openCloseNav(ActionEvent e) {
+    @Override
+    public void openCloseNav(ActionEvent e) {
         if(navList.getTranslateX()!=0){
             openNav.play();
         }else{
@@ -64,45 +68,52 @@ public class MainController extends AnchorPane implements Initializable {
     }
 
     @Override
+    public void initNavHandlers() {
+        NavHandler handler = new NavHandler(this);
+        for(Node node: navList.getChildren()) {
+            if(node instanceof Button) {
+                ((Button) node).setOnAction(handler);
+            }
+        }
+    }
+
+    @Override
+    public boolean changeScreen(Node newNode) {
+        try {
+            if(newNode != null) {
+                ObservableList<Node> children = this.getChildren();
+                children.remove(this.getPrimaryNode());
+                this.setPrimaryNode(newNode);
+                children.add(newNode);
+                newNode.toBack();
+            } else {
+                this.primaryNode = new SettingsController();
+                primaryNode.toBack();
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    @Override
+    public Node getPrimaryNode() {return this.primaryNode;}
+    @Override
+    public void setPrimaryNode(Node primaryNode) {this.primaryNode = primaryNode;}
+
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.menu.setGraphic(new ImageView("main/java/menu.png"));
         this.navList.toFront(); // Bring forward so it does not push other content
         this.menu.toFront(); // Bring button forward so it is always clickable
-        this.prepareSlideMenuAnimation();
+        this.prepareMenuAnimation();
         this.initNavHandlers();
 
         // Add a listener for window resize, will resize the nav menu
         ChangeListener<Number> shopListener = (observable, oldValue, newValue) -> this.calcNavDimensions(this.getWidth(), this.getHeight());
 
         this.widthProperty().addListener(shopListener);
-
-    }
-
-    private void calcNavDimensions(Number rootWidth, Number rootHeight) {
-        navList.setPrefWidth(rootWidth.doubleValue());
-        navList.setTranslateX((-1 * rootWidth.doubleValue()));
-    }
-
-    private void initNavHandlers() {
-        NavHandler handler = new NavHandler(this);
-        for(Node node: navList.getChildren()) {
-            if(node instanceof Button) {
-               ((Button) node).setOnAction(handler);
-            }
-        }
-    }
-
-    public boolean setPrimaryNode(Node newNode) {
-        try {
-            ObservableList<Node> children = this.getChildren();
-            children.remove(this.primaryNode);
-            this.primaryNode = newNode;
-            children.add(newNode);
-            newNode.toBack();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
 
     }
 }

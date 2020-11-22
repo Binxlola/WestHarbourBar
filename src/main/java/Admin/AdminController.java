@@ -15,17 +15,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import main.java.NavHandler;
+import main.java.RootController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AdminController extends AnchorPane implements Initializable {
+public class AdminController extends AnchorPane implements Initializable, RootController {
 
     @FXML
     private Button menu;
     @FXML private GridPane navList;
-    @FXML private StackPane paneStack;
+    private Node primaryNode;
 
     // Transition Variables
     TranslateTransition openNav;
@@ -35,21 +37,84 @@ public class AdminController extends AnchorPane implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Admin.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+
         try {
             fxmlLoader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        this.changeScreen(null);
     }
+
+    @Override
+    public void calcNavDimensions(Number rootWidth, Number rootHeight) {
+        navList.setPrefWidth(rootWidth.doubleValue());
+        navList.setTranslateX((-1 * rootWidth.doubleValue()));
+    }
+
+    @Override
+    public void prepareMenuAnimation() {
+        openNav = new TranslateTransition(new Duration(350), navList);
+        closeNav = new TranslateTransition(new Duration(350), navList);
+        openNav.setToX(0);
+
+        menu.setOnAction(this::openCloseNav);
+    }
+
+    @Override
+    public void openCloseNav(ActionEvent e) {
+        if(navList.getTranslateX()!=0){
+            openNav.play();
+        }else{
+            closeNav.setToX(-(navList.getWidth()));
+            closeNav.play();
+        }
+    }
+
+    @Override
+    public void initNavHandlers() {
+        NavHandler handler = new NavHandler(this);
+        for(Node node: navList.getChildren()) {
+            if(node instanceof Button) {
+                ((Button) node).setOnAction(handler);
+            }
+        }
+    }
+
+    @Override
+    public boolean changeScreen(Node newNode) {
+        try {
+            if(newNode != null) {
+                ObservableList<Node> children = this.getChildren();
+                children.remove(this.getPrimaryNode());
+                this.setPrimaryNode(newNode);
+                children.add(newNode);
+                newNode.toBack();
+            } else {
+                this.primaryNode = new MemberManagementController();
+                getChildren().add(primaryNode);
+                primaryNode.toBack();
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    @Override
+    public Node getPrimaryNode() {return this.primaryNode;}
+    @Override
+    public void setPrimaryNode(Node primaryNode) {this.primaryNode = primaryNode;}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.menu.setGraphic(new ImageView("main/java/menu.png"));
         this.navList.toFront(); // Bring forward so it does not push other content
         this.menu.toFront(); // Bring button forward so it is always clickable
-        this.prepareSlideMenuAnimation();
+        this.prepareMenuAnimation();
         this.initNavHandlers();
-        this.paneStack.getChildren().add(new MemberManagementController());
 
         // Create and set a listener for parent resizing
         ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> this.configSizing();
@@ -61,58 +126,7 @@ public class AdminController extends AnchorPane implements Initializable {
 
     private void configSizing() {
         double parentWidth = this.getWidth();
-
-        // Make sure the stack pane is always at 100% height and width
-        paneStack.prefHeightProperty().bind(this.prefHeightProperty());
-        paneStack.prefWidthProperty().bind(this.prefWidthProperty());
-
-        this.calcNavDimensions(parentWidth);
-    }
-
-    private void prepareSlideMenuAnimation() {
-        openNav = new TranslateTransition(new Duration(350), navList);
-        closeNav = new TranslateTransition(new Duration(350), navList);
-        openNav.setToX(0);
-
-        menu.setOnAction(this::openCloseNav);
-    }
-
-    /**
-     * Event handler for the navigation opening and closing logic
-     * @param e The event (Not currently required)
-     */
-    protected void openCloseNav(ActionEvent e) {
-        if(navList.getTranslateX()!=0){
-            openNav.play();
-        }else{
-            closeNav.setToX(-(navList.getWidth()));
-            closeNav.play();
-        }
-    }
-
-    private void calcNavDimensions(Number rootWidth) {
-        navList.setPrefWidth(rootWidth.doubleValue());
-        navList.setTranslateX((-1 * rootWidth.doubleValue()));
-    }
-
-    private void initNavHandlers() {
-        AdminNavHandler handler = new AdminNavHandler(this);
-        for(Node node: navList.getChildren()) {
-            if(node instanceof Button) {
-                ((Button) node).setOnAction(handler);
-            }
-        }
-    }
-
-    public boolean setPrimaryNode(Pane newNode) {
-        try {
-            ObservableList<Node> children = this.getChildren();
-            children.add(newNode);
-            newNode.toBack();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-
+        double parentHeight = this.getHeight();
+        this.calcNavDimensions(parentWidth, parentHeight);
     }
 }

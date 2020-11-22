@@ -1,5 +1,7 @@
 package main.java;
 
+import javafx.collections.ObservableList;
+import javafx.scene.layout.Pane;
 import main.java.Profile.ProfileController;
 import main.java.Settings.SettingsController;
 import javafx.event.ActionEvent;
@@ -10,9 +12,9 @@ import javafx.scene.control.Button;
 public class NavHandler implements EventHandler<ActionEvent> {
 
     private final Main _Main = Main.getMain();
-    private final MainController navParent;
+    private final Pane navParent;
 
-    public NavHandler(MainController parent) {
+    public NavHandler(Pane parent) {
         this.navParent = parent;
     }
 
@@ -25,17 +27,17 @@ public class NavHandler implements EventHandler<ActionEvent> {
         switch (button.getId()) {
             case "profileBtn" -> {
                 node = new ProfileController();
-                nodeChanged = navParent.setPrimaryNode(node);
+                nodeChanged = ((RootController)navParent).changeScreen(node);
             }
             case "settingsBtn" -> {
                 node = new SettingsController();
-                nodeChanged = navParent.setPrimaryNode(node);
+                nodeChanged = ((RootController)navParent).changeScreen(node);
             }
             case "logoutBtn" -> {
                 _Main.logout();
             }
         }
 
-        if(nodeChanged) {navParent.openCloseNav(actionEvent);}
+        if(nodeChanged) {((RootController)navParent).openCloseNav(actionEvent);}
     }
 }
