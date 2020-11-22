@@ -37,32 +37,25 @@ public class MemberManagementController extends AnchorPane implements Initializa
         }
     }
 
-    private void handleMembers(ActionEvent actionEvent) {
-
-        Object source = actionEvent.getSource();
-        if(source.equals(memberAdd)) {
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(new MemberAddController(stage, this)));
-            stage.show();
-        }
-    }
-
     public void openMemberEdit(ActionEvent e) {
         System.out.println(e);
+        Button source = (Button) e.getSource();
+        source.getUserData();
     }
 
-    private Callback<TableColumn<Member, Void>, TableCell<Member, Void>> buttonFactory(EventHandler<ActionEvent> btnHandler, String name, TableView<Member> tableView) {
+    public void handleMemberDel(ActionEvent e) {
+        Member member = (Member) ((Button) e.getSource()).getUserData();
+        HibernateUtil.removeData(member);
+        this.update();
+        System.out.println("removing member");
+    }
+
+    private Callback<TableColumn<Member, Void>, TableCell<Member, Void>> buttonFactory(EventHandler<ActionEvent> btnHandler, String name) {
         return new Callback<>() {
             @Override
             public TableCell<Member, Void> call(final TableColumn<Member, Void> param) {
                 return new TableCell<>() {
                     private final Button btn = new Button(name);
-
-                    {
-                        btn.setOnAction(btnHandler);
-                    }
 
                     @Override
                     public void updateItem(Void item, boolean empty) {
@@ -70,6 +63,8 @@ public class MemberManagementController extends AnchorPane implements Initializa
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            btn.setOnAction(btnHandler);
+                            btn.setUserData(getTableView().getItems().get(getIndex()));
                             setGraphic(btn);
                         }
                     }
@@ -79,25 +74,36 @@ public class MemberManagementController extends AnchorPane implements Initializa
     }
 
     private void addTableButtons() {
+        // Create 2 unnamed columns for the table
         TableColumn<Member, Void> editBtn = new TableColumn<>("");
         TableColumn<Member, Void> removeBtn = new TableColumn<>("");
 
-        editBtn.setCellFactory(buttonFactory(this::openMemberEdit, "edit", this.membersTable));
-        removeBtn.setCellFactory(buttonFactory(this::openMemberEdit, "remove", this.membersTable));
+        // Crete the cell factor for each column of buttons
+        editBtn.setCellFactory(buttonFactory(this::openMemberEdit, "edit"));
+        removeBtn.setCellFactory(buttonFactory(this::handleMemberDel, "remove"));
 
+        // Add the new button columns to the table
         membersTable.getColumns().add(editBtn);
         membersTable.getColumns().add(removeBtn);
     }
 
     public void update() {
-        membersTable.setItems(HibernateUtil.getMembers());
+        membersTable.setItems(HibernateUtil.getAllRows("Member", Member.class));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        membersTable.setItems(HibernateUtil.getMembers());
+        membersTable.setItems(HibernateUtil.getAllRows("Member", Member.class));
         addTableButtons();
 
-        memberAdd.setOnAction(this::handleMembers);
+
+        // Add action handling for the add member button
+        memberAdd.setOnAction((ActionEvent e) -> {
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(new MemberAddController(stage, this)));
+            stage.show();
+        });
     }
 }

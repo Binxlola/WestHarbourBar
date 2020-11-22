@@ -61,7 +61,23 @@ public class HibernateUtil {
             transaction = session.beginTransaction();
             // save the student objects
             session.save(o);
-            session.save(o);
+            // commit transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeData(Object o) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+            // save the student objects
+            session.remove(o);
             // commit transaction
             transaction.commit();
         } catch (Exception e) {
@@ -110,15 +126,15 @@ public class HibernateUtil {
      * Used to create a TableView of members
      * @return Members ObservableList
      */
-    public static ObservableList<Member> getMembers() {
-        ObservableList<Member> members = null;
+    public static <T> ObservableList<Member> getAllRows(String tableName, Class<T> entityClass) {
+        ObservableList<T> members = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            members = FXCollections.observableList(session.createQuery("Select a from Member a", Member.class).getResultList());
+            members = FXCollections.observableList(session.createQuery("Select a from " + tableName + " a", entityClass).getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return members;
+        return (ObservableList<Member>) members;
     }
 
     public static void shutdown() {
