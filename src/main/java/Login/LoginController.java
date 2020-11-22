@@ -1,9 +1,8 @@
-package BarApp.Login;
+package main.java.Login;
 
-import BarApp.Admin.AdminController;
-import BarApp.DatabaseConnector;
-import BarApp.Main;
-import BarApp.MainController;
+import main.java.Admin.AdminController;
+import main.java.Main;
+import main.java.MainController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,27 +53,11 @@ public class LoginController extends AnchorPane implements Initializable {
 
         Object source = actionEvent.getSource();
         GridPane currentForm = isAdmin ? adminLoginForm : userLoginForm;
-        boolean isConnected = false;
 
         if(source.equals(loginBtn)) {
             if(!this.validateForm(currentForm)) {
 
-//                try {
-//                    isConnected = this.connectDB(isAdmin ? adminName.getText() : userIDField.getText(), isAdmin ? adminPassword.getText() : "");
-//                } catch (Exception e) {
-//                    errorBox.setText("There was an error connection to the Database");
-//                }
-//
-//                if(isConnected) {
-//                    Parent root = isAdmin ? new AdminController() : new MainController();
-//
-//                    userIDField.clear();
-//                    errorBox.setText("");
-//
-//                    // Change and set new Scene eg. The shop window
-//                    this._Main.setScene(new Scene(root));
-//                }
-
+                //TODO Add admin validation logic
                 Parent root = isAdmin ? new AdminController() : new MainController();
                 this._Main.setScene(new Scene(root));
             }
@@ -87,50 +70,6 @@ public class LoginController extends AnchorPane implements Initializable {
             this.adminLoginForm.setVisible(isAdmin);
             this.adminLoginForm.setManaged(isAdmin);
         }
-    }
-
-    /**
-     * Attempts to establish a connection to the database, if one does not exist and a admin login path is being used
-     * a new database will be created with default values. Otherwise a connection will be made if the user exists;
-     * @param username The username of the user trying to connect for non admin user will default to "USER"
-     * @param password The password of the user trying to connect for no admin user will default to ""
-     * @return A boolean notifying if a connection has been made successfully
-     * @throws SQLException An exception thrown from a connection attempt to database
-     */
-    private boolean connectDB(String username, String password) throws SQLException, IOException {
-        boolean isConnected = false;
-        String url = "jdbc:h2:/" + System.getProperty("user.dir") + "/TheHydrant";
-        try {
-            Connection conn = DriverManager.getConnection(url + ";IFEXISTS=TRUE", username, password);
-
-            this._Main.setConnection(conn);
-            isConnected = true;
-        } catch (JdbcSQLNonTransientConnectionException ignored) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-            // No database exists, create new one with default values
-            if(isAdmin) {
-                Connection conn = DriverManager.getConnection(url, "Admin", "Admin");
-                DatabaseConnector.buildDefaultTables(conn);
-
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Database created with a single Administrator");
-                alert.setContentText("Username: Admin\nPassword: Admin");
-                alert.showAndWait();
-
-                this._Main.setConnection(conn);
-                isConnected = true;
-
-            } else {
-
-                // Notify user of non-existent database
-                alert.setHeaderText("No Database");
-                alert.setContentText("A database has not been created, contact you administrator to have one created");
-                alert.showAndWait();
-            }
-        }
-
-        return isConnected;
     }
 
     /**
@@ -170,11 +109,11 @@ public class LoginController extends AnchorPane implements Initializable {
         adminLogin.toFront(); // Make sure button always clickable
 
         // MAIN LOGO
-        image = new Image("BarApp/logo.jpg");
+        image = new Image("main/java/logo.jpg");
         logo.setImage(image);
 
         // ADMIN pathway button
-        image = new Image("BarApp/admin.png");
+        image = new Image("main/java/admin.png");
         adminLogin.setGraphic(new ImageView(image));
 
         // Remove default focus actions on components

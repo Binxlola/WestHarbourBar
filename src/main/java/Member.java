@@ -1,4 +1,4 @@
-package BarApp;
+package main.java;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,14 @@ import javax.persistence.Table;
 public class Member {
 
     public Member() {}
+
+    public Member(long id, String email, String firstName, String lastName, String phone) {
+        setId(id);
+        setEmail(email);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPhone(phone);
+    }
 
     @Id
     private long Id;

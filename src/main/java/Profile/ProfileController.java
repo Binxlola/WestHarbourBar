@@ -1,8 +1,7 @@
-package BarApp.Profile;
+package main.java.Profile;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.util.ResourceBundle;
 public class ProfileController extends GridPane implements Initializable {
 
     public ProfileController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Profile.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

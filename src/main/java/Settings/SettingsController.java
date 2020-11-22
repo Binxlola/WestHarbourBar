@@ -1,4 +1,4 @@
-package BarApp.Settings;
+package main.java.Settings;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

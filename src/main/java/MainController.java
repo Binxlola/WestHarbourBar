@@ -1,4 +1,4 @@
-package BarApp;
+package main.java;
 
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -66,7 +65,7 @@ public class MainController extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.menu.setGraphic(new ImageView("BarApp/menu.png"));
+        this.menu.setGraphic(new ImageView("main/java/menu.png"));
         this.navList.toFront(); // Bring forward so it does not push other content
         this.menu.toFront(); // Bring button forward so it is always clickable
         this.prepareSlideMenuAnimation();

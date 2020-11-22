@@ -1,7 +1,5 @@
-package BarApp.Admin;
+package main.java.Admin;
 
-import BarApp.DatabaseConnector;
-import BarApp.Member;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import main.java.HibernateUtil;
+import main.java.Member;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,12 +17,14 @@ import java.util.ResourceBundle;
 
 public class MemberAddController extends AnchorPane implements Initializable {
 
-    private Stage parent;
+    private final Stage parentStage;
+    private final MemberManagementController parentController;
     @FXML private TextField id, email, firstName, lastName, phone;
     @FXML private Button apply, cancel;
 
-    public MemberAddController(Stage parent) {
-        this.parent = parent;
+    public MemberAddController(Stage parentStage, MemberManagementController parentController) {
+        this.parentStage = parentStage;
+        this.parentController = parentController;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MemberAdd.fxml"));
         fxmlLoader.setRoot(this);
@@ -37,18 +39,19 @@ public class MemberAddController extends AnchorPane implements Initializable {
     private void handler(ActionEvent e) {
         Object source = e.getSource();
         if(source.equals(cancel)) {
-            parent.close();
+            parentStage.close();
         } else if(source.equals(apply)) {
-            Member newMember = new Member();
-            newMember.setId(Long.parseLong(id.getText()));
-            newMember.setEmail(email.getText());
-            newMember.setFirstName(firstName.getText());
-            newMember.setLastName(lastName.getText());
-            newMember.setPhone(phone.getText());
 
-            DatabaseConnector.storeData(newMember);
+            Member newMember = new Member(Long.parseLong(id.getText()),
+                    email.getText(),
+                    firstName.getText(),
+                    lastName.getText(),
+                    phone.getText());
 
-            parent.close();
+            HibernateUtil.storeData(newMember);
+
+            parentController.update();
+            parentStage.close();
         }
     }
 

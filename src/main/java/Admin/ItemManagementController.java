@@ -1,4 +1,4 @@
-package BarApp.Admin;
+package main.java.Admin;
 
 public class ItemManagementController {
 }

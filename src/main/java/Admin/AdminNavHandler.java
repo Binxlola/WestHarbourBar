@@ -1,18 +1,19 @@
-package BarApp;
+package main.java.Admin;
 
-import BarApp.Profile.ProfileController;
-import BarApp.Settings.SettingsController;
+import main.java.Main;
+import main.java.Profile.ProfileController;
+import main.java.Settings.SettingsController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
-public class NavHandler implements EventHandler<ActionEvent> {
+public class AdminNavHandler implements EventHandler<ActionEvent> {
 
     private final Main _Main = Main.getMain();
-    private final MainController navParent;
+    private final AdminController navParent;
 
-    public NavHandler(MainController parent) {
+    public AdminNavHandler(AdminController parent) {
         this.navParent = parent;
     }
 
@@ -20,7 +21,7 @@ public class NavHandler implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         boolean nodeChanged = false;
-        Node node;
+        Pane node;
 
         switch (button.getId()) {
             case "profileBtn" -> {
@@ -39,3 +40,4 @@ public class NavHandler implements EventHandler<ActionEvent> {
         if(nodeChanged) {navParent.openCloseNav(actionEvent);}
     }
 }
+

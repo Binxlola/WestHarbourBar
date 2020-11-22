@@ -1,4 +1,4 @@
-package BarApp.Admin;
+package main.java.Admin;
 
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -44,7 +44,7 @@ public class AdminController extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.menu.setGraphic(new ImageView("BarApp/menu.png"));
+        this.menu.setGraphic(new ImageView("main/java/menu.png"));
         this.navList.toFront(); // Bring forward so it does not push other content
         this.menu.toFront(); // Bring button forward so it is always clickable
         this.prepareSlideMenuAnimation();
