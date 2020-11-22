@@ -48,7 +48,7 @@ public class MemberAddController extends AnchorPane implements Initializable {
                     lastName.getText(),
                     phone.getText());
 
-            HibernateUtil.storeData(newMember);
+            HibernateUtil.saveOrRemove(newMember, true);
 
             parentController.update();
             parentStage.close();

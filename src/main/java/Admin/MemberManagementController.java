@@ -45,7 +45,7 @@ public class MemberManagementController extends AnchorPane implements Initializa
 
     public void handleMemberDel(ActionEvent e) {
         Member member = (Member) ((Button) e.getSource()).getUserData();
-        HibernateUtil.removeData(member);
+        HibernateUtil.saveOrRemove(member, false);
         this.update();
         System.out.println("removing member");
     }

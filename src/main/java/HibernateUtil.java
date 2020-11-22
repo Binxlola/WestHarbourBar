@@ -9,11 +9,8 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.hibernate.tool.schema.TargetType;
 
-import java.io.File;
-import java.util.EnumSet;
+import javax.persistence.Entity;
 
 public class HibernateUtil {
 
@@ -38,12 +35,6 @@ public class HibernateUtil {
                 // Create SessionFactory
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 
-//                SchemaExport export = getSchemaExport();
-//
-//                System.out.println("Create Database...");
-//                // Create tables
-//                createDataBase(export, metadata);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 if (registry != null) {
@@ -54,89 +45,59 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-    public static void storeData(Object o) {
+    /**
+     * Basic utility method to allow an easy save or deletion of data through hibernate by getting the current session,
+     * and committing a change through a transaction.
+     * Will only attempt the commit if the object passed in is classed as an Entity
+     * @param o The Object of data to be saved
+     * @param isSave A flag representing if change is a save or a deletion
+     */
+    public static void saveOrRemove(Object o, boolean isSave) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
-            transaction = session.beginTransaction();
-            // save the student objects
-            session.save(o);
-            // commit transaction
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+
+        if(o.getClass().getAnnotation(Entity.class) != null) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                // start a transaction
+                transaction = session.beginTransaction();
+                // save the student objects
+                if (isSave) {
+                    session.save(o);
+                } else {
+                    session.remove(o);
+                }
+                // commit transaction
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                e.printStackTrace();
             }
-            e.printStackTrace();
         }
-    }
-
-    public static void removeData(Object o) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
-            transaction = session.beginTransaction();
-            // save the student objects
-            session.remove(o);
-            // commit transaction
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
-
-    public static void createDataBase(SchemaExport export, Metadata metadata) {
-        // TargetType.DATABASE - Execute on Databse
-        // TargetType.SCRIPT - Write Script file.
-        // TargetType.STDOUT - Write log to Console.
-
-        EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.DATABASE, TargetType.SCRIPT, TargetType.STDOUT);
-
-        SchemaExport.Action action = SchemaExport.Action.CREATE;
-        //
-        export.execute(targetTypes, action, metadata);
-
-        System.out.println("Export OK");
-
-    }
-
-    private static SchemaExport getSchemaExport() {
-
-        SchemaExport export = new SchemaExport();
-        // Script file.
-        File outputFile = new File(SCRIPT_FILE);
-        String outputFilePath = outputFile.getAbsolutePath();
-
-        System.out.println("Export file: " + outputFilePath);
-
-        export.setDelimiter(";");
-        export.setOutputFile(outputFilePath);
-
-        // No Stop if Error
-        export.setHaltOnError(false);
-        //
-        return export;
     }
 
     /**
-     * Uses a hibernate session to retrieve all members and creates an observableList of the result set.
-     * Used to create a TableView of members
+     * Uses a hibernate session to retrieve all rows from a table and creates an observableList of the result set.
+     * Will only run query if entityClass is in fact an entity
      * @return Members ObservableList
      */
     public static <T> ObservableList<Member> getAllRows(String tableName, Class<T> entityClass) {
-        ObservableList<T> members = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            members = FXCollections.observableList(session.createQuery("Select a from " + tableName + " a", entityClass).getResultList());
-        } catch (Exception e) {
-            e.printStackTrace();
+        ObservableList<T> results = null;
+
+        if(entityClass.getAnnotation(Entity.class) != null) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                results = FXCollections.observableList(session.createQuery("Select a from " + tableName + " a", entityClass).getResultList());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        return (ObservableList<Member>) members;
+        return (ObservableList<Member>) results;
     }
 
+    /**
+     * Closes the open hibernate registry if there is one open.
+     */
     public static void shutdown() {
         if (registry != null) {
             System.out.println("Shutting Down Hibernate");
