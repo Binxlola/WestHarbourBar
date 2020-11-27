@@ -104,7 +104,7 @@ public class MainController extends AnchorPane implements Initializable, RootCon
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.menu.setGraphic(new ImageView("main/java/menu.png"));
+        this.menu.setGraphic(new ImageView("resources/menu.png"));
         this.navList.toFront(); // Bring forward so it does not push other content
         this.menu.toFront(); // Bring button forward so it is always clickable
         this.prepareMenuAnimation();

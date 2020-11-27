@@ -20,7 +20,7 @@
             <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
             <children>
                 <Button fx:id="membersBtn" text="Manage Members" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Button fx:id="itemsBtn" text="Manage Items" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Button fx:id="productsBtn" text="Manage Items" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <Button text="Manage Administrators" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <Button text="Manage Database" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <Button fx:id="logoutBtn" text="Logout" GridPane.rowIndex="4" GridPane.columnIndex="0"/>

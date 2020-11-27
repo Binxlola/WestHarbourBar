@@ -108,11 +108,11 @@ public class LoginController extends AnchorPane implements Initializable {
         adminLogin.toFront(); // Make sure button always clickable
 
         // MAIN LOGO
-        image = new Image("main/java/logo.jpg");
+        image = new Image("resources/logo.jpg");
         logo.setImage(image);
 
         // ADMIN pathway button
-        image = new Image("main/java/admin.png");
+        image = new Image("resources/admin.png");
         adminLogin.setGraphic(new ImageView(image));
 
         // Remove default focus actions on components

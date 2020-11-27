@@ -11,7 +11,9 @@
         <property name="connection.password">"Admin"</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
 
-        <mapping class="BarApp.Member"/>
+        <mapping class="main.java.Member"/>
+        <mapping class="main.java.Product"/>
+        <mapping class="main.java.Brand"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

@@ -12,8 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.java.NavHandler;
 import main.java.RootController;
@@ -110,7 +108,7 @@ public class AdminController extends AnchorPane implements Initializable, RootCo
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.menu.setGraphic(new ImageView("main/java/menu.png"));
+        this.menu.setGraphic(new ImageView("resources/menu.png"));
         this.navList.toFront(); // Bring forward so it does not push other content
         this.menu.toFront(); // Bring button forward so it is always clickable
         this.prepareMenuAnimation();
