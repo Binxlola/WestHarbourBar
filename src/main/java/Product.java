@@ -31,7 +31,6 @@ public class Product {
     public void setCost(double cost) {this.cost = cost;}
 
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name="brand")
     private Brand brand;
     public Brand getBrand() {return this.brand;}
     public void setBrand(Brand brand) {this.brand = brand;}

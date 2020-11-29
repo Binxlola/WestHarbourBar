@@ -81,18 +81,28 @@ public class HibernateUtil {
      * Will only run query if entityClass is in fact an entity
      * @return Members ObservableList
      */
-    public static <T> ObservableList<Member> getAllRows(String tableName, Class<T> entityClass) {
-        ObservableList<T> results = null;
+    public static ObservableList<Member> getMembers() {
+        ObservableList<Member> results = null;
 
-        if(entityClass.getAnnotation(Entity.class) != null) {
-            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-                results = FXCollections.observableList(session.createQuery("Select a from " + tableName + " a", entityClass).getResultList());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            results = FXCollections.observableList(session.createQuery("Select a from Member a", Member.class).getResultList());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return (ObservableList<Member>) results;
+        return results;
+    }
+
+    public static ObservableList<Brand> getBrands() {
+        ObservableList<Brand> results = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            results = FXCollections.observableList(session.createQuery("Select a from Brand a", Brand.class).getResultList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return results;
     }
 
     /**

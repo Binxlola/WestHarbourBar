@@ -88,12 +88,12 @@ public class MemberManagementController extends AnchorPane implements Initializa
     }
 
     public void update() {
-        membersTable.setItems(HibernateUtil.getAllRows("Member", Member.class));
+        membersTable.setItems(HibernateUtil.getMembers());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        membersTable.setItems(HibernateUtil.getAllRows("Member", Member.class));
+        update();
         addTableButtons();
 
 

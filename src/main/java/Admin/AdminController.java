@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import main.java.NavHandler;
 import main.java.RootController;
@@ -41,8 +42,6 @@ public class AdminController extends AnchorPane implements Initializable, RootCo
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        this.changeScreen(null);
     }
 
     @Override
@@ -84,11 +83,18 @@ public class AdminController extends AnchorPane implements Initializable, RootCo
     public boolean changeScreen(Node newNode) {
         try {
             if(newNode != null) {
+
+                // Remove old screen
                 ObservableList<Node> children = this.getChildren();
                 children.remove(this.getPrimaryNode());
-                this.setPrimaryNode(newNode);
+
+                // Add new screen
+                setPrimaryNode(newNode);
                 children.add(newNode);
                 newNode.toBack();
+
+                // Fit new screen to parent
+                setPrimaryNodeSize(this.getWidth(), this.getHeight());
             } else {
                 this.primaryNode = new MemberManagementController();
                 getChildren().add(primaryNode);
@@ -113,10 +119,12 @@ public class AdminController extends AnchorPane implements Initializable, RootCo
         this.menu.toFront(); // Bring button forward so it is always clickable
         this.prepareMenuAnimation();
         this.initNavHandlers();
+        this.changeScreen(null);
 
         // Create and set a listener for parent resizing
         ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> this.configSizing();
         this.widthProperty().addListener(resizeListener);
+        this.heightProperty().addListener(resizeListener);
 
         configSizing();
 
@@ -125,6 +133,13 @@ public class AdminController extends AnchorPane implements Initializable, RootCo
     private void configSizing() {
         double parentWidth = this.getWidth();
         double parentHeight = this.getHeight();
-        this.calcNavDimensions(parentWidth, parentHeight);
+
+        calcNavDimensions(parentWidth, parentHeight);
+        setPrimaryNodeSize(parentWidth, parentHeight);
+    }
+
+    private void setPrimaryNodeSize(double width, double height) {
+        ((Pane)primaryNode).setPrefWidth(width);
+        ((Pane)primaryNode).setPrefHeight(height);
     }
 }
