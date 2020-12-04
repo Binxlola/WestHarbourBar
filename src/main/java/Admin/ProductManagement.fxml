@@ -22,9 +22,9 @@
                     <PropertyValueFactory property="firstName"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Brand">
+            <TableColumn text="Category">
                 <cellValueFactory>
-                    <PropertyValueFactory property="lastName"/>
+                    <PropertyValueFactory property="category"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="Cost">
@@ -35,11 +35,11 @@
         </columns>
     </TableView>
 
-    <TableView fx:id="brandTable" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <TableView fx:id="categoryTable" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <columns>
             <TableColumn text="ID">
                 <cellValueFactory>
-                    <PropertyValueFactory property="ID"/>
+                    <PropertyValueFactory property="id"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="Name">
@@ -52,6 +52,6 @@
 
     <HBox AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0">
         <Button fx:id="productAdd" text="Add Product"/>
-        <Button fx:id="brandAdd" text="Add Brand"/>
+        <Button fx:id="typeAdd" text="Add Type"/>
     </HBox>
 </fx:root>

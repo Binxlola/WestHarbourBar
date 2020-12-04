@@ -1,5 +1,6 @@
 package main.java;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.hibernate.Session;
@@ -93,16 +94,29 @@ public class HibernateUtil {
         return results;
     }
 
-    public static ObservableList<Brand> getBrands() {
-        ObservableList<Brand> results = null;
+    public static ObservableList<Product> getProducts() {
+        ObservableList<Product> results = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            results = FXCollections.observableList(session.createQuery("Select a from Brand a", Brand.class).getResultList());
+            results = FXCollections.observableList(session.createQuery("Select a from Product a", Product.class).getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return results;
+    }
+
+    public static ObservableList<ProductCategory> getProductCategories() {
+        ObservableList<ProductCategory> results = null;
+
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            results = FXCollections.observableList(session.createQuery("select a from ProductCategory a", ProductCategory.class).getResultList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return results;
+
     }
 
     /**

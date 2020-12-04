@@ -8,10 +8,9 @@ public class Product {
 
     public Product() {}
 
-    public Product(String name, double cost, Brand brand) {
+    public Product(String name, double cost) {
         setName(name);
         setCost(cost);
-        setBrand(brand);
     }
 
     @Id
@@ -30,10 +29,17 @@ public class Product {
     public double getCost() {return this.cost;}
     public void setCost(double cost) {this.cost = cost;}
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Brand brand;
-    public Brand getBrand() {return this.brand;}
-    public void setBrand(Brand brand) {this.brand = brand;}
+    @Column(name="quantity")
+    private int quantity;
+    public int getQuantity() {return this.quantity;}
+    public void setQuantity(int quantity) {this.quantity = quantity;}
+
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinColumn(name="category", nullable=false)
+    private ProductCategory category;
+    public ProductCategory getCategory() {return category;}
+    public void setCategory(ProductCategory category) {this.category = category;}
 
 
 }
