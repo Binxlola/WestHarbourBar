@@ -14,12 +14,12 @@
         <columns>
             <TableColumn text="ID">
                 <cellValueFactory>
-                    <PropertyValueFactory property="Id"/>
+                    <PropertyValueFactory property="ID"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="Name">
                 <cellValueFactory>
-                    <PropertyValueFactory property="firstName"/>
+                    <PropertyValueFactory property="name"/>
                 </cellValueFactory>
             </TableColumn>
             <TableColumn text="Category">
@@ -29,7 +29,12 @@
             </TableColumn>
             <TableColumn text="Cost">
                 <cellValueFactory>
-                    <PropertyValueFactory property="email"/>
+                    <PropertyValueFactory property="cost"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Quantity">
+                <cellValueFactory>
+                    <PropertyValueFactory property="quantity"/>
                 </cellValueFactory>
             </TableColumn>
         </columns>

@@ -1,6 +1,10 @@
 package main.java;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 @Table(name="Products")
@@ -8,16 +12,19 @@ public class Product {
 
     public Product() {}
 
-    public Product(String name, double cost) {
+    public Product(String name, double cost, int quantity, ProductCategory  category, byte[] image) {
         setName(name);
         setCost(cost);
+        setQuantity(quantity);
+        setCategory(category);
+        setImage(image);
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long ID;
-    public long getID() {return this.ID;}
-    public void setID(long id) {this.ID = id;}
+    private long id;
+    public long getID() {return this.id;}
+    public void setID(long id) {this.id = id;}
 
     @Column(name="name", nullable=false, length=20)
     private String name;
@@ -41,5 +48,9 @@ public class Product {
     public ProductCategory getCategory() {return category;}
     public void setCategory(ProductCategory category) {this.category = category;}
 
-
+    @Lob
+    @Column(name="image", nullable=false, columnDefinition="mediumblob")
+    private byte[] image;
+    public byte[] getImage() {return image;}
+    public void setImage(byte[] image) {this.image = image;}
 }

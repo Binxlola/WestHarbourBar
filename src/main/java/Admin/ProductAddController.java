@@ -4,15 +4,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.java.HibernateUtil;
 import main.java.Member;
+import main.java.Product;
 import main.java.ProductCategory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,9 +31,11 @@ public class ProductAddController extends AnchorPane implements Initializable {
 
     private final Stage parentStage;
     private final ProductManagementController parentController;
-    @FXML private TextField name, quantity;
+    private byte[] selectedImageFile = null;
+    @FXML private TextField name, quantity, cost;
     @FXML private ComboBox<ProductCategory> category;
-    @FXML private Button apply, cancel;
+    @FXML private Button apply, cancel, imageSelect;
+    @FXML private Label imageSelected;
 
     public ProductAddController(Stage parentStage, ProductManagementController parentController) {
         this.parentStage = parentStage;
@@ -41,12 +53,45 @@ public class ProductAddController extends AnchorPane implements Initializable {
 
     private void handler(ActionEvent e) {
         Object source = e.getSource();
+
         if(source.equals(cancel)) {
             parentStage.close();
         } else if(source.equals(apply)) {
 
             parentController.update();
+            Product newProduct = new Product();
+            newProduct.setName(name.getText());
+            newProduct.setCost(Double.parseDouble(cost.getText()));
+            newProduct.setQuantity(Integer.parseInt(quantity.getText()));
+            newProduct.setCategory(category.getValue());
+            newProduct.setImage(selectedImageFile);
+
+            HibernateUtil.saveOrRemove(newProduct, true);
+
+            parentController.update();
             parentStage.close();
+        } else if(source.equals(imageSelect)) {
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+
+            try {
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showOpenDialog(stage);
+//                stage.showAndWait();
+
+                BufferedImage bImage = ImageIO.read(file);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(bImage, "jpg", bos );
+                selectedImageFile = bos.toByteArray();
+
+                imageSelected.setText(file.getName());
+
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 
@@ -58,5 +103,6 @@ public class ProductAddController extends AnchorPane implements Initializable {
 
         apply.setOnAction(this::handler);
         cancel.setOnAction(this::handler);
+        imageSelect.setOnAction(this::handler);
     }
 }

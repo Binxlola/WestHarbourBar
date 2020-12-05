@@ -3,6 +3,7 @@ package main.java;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,6 +13,9 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import javax.persistence.Entity;
+import java.util.List;
+
+import static javafx.collections.FXCollections.observableList;
 
 public class HibernateUtil {
 
@@ -86,7 +90,7 @@ public class HibernateUtil {
         ObservableList<Member> results = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            results = FXCollections.observableList(session.createQuery("Select a from Member a", Member.class).getResultList());
+            results = observableList(session.createQuery("Select a from Member a", Member.class).getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,7 +102,7 @@ public class HibernateUtil {
         ObservableList<Product> results = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            results = FXCollections.observableList(session.createQuery("Select a from Product a", Product.class).getResultList());
+            results = observableList(session.createQuery("Select a from Product a", Product.class).getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,7 +114,7 @@ public class HibernateUtil {
         ObservableList<ProductCategory> results = null;
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            results = FXCollections.observableList(session.createQuery("select a from ProductCategory a", ProductCategory.class).getResultList());
+            results = observableList(session.createQuery("select a from ProductCategory a", ProductCategory.class).getResultList());
         } catch (Exception e) {
             e.printStackTrace();
         }

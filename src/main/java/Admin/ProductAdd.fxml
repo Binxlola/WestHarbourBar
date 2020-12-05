@@ -14,9 +14,11 @@
 
     <GridPane alignment="CENTER" hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
         <TextField fx:id="name" promptText="Name" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="category" promptText="Category" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1">
-        </ComboBox>
+        <ComboBox fx:id="category" promptText="Category" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
         <TextField fx:id="quantity" promptText="Quantity" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="cost" promptText="Cost" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Button fx:id="imageSelect" text="Select Image" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="imageSelected" text="No Image Selected" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
     </GridPane>
 
     <Button fx:id="apply" text="Apply" AnchorPane.rightAnchor="60.0" AnchorPane.bottomAnchor="0.0"/>

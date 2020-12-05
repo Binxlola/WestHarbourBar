@@ -1,19 +1,31 @@
 package main.java.Admin;
 
+import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import main.java.HibernateUtil;
+import main.java.Member;
 import main.java.Product;
 import main.java.ProductCategory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -40,10 +52,60 @@ public class ProductManagementController extends AnchorPane implements Initializ
         }
     }
 
+
+    private Callback<TableColumn<Product, Void>, TableCell<Product, Void>> imageFactory() {
+        return new Callback<>() {
+            @Override
+            public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
+                return new TableCell<>() {
+                    private ImageView image = new ImageView();
+
+//                    BufferedImage bImage = ImageIO.read(new File("sample.jpg"));
+//                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//                    ImageIO.write(bImage, "jpg", bos );
+//                    byte [] data = bos.toByteArray();
+//                    ByteArrayInputStream bis = new ByteArrayInputStream(data);
+//                    BufferedImage bImage2 = ImageIO.read(bis);
+//                    ImageIO.write(bImage2, "jpg", new File("output.jpg") );
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            try {
+                                Product product = getTableView().getItems().get(getIndex());
+
+                                ByteArrayInputStream inputStream = new ByteArrayInputStream(product.getImage());
+                                BufferedImage bufferedImage = ImageIO.read(inputStream);
+                                image.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+                                setGraphic(image);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+            }
+        };
+    }
+
+    private void addProductImages() {
+        // Create 2 unnamed columns for the table
+        TableColumn<Product, Void> image = new TableColumn<>("");
+
+        // Crete the cell factor for each column of buttons
+        image.setCellFactory(imageFactory());
+
+        // Add the new button columns to the table
+        productTable.getColumns().add(image);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         update();
+        addProductImages();
 
         // Add action handling for the add member button
         productAdd.setOnAction((ActionEvent e) -> {
@@ -72,6 +134,17 @@ public class ProductManagementController extends AnchorPane implements Initializ
         });
 
 
+    }
+
+    public ProductCategory getCategory(String name) {
+        ObservableList<ProductCategory> categories = categoryTable.getItems();
+        for(ProductCategory category: categories) {
+            if(category.getName().equals(name)) {
+                return category;
+            }
+        }
+
+        return null;
     }
 
     public void update() {
