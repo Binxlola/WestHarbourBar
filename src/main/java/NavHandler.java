@@ -1,15 +1,14 @@
 package main.java;
 
-import javafx.collections.ObservableList;
-import javafx.scene.layout.Pane;
-import main.java.Admin.MemberManagementController;
-import main.java.Admin.ProductManagementController;
-import main.java.Profile.ProfileController;
-import main.java.Settings.SettingsController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import main.java.Admin.MemberManagementController;
+import main.java.Admin.ProductManagementController;
+import main.java.Profile.ProfileController;
+import main.java.Settings.SettingsController;
+import main.java.Store.StoreController;
 
 public class NavHandler implements EventHandler<ActionEvent> {
 
@@ -41,6 +40,10 @@ public class NavHandler implements EventHandler<ActionEvent> {
             }
             case "productsBtn" -> {
                 node = new ProductManagementController();
+                nodeChanged = navParent.changeScreen(node);
+            }
+            case "storeBtn" -> {
+                node = new StoreController();
                 nodeChanged = navParent.changeScreen(node);
             }
             case "logoutBtn" -> {

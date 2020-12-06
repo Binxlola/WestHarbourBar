@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import main.java.Settings.SettingsController;
+import main.java.Store.StoreController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -87,7 +88,8 @@ public class MainController extends AnchorPane implements Initializable, RootCon
                 children.add(newNode);
                 newNode.toBack();
             } else {
-                this.primaryNode = new SettingsController();
+                this.primaryNode = new StoreController();
+                getChildren().add(primaryNode);
                 primaryNode.toBack();
             }
             return true;
@@ -109,6 +111,7 @@ public class MainController extends AnchorPane implements Initializable, RootCon
         this.menu.toFront(); // Bring button forward so it is always clickable
         this.prepareMenuAnimation();
         this.initNavHandlers();
+        this.changeScreen(null);
 
         // Add a listener for window resize, will resize the nav menu
         ChangeListener<Number> shopListener = (observable, oldValue, newValue) -> this.calcNavDimensions(this.getWidth(), this.getHeight());

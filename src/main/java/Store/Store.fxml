@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.AnchorPane"
+         xmlns:fx="http://javafx.com/fxml"
+         xmlns="http://javafx.com/javafx"
+         style="-fx-background-color: red;"
+         prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="5" right="5" bottom="5" left="5"/>
+    </padding>
+
+    <HBox prefWidth="500.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <ComboBox fx:id="CategoryFilter" promptText="Category" prefWidth="200.0"/>
+        <RadioButton fx:id="stockFilter" text="In Stock"/>
+    </HBox>
+</fx:root>
