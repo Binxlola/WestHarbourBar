@@ -13,8 +13,23 @@
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
 
-    <HBox prefWidth="500.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <ComboBox fx:id="CategoryFilter" promptText="Category" prefWidth="200.0"/>
-        <RadioButton fx:id="stockFilter" text="In Stock"/>
-    </HBox>
+    <BorderPane>
+        <top>
+            <HBox prefHeight="60" maxHeight="200.0" spacing="10" style="-fx-background-color: green">
+                <ComboBox fx:id="CategoryFilter" promptText="Category" prefWidth="200.0"/>
+                <RadioButton fx:id="stockFilter" text="In Stock"/>
+            </HBox>
+        </top>
+
+        <center>
+            <GridPane fx:id="itemsContainer">
+                <Label text="test" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label text="test" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="test" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label text="test" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="test" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label text="test" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            </GridPane>
+        </center>
+    </BorderPane>
 </fx:root>
