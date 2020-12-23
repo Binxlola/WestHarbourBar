@@ -52,7 +52,6 @@ public class ProductManagementController extends AnchorPane implements Initializ
             @Override
             public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
                 return new TableCell<>() {
-                    private final ImageView image = new ImageView();
 
                     @Override
                     public void updateItem(Void item, boolean empty) {
@@ -61,7 +60,7 @@ public class ProductManagementController extends AnchorPane implements Initializ
                             setGraphic(null);
                         } else {
                             Product product = getTableView().getItems().get(getIndex());
-                            setGraphic(HibernateUtil.buildImage(product.getImage()));
+                            setGraphic(HibernateUtil.buildImageToSize(product.getImage(), 50, 50));
                         }
                     }
                 };

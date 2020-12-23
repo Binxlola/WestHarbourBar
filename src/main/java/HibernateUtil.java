@@ -195,4 +195,13 @@ public class HibernateUtil {
         return image;
 
     }
+
+    public static ImageView buildImageToSize(byte[] imageData, double width, double height) {
+        final ImageView image = buildImage(imageData);
+        image.setFitWidth(width);
+        image.setFitHeight(height);
+
+        return image;
+
+    }
 }
