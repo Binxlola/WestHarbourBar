@@ -12,7 +12,7 @@ import main.java.Store.StoreController;
 
 public class NavHandler implements EventHandler<ActionEvent> {
 
-    private final Main _Main = Main.getMain();
+    private final Main _Main = Main.getInstance();
     private final RootController navParent;
 
     public NavHandler(RootController parent) {

@@ -1,5 +1,7 @@
 package main.java;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -43,4 +45,10 @@ public class Member {
     private String phone;
     public String getPhone() {return phone;}
     public void setPhone(String phone) {this.phone=phone;}
+
+    @Column(name="balance", nullable=false)
+    @ColumnDefault("100")
+    private float balance;
+    public float getBalance() {return balance;}
+    public void setBalance(float balance) {this.balance = balance;}
 }

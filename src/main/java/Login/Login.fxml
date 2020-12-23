@@ -49,7 +49,7 @@
                   vgap="5">
             <children>
                 <TextField
-                        fx:id="userIDField"
+                        fx:id="userID"
                         GridPane.columnIndex="0"
                         GridPane.columnSpan="2"
                         GridPane.rowIndex="0"
@@ -71,7 +71,7 @@
                   managed="false">
             <children>
                 <TextField
-                        fx:id="adminName"
+                        fx:id="adminID"
                         GridPane.columnIndex="0"
                         GridPane.rowIndex="0"
                         GridPane.columnSpan="2"

@@ -8,7 +8,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(String name, double cost, int quantity, ProductCategory  category, byte[] image) {
+    public Product(String name, float cost, int quantity, ProductCategory  category, byte[] image) {
         setName(name);
         setCost(cost);
         setQuantity(quantity);
@@ -28,9 +28,9 @@ public class Product {
     public void setName(String name) {this.name = name;}
 
     @Column(name="cost", nullable=false)
-    private double cost;
-    public double getCost() {return this.cost;}
-    public void setCost(double cost) {this.cost = cost;}
+    private float cost;
+    public float getCost() {return this.cost;}
+    public void setCost(float cost) {this.cost = cost;}
 
     @Column(name="quantity")
     private int quantity;

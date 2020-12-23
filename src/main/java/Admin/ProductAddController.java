@@ -59,7 +59,7 @@ public class ProductAddController extends AnchorPane implements Initializable {
             parentController.update();
             Product newProduct = new Product();
             newProduct.setName(name.getText());
-            newProduct.setCost(Double.parseDouble(cost.getText()));
+            newProduct.setCost(Float.parseFloat(cost.getText()));
             newProduct.setQuantity(Integer.parseInt(quantity.getText()));
             newProduct.setCategory(category.getValue());
             newProduct.setImage(selectedImageFile);

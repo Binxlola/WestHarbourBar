@@ -3,6 +3,8 @@ package main.java;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.ImageView;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,8 +13,13 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
+import javax.imageio.ImageIO;
 import javax.persistence.Entity;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import static javafx.collections.FXCollections.observableList;
@@ -64,7 +71,7 @@ public class HibernateUtil {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();
-                // save the student objects
+
                 if (isSave) {
                     session.save(o);
                 } else {
@@ -81,10 +88,33 @@ public class HibernateUtil {
         }
     }
 
+    public static void update(Object o) {
+        Transaction transaction = null;
+
+        if(o.getClass().getAnnotation(Entity.class) != null) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                // start a transaction
+                transaction = session.beginTransaction();
+                session.update(o);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void updateEntities(Object... entities) {
+        for(Object entity : entities) {
+            update(entity);
+        }
+    }
+
     /**
-     * Uses a hibernate session to retrieve all rows from a table and creates an observableList of the result set.
-     * Will only run query if entityClass is in fact an entity
-     * @return Members ObservableList
+     * Uses a hibernate session to retrieve all members and creates an observableList of the result set.
+     * @return Member ObservableList
      */
     public static ObservableList<Member> getMembers() {
         ObservableList<Member> results = null;
@@ -98,6 +128,24 @@ public class HibernateUtil {
         return results;
     }
 
+    public static Member getMember(long id) {
+        Member result = null;
+
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query query = session.createQuery("Select a from Member a where a.Id=:id");
+            query.setParameter("id", id);
+            result = (Member) query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * Uses a hibernate session to retrieve all products and creates an observableList of the result set.
+     * @return Product ObservableList
+     */
     public static ObservableList<Product> getProducts() {
         ObservableList<Product> results = null;
 
@@ -131,5 +179,20 @@ public class HibernateUtil {
             System.out.println("Shutting Down Hibernate");
             StandardServiceRegistryBuilder.destroy(registry);
         }
+    }
+
+    public static ImageView buildImage(byte[] imageData) {
+        final ImageView image = new ImageView();
+
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
+            BufferedImage bufferedImage = ImageIO.read(inputStream);
+            image.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
+
     }
 }

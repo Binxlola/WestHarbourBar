@@ -17,6 +17,7 @@
         <TextField fx:id="firstName" promptText="First Name" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <TextField fx:id="lastName" promptText="Last Name" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
         <TextField fx:id="phone" promptText="Phone no" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="balance" promptText="Balance" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
     </GridPane>
 
     <Button fx:id="apply" text="Apply" AnchorPane.rightAnchor="60.0" AnchorPane.bottomAnchor="0.0"/>

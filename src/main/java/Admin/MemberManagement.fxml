@@ -37,6 +37,11 @@
                     <PropertyValueFactory property="phone"/>
                 </cellValueFactory>
             </TableColumn>
+            <TableColumn text="Balance">
+                <cellValueFactory>
+                    <PropertyValueFactory property="balance"/>
+                </cellValueFactory>
+            </TableColumn>
         </columns>
     </TableView>
 

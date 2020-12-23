@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -17,8 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import main.java.Admin.AdminController;
+import main.java.HibernateUtil;
 import main.java.Main;
 import main.java.MainController;
+import main.java.Member;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,13 +28,13 @@ import java.util.ResourceBundle;
 public class LoginController extends AnchorPane implements Initializable {
 
     @FXML private GridPane userLoginForm, adminLoginForm;
-    @FXML private TextField userIDField, adminName;
+    @FXML private TextField userID, adminID;
     @FXML private PasswordField adminPassword;
     @FXML private Text errorBox;
     @FXML private Button loginBtn, adminLogin;
     @FXML private ImageView logo;
     private boolean isAdmin = false;
-    private final Main _Main = Main.getMain();
+    private final Main _Main = Main.getInstance();
 
     public LoginController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -54,11 +55,19 @@ public class LoginController extends AnchorPane implements Initializable {
         GridPane currentForm = isAdmin ? adminLoginForm : userLoginForm;
 
         if(source.equals(loginBtn)) {
-            if(!this.validateForm(currentForm)) {
+            long loginId = Long.parseLong(isAdmin ? adminID.getText() : userID.getText());
 
-                //TODO Add admin validation logic
-                Parent root = isAdmin ? new AdminController() : new MainController();
-                this._Main.setScene(new Scene(root));
+            if(!this.validateForm(currentForm)) {
+                Member user = HibernateUtil.getMember(loginId);
+
+                if (!isAdmin && user != null) {
+                    this._Main.setUser(user);
+                    this._Main.setScene(new Scene(new MainController()));
+                } else if (isAdmin) {
+                    this._Main.setScene(new Scene(new AdminController()));
+                } else {
+                    errorBox.setText("Incorrect Login Details");
+                }
             }
         }else if(source.equals(adminLogin)) {
             this.userLoginForm.setVisible(isAdmin);
@@ -81,13 +90,13 @@ public class LoginController extends AnchorPane implements Initializable {
         boolean hasFailed = false;
         Tooltip tooltip = new Tooltip();
         if(form.equals(userLoginForm)) {
-            if(userIDField.getText().equals("")) {
+            if(userID.getText().equals("")) {
                 tooltip.setText("Cannot be empty");
                 errorBox.setText("The fire ID field must not be blank.");
                 hasFailed = true;
             }
         } else if (form.equals(adminLoginForm)) {
-            if(adminName.getText().equals("") || adminPassword.getText().equals("")) {
+            if(adminID.getText().equals("") || adminPassword.getText().equals("")) {
                 errorBox.setText("The username and password fields must not be blank.");
                 hasFailed = true;
             }

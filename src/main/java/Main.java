@@ -11,6 +11,7 @@ public class Main extends Application {
     private Stage mainStage;
     public static Main _Main;
     private Scene login;
+    private Member user = null;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,13 +30,17 @@ public class Main extends Application {
         mainStage.show();
     }
 
-    public static Main getMain() {
+    public void setUser(Member user) {this.user = user;}
+    public Member getUser() {return this.user;}
+
+    public static Main getInstance() {
         return _Main;
     }
 
     public void logout() {
         mainStage.setScene(login);
         mainStage.show();
+        this.user = null;
     }
 
     @Override

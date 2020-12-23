@@ -60,16 +60,8 @@ public class ProductManagementController extends AnchorPane implements Initializ
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            try {
-                                Product product = getTableView().getItems().get(getIndex());
-
-                                ByteArrayInputStream inputStream = new ByteArrayInputStream(product.getImage());
-                                BufferedImage bufferedImage = ImageIO.read(inputStream);
-                                image.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
-                                setGraphic(image);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            Product product = getTableView().getItems().get(getIndex());
+                            setGraphic(HibernateUtil.buildImage(product.getImage()));
                         }
                     }
                 };

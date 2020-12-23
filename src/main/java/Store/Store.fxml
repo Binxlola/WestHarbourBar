@@ -7,28 +7,23 @@
 <fx:root type="javafx.scene.layout.AnchorPane"
          xmlns:fx="http://javafx.com/fxml"
          xmlns="http://javafx.com/javafx"
-         style="-fx-background-color: red;"
          prefHeight="400.0" prefWidth="600.0">
     <padding>
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
 
-    <BorderPane>
+    <BorderPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!-- FILTERING AREA -->
         <top>
-            <HBox prefHeight="60" maxHeight="200.0" spacing="10" style="-fx-background-color: green">
-                <ComboBox fx:id="CategoryFilter" promptText="Category" prefWidth="200.0"/>
+            <HBox prefHeight="60" maxHeight="200.0" maxWidth="300.0" spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+                <ComboBox fx:id="categoryFilter" promptText="Category" prefWidth="200.0"/>
                 <RadioButton fx:id="stockFilter" text="In Stock"/>
             </HBox>
         </top>
 
+        <!-- Grid to be used for Products -->
         <center>
-            <GridPane fx:id="itemsContainer">
-                <Label text="test" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label text="test" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                <Label text="test" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label text="test" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                <Label text="test" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <Label text="test" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <GridPane fx:id="itemsContainer" prefWidth="600.0" BorderPane.alignment="CENTER" hgap="15" vgap="15">
             </GridPane>
         </center>
     </BorderPane>

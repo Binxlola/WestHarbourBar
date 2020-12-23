@@ -24,7 +24,7 @@ public class MemberManagementController extends AnchorPane implements Initializa
 
     @FXML private TableView<Member> membersTable;
     @FXML Button memberAdd;
-    private final Main _Main = Main.getMain();
+    private final Main _Main = Main.getInstance();
 
     public MemberManagementController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MemberManagement.fxml"));
@@ -38,9 +38,13 @@ public class MemberManagementController extends AnchorPane implements Initializa
     }
 
     public void openMemberEdit(ActionEvent e) {
-        System.out.println(e);
-        Button source = (Button) e.getSource();
-        source.getUserData();
+        Member member = (Member) ((Button) e.getSource()).getUserData();
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(new MemberController(stage, this, member)));
+        stage.show();
     }
 
     public void handleMemberDel(ActionEvent e) {
@@ -102,7 +106,7 @@ public class MemberManagementController extends AnchorPane implements Initializa
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(new MemberAddController(stage, this)));
+            stage.setScene(new Scene(new MemberController(stage, this)));
             stage.show();
         });
     }
