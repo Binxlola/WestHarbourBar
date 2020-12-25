@@ -23,8 +23,10 @@
 
         <!-- Grid to be used for Products -->
         <center>
-            <GridPane fx:id="itemsContainer" prefWidth="600.0" BorderPane.alignment="CENTER" hgap="15" vgap="15">
-            </GridPane>
+            <ScrollPane fx:id="itemsScroll" BorderPane.alignment="CENTER" prefHeight="400.0" hbarPolicy="NEVER" vbarPolicy="NEVER" fitToWidth="true">
+                <GridPane fx:id="itemsContainer" hgap="15" vgap="15">
+                </GridPane>
+            </ScrollPane>
         </center>
     </BorderPane>
 </fx:root>

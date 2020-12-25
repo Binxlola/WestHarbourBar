@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +16,7 @@ import main.java.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class StoreController extends AnchorPane implements Initializable {
@@ -27,7 +25,9 @@ public class StoreController extends AnchorPane implements Initializable {
     private GridPane itemsContainer;
     @FXML
     private ComboBox<ProductCategory> categoryFilter;
-    private Main _Main = Main.getInstance();
+    @FXML
+    private ScrollPane itemsScroll;
+    private final Main _Main = Main.getInstance();
 
     public StoreController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Store.fxml"));
@@ -52,24 +52,24 @@ public class StoreController extends AnchorPane implements Initializable {
             productCard.setStyle("-fx-border-color: black");
 
             Label name = new Label(product.getName());
-            name.setPrefWidth(200.0);
+            name.setPrefWidth(180.0);
 
             HBox productPrimaryInfo = new HBox(8);
             productPrimaryInfo.setAlignment(Pos.CENTER);
 
             Label cost = new Label("$" + String.valueOf(product.getCost()));
-            cost.setPrefWidth(200.0);
+            cost.setPrefWidth(180.0);
             cost.setPrefHeight(25.0);
             Button buy = new Button("Buy");
-            buy.setPrefWidth(200.0);
+            buy.setPrefWidth(180.0);
             buy.setPrefHeight(25.0);
             buy.setUserData(product);
             buy.setOnAction(this::handleBuy);
             productPrimaryInfo.getChildren().addAll(cost, buy);
 
             ImageView image = HibernateUtil.buildImage(product.getImage());
-            image.setFitWidth(200.0);
-            image.setFitHeight(200.0);
+            image.setFitWidth(180.0);
+            image.setFitHeight(180.0);
 
             productCard.setTop(name);
             productCard.setCenter(image);
@@ -78,10 +78,12 @@ public class StoreController extends AnchorPane implements Initializable {
             itemsContainer.add(productCard, col, row);
 
             // Increment or reset
-            col = col >= 3 ? 0 : col + 1;
-
-
-
+            if (col >= 2) {
+                col = 0;
+                row++;
+            } else {
+                col++;
+            }
         }
     }
 
@@ -89,6 +91,7 @@ public class StoreController extends AnchorPane implements Initializable {
         Button source = (Button) e.getSource();
         Product product = (Product) source.getUserData();
         Member user = _Main.getUser();
+        Purchase purchase;
 
         float userBalance = user.getBalance();
         float productCost = product.getCost();
@@ -97,8 +100,11 @@ public class StoreController extends AnchorPane implements Initializable {
             user.setBalance(userBalance - productCost);
             product.setQuantity(product.getQuantity() - 1);
 
+            purchase = new Purchase(user, new Date(), product, productCost);
+
             // Save all the altered entities
             HibernateUtil.updateEntities(user, product);
+            HibernateUtil.saveOrRemove(purchase, true);
         }
     }
 
@@ -106,5 +112,6 @@ public class StoreController extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buildItems();
         categoryFilter.setItems(HibernateUtil.getProductCategories());
+        itemsScroll.setStyle("-fx-background-color:transparent;");
     }
 }

@@ -27,6 +27,7 @@
         <mapping class="main.java.Member"/>
         <mapping class="main.java.Product"/>
         <mapping class="main.java.ProductCategory"/>
+        <mapping class="main.java.Purchase"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
