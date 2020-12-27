@@ -5,24 +5,40 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" prefHeight="400.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-    <Text
-            text="The Hydrant"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="2"
-            GridPane.columnSpan="2"/>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" prefHeight="400.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox spacing="10.0" prefWidth="600.0" prefHeight="400.0">
+        <HBox spacing="20.0" alignment="CENTER">
+            <Label fx:id="memberID"/>
+            <Label fx:id="memberBalance"/>
+            <Button fx:id="topUp"/>
+        </HBox>
 
-    <Label
-            text="Fire ID:"
-            GridPane.columnIndex="0"
-            GridPane.rowIndex="3"/>
-
-    <TextField
-            fx:id="userIDField"
-            GridPane.columnIndex="1"
-            GridPane.rowIndex="3"/>
-
-    <HBox spacing="10" alignment="BOTTOM_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-        <Button fx:id="loginBtn" text="Login"/>
-    </HBox>
+        <TableView fx:id="transactions">
+            <columns>
+                <TableColumn text="ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="Id"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="itemName"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Date">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="dateShort"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Cost">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="itemCost"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </VBox>
 </fx:root>

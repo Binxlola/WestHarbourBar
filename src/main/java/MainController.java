@@ -106,12 +106,12 @@ public class MainController extends AnchorPane implements Initializable, RootCon
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.menu.setGraphic(new ImageView("resources/menu.png"));
-        this.navList.toFront(); // Bring forward so it does not push other content
-        this.menu.toFront(); // Bring button forward so it is always clickable
-        this.prepareMenuAnimation();
-        this.initNavHandlers();
-        this.changeScreen(null);
+        menu.setGraphic(new ImageView("resources/menu.png"));
+        navList.toFront(); // Bring forward so it does not push other content
+        menu.toFront(); // Bring button forward so it is always clickable
+        prepareMenuAnimation();
+        initNavHandlers();
+        changeScreen(null);
 
         // Add a listener for window resize, will resize the nav menu
         ChangeListener<Number> shopListener = (observable, oldValue, newValue) -> this.calcNavDimensions(this.getWidth(), this.getHeight());

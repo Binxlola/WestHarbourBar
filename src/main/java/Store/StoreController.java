@@ -100,11 +100,11 @@ public class StoreController extends AnchorPane implements Initializable {
             user.setBalance(userBalance - productCost);
             product.setQuantity(product.getQuantity() - 1);
 
-            purchase = new Purchase(user, new Date(), product, productCost);
+            purchase = new Purchase(user, new Date(), product);
+            user.addTransaction(purchase);
 
             // Save all the altered entities
             HibernateUtil.updateEntities(user, product);
-            HibernateUtil.saveOrRemove(purchase, true);
         }
     }
 

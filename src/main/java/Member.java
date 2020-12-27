@@ -1,11 +1,13 @@
 package main.java;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Members")
@@ -19,6 +21,7 @@ public class Member {
         setFirstName(firstName);
         setLastName(lastName);
         setPhone(phone);
+        this.transactions = new ArrayList<>();
     }
 
     @Id
@@ -51,4 +54,9 @@ public class Member {
     private float balance;
     public float getBalance() {return balance;}
     public void setBalance(float balance) {this.balance = balance;}
+
+    @OneToMany(fetch=FetchType.EAGER, mappedBy="member", cascade=CascadeType.ALL)
+    private List<Purchase> transactions;
+    public ObservableList<Purchase> getTransactions() {return FXCollections.observableList(transactions);}
+    public void addTransaction(Purchase purchase) {transactions.add(purchase);}
 }

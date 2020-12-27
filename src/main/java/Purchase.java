@@ -1,6 +1,7 @@
 package main.java;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,21 +13,10 @@ public class Purchase {
 
     public Purchase() {}
 
-    public Purchase(Member member, Date dateOf, Product product, float cost) {
-        items = new ArrayList<>();
-        items.add(product);
+    public Purchase(Member member, Date dateOf, Product product) {
         setMember(member);
         setDateOf(dateOf);
-        setTotalCost(cost);
-
-    }
-
-    public Purchase(Member member, Date dateOf, float cost, Product... products) {
-        items = new ArrayList<>();
-        items.addAll(Arrays.asList(products));
-        setMember(member);
-        setDateOf(dateOf);
-        setTotalCost(cost);
+        setProduct(product);
     }
 
     @Id
@@ -34,8 +24,8 @@ public class Purchase {
     public long getId() {return Id;}
     public void setId(long Id) {this.Id = Id;}
 
-    @OneToOne
-    @JoinColumn(name="memberID", referencedColumnName="ID")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="MEMBER_ID")
     private Member member;
     public Member getMember() {return member;}
     public void setMember(Member member) {this.member = member;}
@@ -44,16 +34,14 @@ public class Purchase {
     private Date dateOf;
     public Date getDateOf() {return dateOf;}
     public void setDateOf(Date dateOf) {this.dateOf = dateOf;}
+    public String getDateShort() {return new SimpleDateFormat("dd MMM yyyy").format(dateOf); }
 
-    @Column(name="totalCost", nullable = false)
-    private float totalCost;
-    public float getTotalCost() {return totalCost;}
-    public void setTotalCost(float totalCost) {this.totalCost = totalCost;}
-
-    @OneToMany
-    @JoinColumn(name="productID", referencedColumnName="ID")
-    private List<Product> items;
-    public List<Product> getItems() {return this.items;}
-    public void setItems(List<Product> items) {this.items = items;}
+    @OneToOne
+    @JoinColumn(name="PRODUCT_ID")
+    private Product item;
+    public Product getProduct() {return this.item;}
+    public void setProduct(Product items) {this.item = items;}
+    public String getItemName() {return item.getName();}
+    public float getItemCost() {return item.getCost();}
 
 }
