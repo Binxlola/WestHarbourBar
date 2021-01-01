@@ -28,8 +28,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="bin" level="application" />
     <orderEntry type="library" name="Hibernate 5.4.11-5.4.11" level="project" />
     <orderEntry type="library" name="lib" level="application" />
+    <orderEntry type="library" name="bin" level="application" />
   </component>
 </module>
