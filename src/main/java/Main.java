@@ -2,9 +2,13 @@ package main.java;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import main.java.Login.LoginController;
+
+import javax.swing.event.ChangeListener;
 
 public class Main extends Application {
 
@@ -14,13 +18,14 @@ public class Main extends Application {
     private Member user = null;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         // Set "GLOBAL" variables
         _Main = this;
         this.mainStage = stage;
         this.login = new Scene(new LoginController());
 
         mainStage.setTitle("The Hydrant");
+        mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         mainStage.setScene(login);
         mainStage.show();
     }
@@ -28,6 +33,8 @@ public class Main extends Application {
     public void setScene(Scene newScene) {
         mainStage.setScene(newScene);
         mainStage.show();
+        mainStage.setFullScreen(true);
+        mainStage.setFullScreenExitKeyCombination(null);
     }
 
     public void setUser(Member user) {this.user = user;}

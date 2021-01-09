@@ -6,12 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import main.java.*;
 
 import java.io.IOException;
@@ -21,18 +23,22 @@ import java.util.ResourceBundle;
 
 public class StoreController extends AnchorPane implements Initializable {
 
-    @FXML
-    private GridPane itemsContainer;
-    @FXML
-    private ComboBox<ProductCategory> categoryFilter;
-    @FXML
-    private ScrollPane itemsScroll;
+    private Parent store, history;
+
+    @FXML private GridPane itemsContainer;
+    @FXML private ComboBox<ProductCategory> categoryFilter;
+    @FXML private ScrollPane itemsScroll;
+    @FXML private Button logout, historyBtn;
+    @FXML private Label userId, userBalance;
+    @FXML private TableView<Purchase> transactions;
     private final Main _Main = Main.getInstance();
+    private final Member member = _Main.getUser();
 
     public StoreController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Store.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+
         try {
             fxmlLoader.load();
         } catch (IOException e) {
@@ -113,5 +119,20 @@ public class StoreController extends AnchorPane implements Initializable {
         buildItems();
         categoryFilter.setItems(HibernateUtil.getProductCategories());
         itemsScroll.setStyle("-fx-background-color:transparent;");
+
+        // Setup Buttons
+        logout.setGraphic(new ImageView("resources/logout.png"));
+        logout.setTooltip(new Tooltip("Logout"));
+        logout.getTooltip().setShowDelay(Duration.millis(700));
+        logout.setOnAction((ActionEvent e) -> {_Main.logout();});
+
+        historyBtn.setGraphic(new ImageView("resources/history.png"));
+        historyBtn.setTooltip(new Tooltip("Purchase History"));
+        historyBtn.getTooltip().setShowDelay(Duration.millis(700));
+
+        userId.setText(userId.getText() + _Main.getUser().getId());
+        userBalance.setText(userBalance.getText() + member.getBalance());
+
+        transactions.setItems(member.getTransactions());
     }
 }

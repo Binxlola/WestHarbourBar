@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -18,8 +19,8 @@ import javafx.scene.text.Text;
 import main.java.Admin.AdminController;
 import main.java.HibernateUtil;
 import main.java.Main;
-import main.java.MainController;
 import main.java.Member;
+import main.java.Store.StoreController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +63,7 @@ public class LoginController extends AnchorPane implements Initializable {
 
                 if (!isAdmin && user != null) {
                     this._Main.setUser(user);
-                    this._Main.setScene(new Scene(new MainController()));
+                    this._Main.setScene(new Scene(new StoreController()));
                 } else if (isAdmin) {
                     this._Main.setScene(new Scene(new AdminController()));
                 } else {
