@@ -2,13 +2,10 @@ package main.java;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import main.java.Login.LoginController;
-
-import javax.swing.event.ChangeListener;
 
 public class Main extends Application {
 

@@ -6,13 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 import main.java.*;
 
@@ -23,12 +19,11 @@ import java.util.ResourceBundle;
 
 public class StoreController extends AnchorPane implements Initializable {
 
-    private Parent store, history;
-
-    @FXML private GridPane itemsContainer;
+    @FXML private GridPane storeContainer;
+    @FXML private StackPane storeStack;
     @FXML private ComboBox<ProductCategory> categoryFilter;
-    @FXML private ScrollPane itemsScroll;
-    @FXML private Button logout, historyBtn;
+    @FXML private ScrollPane storeScroll;
+    @FXML private Button logoutBtn, storeBtn, historyBtn;
     @FXML private Label userId, userBalance;
     @FXML private TableView<Purchase> transactions;
     private final Main _Main = Main.getInstance();
@@ -46,6 +41,9 @@ public class StoreController extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+     * Builds the product cards and adds them to the store GridPane
+     */
     private void buildItems() {
         ObservableList<Product> productList = HibernateUtil.getProducts();
         int row = 0;
@@ -63,7 +61,7 @@ public class StoreController extends AnchorPane implements Initializable {
             HBox productPrimaryInfo = new HBox(8);
             productPrimaryInfo.setAlignment(Pos.CENTER);
 
-            Label cost = new Label("$" + String.valueOf(product.getCost()));
+            Label cost = new Label("$" + product.getCost());
             cost.setPrefWidth(180.0);
             cost.setPrefHeight(25.0);
             Button buy = new Button("Buy");
@@ -81,7 +79,7 @@ public class StoreController extends AnchorPane implements Initializable {
             productCard.setCenter(image);
             productCard.setBottom(productPrimaryInfo);
             
-            itemsContainer.add(productCard, col, row);
+            storeContainer.add(productCard, col, row);
 
             // Increment or reset
             if (col >= 2) {
@@ -93,6 +91,10 @@ public class StoreController extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+     * Handles a user purchasing an item from the store
+     * @param e The ActionEvent used to get the product data
+     */
     private void handleBuy(ActionEvent e) {
         Button source = (Button) e.getSource();
         Product product = (Product) source.getUserData();
@@ -114,25 +116,39 @@ public class StoreController extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+     * Adds any extra requirements any button may need after it's initial creation
+     */
+    private void setupButtons() {
+        logoutBtn.setGraphic(new ImageView("resources/logout.png"));
+        logoutBtn.setTooltip(new Tooltip("Logout"));
+        logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
+        logoutBtn.setOnAction((ActionEvent e) -> _Main.logout());
+
+        storeBtn.setGraphic(new ImageView("resources/card.png"));
+        storeBtn.setTooltip(new Tooltip("Store"));
+        storeBtn.setOnAction(actionEvent -> storeScroll.toFront());
+        storeBtn.getTooltip().setShowDelay(Duration.millis(700));
+
+        historyBtn.setGraphic(new ImageView("resources/history.png"));
+        historyBtn.setTooltip(new Tooltip("Purchase History"));
+        historyBtn.setOnAction(actionEvent -> transactions.toFront());
+        historyBtn.getTooltip().setShowDelay(Duration.millis(700));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buildItems();
         categoryFilter.setItems(HibernateUtil.getProductCategories());
-        itemsScroll.setStyle("-fx-background-color:transparent;");
+        storeScroll.setStyle("-fx-background-color:transparent;");
 
-        // Setup Buttons
-        logout.setGraphic(new ImageView("resources/logout.png"));
-        logout.setTooltip(new Tooltip("Logout"));
-        logout.getTooltip().setShowDelay(Duration.millis(700));
-        logout.setOnAction((ActionEvent e) -> {_Main.logout();});
-
-        historyBtn.setGraphic(new ImageView("resources/history.png"));
-        historyBtn.setTooltip(new Tooltip("Purchase History"));
-        historyBtn.getTooltip().setShowDelay(Duration.millis(700));
+        setupButtons();
 
         userId.setText(userId.getText() + _Main.getUser().getId());
         userBalance.setText(userBalance.getText() + member.getBalance());
 
         transactions.setItems(member.getTransactions());
+
+        storeScroll.toFront();
     }
 }

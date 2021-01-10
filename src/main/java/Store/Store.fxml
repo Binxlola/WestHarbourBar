@@ -7,25 +7,24 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <fx:root type="javafx.scene.layout.AnchorPane"
          xmlns:fx="http://javafx.com/fxml"
-         xmlns="http://javafx.com/javafx"
-         prefHeight="400.0" prefWidth="600.0">
+         xmlns="http://javafx.com/javafx">
     <padding>
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
 
     <BorderPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <!-- FILTERING AREA -->
         <top>
-            <HBox prefWidth="600.0" prefHeight="60.0" maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
-                <HBox prefHeight="16.0" maxWidth="100.0" maxHeight="16.0" spacing="5.0">
-                    <Button fx:id="logout" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
+            <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
+                <HBox maxWidth="100.0" maxHeight="16.0" spacing="5.0">
+                    <Button fx:id="logoutBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
+                    <Button fx:id="storeBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
                     <Button fx:id="historyBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
                 </HBox>
-                <HBox prefHeight="60" maxHeight="24.0" maxWidth="300.0" spacing="10" alignment="TOP_CENTER">
+                <HBox maxHeight="24.0" maxWidth="300.0" spacing="10" alignment="TOP_CENTER">
                     <ComboBox fx:id="categoryFilter" promptText="Category" prefWidth="200.0"/>
                     <RadioButton fx:id="stockFilter" text="In Stock"/>
                 </HBox>
-                <HBox prefHeight="16.0" maxHeight="16.0" BorderPane.alignment="TOP_RIGHT" spacing="3.0" style="-fx-background-color: yellow">
+                <HBox maxHeight="16.0" BorderPane.alignment="TOP_RIGHT" spacing="3.0">
                     <Label fx:id="userId" text="ID: " prefWidth="100.0" prefHeight="16.0" maxHeight="16.0" maxWidth="100.0"/>
                     <Label fx:id="userBalance" text="Balance: " prefWidth="100.0" prefHeight="16.0" maxHeight="16.0" maxWidth="100.0"/>
                 </HBox>
@@ -34,13 +33,13 @@
 
         <!-- Grid to be used for Products -->
         <center>
-            <StackPane BorderPane.alignment="CENTER">
-                <ScrollPane fx:id="itemsScroll" prefHeight="400.0" hbarPolicy="NEVER" vbarPolicy="NEVER" fitToWidth="true" viewOrder="1">
-                    <GridPane fx:id="itemsContainer" hgap="15" vgap="15">
+            <StackPane fx:id="storeStack" BorderPane.alignment="CENTER">
+                <ScrollPane fx:id="storeScroll" hbarPolicy="NEVER" vbarPolicy="NEVER" fitToWidth="true">
+                    <GridPane fx:id="storeContainer" hgap="15" vgap="15">
                     </GridPane>
                 </ScrollPane>
 
-                <TableView fx:id="transactions" viewOrder="2">
+                <TableView fx:id="transactions">
                     <columns>
                         <TableColumn text="ID">
                             <cellValueFactory>

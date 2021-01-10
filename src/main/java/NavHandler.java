@@ -6,9 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import main.java.Admin.MemberManagementController;
 import main.java.Admin.ProductManagementController;
-import main.java.Profile.ProfileController;
-import main.java.Settings.SettingsController;
-import main.java.Store.StoreController;
 
 public class NavHandler implements EventHandler<ActionEvent> {
 
@@ -26,24 +23,12 @@ public class NavHandler implements EventHandler<ActionEvent> {
         Node node;
 
         switch (button.getId()) {
-            case "profileBtn" -> {
-                node = new ProfileController();
-                nodeChanged = navParent.changeScreen(node);
-            }
-            case "settingsBtn" -> {
-                node = new SettingsController();
-                nodeChanged = navParent.changeScreen(node);
-            }
             case "membersBtn" -> {
                 node = new MemberManagementController();
                 nodeChanged = navParent.changeScreen(node);
             }
             case "productsBtn" -> {
                 node = new ProductManagementController();
-                nodeChanged = navParent.changeScreen(node);
-            }
-            case "storeBtn" -> {
-                node = new StoreController();
                 nodeChanged = navParent.changeScreen(node);
             }
             case "logoutBtn" -> {
