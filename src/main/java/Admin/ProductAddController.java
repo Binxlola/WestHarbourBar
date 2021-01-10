@@ -28,14 +28,14 @@ import java.util.ResourceBundle;
 public class ProductAddController extends AnchorPane implements Initializable {
 
     private final Stage parentStage;
-    private final ProductManagementController parentController;
+    private final AdminController parentController;
     private byte[] selectedImageFile = null;
     @FXML private TextField name, quantity, cost;
     @FXML private ComboBox<ProductCategory> category;
     @FXML private Button apply, cancel, imageSelect;
     @FXML private Label imageSelected;
 
-    public ProductAddController(Stage parentStage, ProductManagementController parentController) {
+    public ProductAddController(Stage parentStage, AdminController parentController) {
         this.parentStage = parentStage;
         this.parentController = parentController;
 

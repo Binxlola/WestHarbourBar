@@ -18,19 +18,19 @@ import java.util.ResourceBundle;
 public class MemberController extends AnchorPane implements Initializable {
 
     private final Stage parentStage;
-    private final MemberManagementController parentController;
+    private final AdminController parentController;
     private boolean isEdit = false;
     private Member member = null;
     @FXML private TextField id, email, firstName, lastName, phone, balance;
     @FXML private Button apply, cancel;
 
-    public MemberController(Stage parentStage, MemberManagementController parentController) {
+    public MemberController(Stage parentStage, AdminController parentController) {
         this.parentStage = parentStage;
         this.parentController = parentController;
         this.buildView();
     }
 
-    public MemberController(Stage parentStage, MemberManagementController parentController, Member member) {
+    public MemberController(Stage parentStage, AdminController parentController, Member member) {
         this.isEdit = true;
         this.member = member;
 
