@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -12,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -27,7 +30,7 @@ import java.util.ResourceBundle;
 
 public class LoginController extends AnchorPane implements Initializable {
 
-    @FXML private GridPane userLoginForm, adminLoginForm;
+    @FXML private GridPane userLoginForm, adminLoginForm, numPad;
     @FXML private TextField userID, adminID;
     @FXML private PasswordField adminPassword;
     @FXML private Text errorBox;
@@ -49,34 +52,24 @@ public class LoginController extends AnchorPane implements Initializable {
     }
 
 
-    private void handleLogin(ActionEvent actionEvent) {
-
-        Object source = actionEvent.getSource();
+    /**
+     * Runs logic required to validate and login a user with the currently typed ID
+     */
+    private void login() {
+        long loginId = Long.parseLong(isAdmin ? adminID.getText() : userID.getText());
         GridPane currentForm = isAdmin ? adminLoginForm : userLoginForm;
 
-        if(source.equals(loginBtn)) {
-            long loginId = Long.parseLong(isAdmin ? adminID.getText() : userID.getText());
+        if(!this.validateForm(currentForm)) {
+            Member user = HibernateUtil.getMember(loginId);
 
-            if(!this.validateForm(currentForm)) {
-                Member user = HibernateUtil.getMember(loginId);
-
-                if (!isAdmin && user != null) {
-                    this._Main.setUser(user);
-                    this._Main.setScene(new Scene(new StoreController()));
-                } else if (isAdmin) {
-                    this._Main.setScene(new Scene(new AdminController()));
-                } else {
-                    errorBox.setText("Incorrect Login Details");
-                }
+            if (!isAdmin && user != null) {
+                this._Main.setUser(user);
+                this._Main.setScene(new Scene(new StoreController()));
+            } else if (isAdmin) {
+                this._Main.setScene(new Scene(new AdminController()));
+            } else {
+                errorBox.setText("Incorrect Login Details");
             }
-        }else if(source.equals(adminLogin)) {
-            this.userLoginForm.setVisible(isAdmin);
-            this.userLoginForm.setManaged(isAdmin);
-
-            isAdmin = !isAdmin;
-
-            this.adminLoginForm.setVisible(isAdmin);
-            this.adminLoginForm.setManaged(isAdmin);
         }
     }
 
@@ -110,11 +103,30 @@ public class LoginController extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Link enter press to login
+        this.setOnKeyPressed((KeyEvent e) -> {
+            if(e.getCode().equals(KeyCode.ENTER)) {
+                login();
+            }
+        });
+
         Image image;
 
-        loginBtn.setOnAction(this::handleLogin);
-        adminLogin.setOnAction(this::handleLogin);
-        adminLogin.toFront(); // Make sure button always clickable
+        loginBtn.setOnAction(ActionEvent -> login());
+
+        // Login screen change login
+        adminLogin.setOnAction(ActionEvent -> {
+            userLoginForm.setVisible(isAdmin);
+            userLoginForm.setManaged(isAdmin);
+
+            isAdmin = !isAdmin;
+
+            adminLoginForm.setVisible(isAdmin);
+            adminLoginForm.setManaged(isAdmin);
+
+        });
+        adminLogin.toFront();
 
         // MAIN LOGO
         image = new Image("resources/logo.jpg");
@@ -123,6 +135,22 @@ public class LoginController extends AnchorPane implements Initializable {
         // ADMIN pathway button
         image = new Image("resources/admin.png");
         adminLogin.setGraphic(new ImageView(image));
+
+        // Set the login on each numpad button
+        for(Node node: numPad.getChildren()) {
+            ((Button) node).setOnAction((ActionEvent e) -> {
+                Button btn = (Button) e.getSource();
+                String text = userID.getText();
+
+                if(btn.getText().equals("del")) {
+                    userID.setText(text.substring(0, text.length() - 1));
+                } else {
+                    userID.setText(text + btn.getText());
+                }
+
+                this.requestFocus();
+            });
+        }
 
         // Remove default focus actions on components
         Platform.runLater(this::requestFocus);

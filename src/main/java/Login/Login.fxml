@@ -47,15 +47,30 @@
                   alignment="CENTER"
                   hgap="5"
                   vgap="5">
-            <children>
-                <TextField
-                        fx:id="userID"
-                        GridPane.columnIndex="0"
-                        GridPane.columnSpan="2"
-                        GridPane.rowIndex="0"
-                        prefWidth="200"
-                        promptText="Fire ID"/>
-            </children>
+            <TextField
+                    fx:id="userID"
+                    GridPane.columnIndex="0"
+                    GridPane.columnSpan="2"
+                    GridPane.rowIndex="0"
+                    prefWidth="200"
+                    promptText="Fire ID"/>
+
+            <GridPane fx:id="numPad" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.columnSpan="2"
+                      alignment="CENTER"
+                      vgap="2"
+                      hgap="2">
+                <Button text="1" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="2" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="3" GridPane.rowIndex="0" GridPane.columnIndex="2" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="4" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="5" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="6" GridPane.rowIndex="1" GridPane.columnIndex="2" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="7" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="8" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="9" GridPane.rowIndex="2" GridPane.columnIndex="2" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="0" GridPane.rowIndex="3" GridPane.columnIndex="0" prefWidth="30.0" prefHeight="30.0"/>
+                <Button text="del" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="2" prefWidth="60.0" prefHeight="30.0"/>
+            </GridPane>
         </GridPane>
 
         <!-- FORM FOR ADMIN LOGIN        -->
@@ -69,23 +84,21 @@
                   vgap="5"
                   visible="false"
                   managed="false">
-            <children>
-                <TextField
-                        fx:id="adminID"
-                        GridPane.columnIndex="0"
-                        GridPane.rowIndex="0"
-                        GridPane.columnSpan="2"
-                        prefWidth="200"
-                        promptText="Username"/>
+            <TextField
+                    fx:id="adminID"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="0"
+                    GridPane.columnSpan="2"
+                    prefWidth="200"
+                    promptText="Username"/>
 
-                <PasswordField
-                        fx:id="adminPassword"
-                        GridPane.columnIndex="0"
-                        GridPane.rowIndex="1"
-                        GridPane.columnSpan="2"
-                        prefWidth="200"
-                        promptText="Password"/>
-            </children>
+            <PasswordField
+                    fx:id="adminPassword"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="1"
+                    GridPane.columnSpan="2"
+                    prefWidth="200"
+                    promptText="Password"/>
         </GridPane>
 
 

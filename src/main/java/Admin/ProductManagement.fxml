@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" style="-fx-background-color: red;">
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
     <padding>
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
