@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<fx:root type="javafx.scene.layout.AnchorPane"
+<fx:root type="javafx.scene.layout.BorderPane"
          xmlns:fx="http://javafx.com/fxml"
          xmlns="http://javafx.com/javafx">
     <padding>
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
 
-    <BorderPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
             <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
                 <HBox maxWidth="100.0" maxHeight="16.0" spacing="5.0">
@@ -65,5 +64,4 @@
                 </TableView>
             </StackPane>
         </center>
-    </BorderPane>
 </fx:root>

@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class StoreController extends AnchorPane implements Initializable {
+public class StoreController extends BorderPane implements Initializable {
 
     @FXML private GridPane storeContainer;
     @FXML private StackPane storeStack;

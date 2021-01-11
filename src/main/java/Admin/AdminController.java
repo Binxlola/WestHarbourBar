@@ -1,20 +1,16 @@
 package main.java.Admin;
 
-import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,14 +25,15 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class AdminController extends AnchorPane implements Initializable {
+public class AdminController extends BorderPane implements Initializable {
 
     @FXML private StackPane adminStack;
-    @FXML private GridPane itemManagement;
+    @FXML private GridPane productManagement;
+    @FXML private AnchorPane productManagementContainer;
     @FXML private TableView<Member> membersTable;
     @FXML private TableView<Product> productTable;
     @FXML private TableView<ProductCategory> categoryTable;
-    @FXML private Button logoutBtn, productAdd, categoryAdd, memberAdd;
+    @FXML private Button logoutBtn, membersBtn, productsBtn,  productAdd, categoryAdd, memberAdd;
 
     private final Main _Main = Main.getInstance();
 
@@ -102,12 +99,12 @@ public class AdminController extends AnchorPane implements Initializable {
         System.out.println("removing member");
     }
 
-    private Callback<TableColumn<Member, Void>, TableCell<Member, Void>> buttonFactory(EventHandler<ActionEvent> btnHandler, String name) {
+    private Callback<TableColumn<Member, Void>, TableCell<Member, Void>> buttonFactory(EventHandler<ActionEvent> btnHandler, ImageView icon) {
         return new Callback<>() {
             @Override
             public TableCell<Member, Void> call(final TableColumn<Member, Void> param) {
                 return new TableCell<>() {
-                    private final Button btn = new Button(name);
+                    private final Button btn = new Button();
 
                     @Override
                     public void updateItem(Void item, boolean empty) {
@@ -115,6 +112,7 @@ public class AdminController extends AnchorPane implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            btn.setGraphic(icon);
                             btn.setOnAction(btnHandler);
                             btn.setUserData(getTableView().getItems().get(getIndex()));
                             setGraphic(btn);
@@ -131,8 +129,8 @@ public class AdminController extends AnchorPane implements Initializable {
         TableColumn<Member, Void> removeBtn = new TableColumn<>("");
 
         // Crete the cell factor for each column of buttons
-        editBtn.setCellFactory(buttonFactory(this::openMemberEdit, "edit"));
-        removeBtn.setCellFactory(buttonFactory(this::handleMemberDel, "remove"));
+        editBtn.setCellFactory(buttonFactory(this::openMemberEdit, new ImageView("resources/edit.png")));
+        removeBtn.setCellFactory(buttonFactory(this::handleMemberDel, new ImageView("resources/delete.png")));
 
         // Add the new button columns to the table
         membersTable.getColumns().add(editBtn);
@@ -143,11 +141,22 @@ public class AdminController extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         update();
         addProductImages();
+        addTableButtons();
 
         logoutBtn.setGraphic(new ImageView("resources/logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> _Main.logout());
+
+        membersBtn.setGraphic(new ImageView("resources/members.png"));
+        membersBtn.setTooltip(new Tooltip("Manage Members"));
+        membersBtn.getTooltip().setShowDelay(Duration.millis(700));
+        membersBtn.setOnAction(ActionEvent -> membersTable.toFront());
+
+        productsBtn.setGraphic(new ImageView("resources/products.png"));
+        productsBtn.setTooltip(new Tooltip("Manage Products"));
+        productsBtn.getTooltip().setShowDelay(Duration.millis(700));
+        productsBtn.setOnAction(ActionEvent -> productManagementContainer.toFront());
 
         // Add action handling for the add member button
         productAdd.setOnAction((ActionEvent e) -> {
