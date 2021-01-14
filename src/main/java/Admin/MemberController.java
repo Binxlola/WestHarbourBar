@@ -75,7 +75,7 @@ public class MemberController extends AnchorPane implements Initializable {
                 member.setBalance(Float.parseFloat(balance.getText()));
                 member.setPhone(phone.getText());
 
-                HibernateUtil.update(member);
+                HibernateUtil.saveOrRemove(member, true);
             }
 
 

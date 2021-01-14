@@ -112,7 +112,7 @@ public class StoreController extends BorderPane implements Initializable {
             user.addTransaction(purchase);
 
             // Save all the altered entities
-            HibernateUtil.updateEntities(user, product);
+            HibernateUtil.saveOrRemove(true, purchase, user);
         }
     }
 

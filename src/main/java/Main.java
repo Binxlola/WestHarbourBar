@@ -16,22 +16,23 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        stage.setFullScreen(true);
         // Set "GLOBAL" variables
         _Main = this;
-        this.mainStage = stage;
-        this.login = new Scene(new LoginController());
+        mainStage = stage;
+        login = new Scene(new LoginController());
 
         mainStage.setTitle("The Hydrant");
         mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        mainStage.setFullScreen(true);
         mainStage.setScene(login);
         mainStage.show();
     }
 
     public void setScene(Scene newScene) {
         mainStage.setScene(newScene);
-        mainStage.show();
         mainStage.setFullScreen(true);
-        mainStage.setFullScreenExitKeyCombination(null);
+        mainStage.show();
     }
 
     public void setUser(Member user) {this.user = user;}
@@ -43,8 +44,9 @@ public class Main extends Application {
 
     public void logout() {
         mainStage.setScene(login);
+        mainStage.setFullScreen(true);
         mainStage.show();
-        this.user = null;
+        user = null;
     }
 
     @Override

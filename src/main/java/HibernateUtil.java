@@ -29,7 +29,6 @@ public class HibernateUtil {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
     private static final String configFileName = "resources/hibernate.cfg.xml";
-    public static final String SCRIPT_FILE = "exportScript.sql";
 
     public static SessionFactory getSessionFactory() {
 
@@ -73,7 +72,7 @@ public class HibernateUtil {
                 transaction = session.beginTransaction();
 
                 if (isSave) {
-                    session.save(o);
+                    session.saveOrUpdate(o);
                 } else {
                     session.remove(o);
                 }
@@ -106,9 +105,9 @@ public class HibernateUtil {
         }
     }
 
-    public static void updateEntities(Object... entities) {
+    public static void saveOrRemove(boolean isSave, Object... entities) {
         for(Object entity : entities) {
-            update(entity);
+            saveOrRemove(entity, isSave);
         }
     }
 

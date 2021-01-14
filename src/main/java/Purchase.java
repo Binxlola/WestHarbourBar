@@ -20,6 +20,7 @@ public class Purchase {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
     public long getId() {return Id;}
     public void setId(long Id) {this.Id = Id;}

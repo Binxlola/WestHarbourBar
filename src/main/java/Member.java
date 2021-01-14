@@ -21,7 +21,6 @@ public class Member {
         setFirstName(firstName);
         setLastName(lastName);
         setPhone(phone);
-        this.transactions = new ArrayList<>();
     }
 
     @Id
@@ -55,8 +54,8 @@ public class Member {
     public float getBalance() {return balance;}
     public void setBalance(float balance) {this.balance = balance;}
 
-    @OneToMany(fetch=FetchType.EAGER, mappedBy="member", cascade=CascadeType.ALL)
-    private List<Purchase> transactions;
+    @OneToMany(fetch=FetchType.EAGER, mappedBy="member", cascade=CascadeType.PERSIST)
+    private final List<Purchase> transactions = new ArrayList<>();
     public ObservableList<Purchase> getTransactions() {return FXCollections.observableList(transactions);}
     public void addTransaction(Purchase purchase) {transactions.add(purchase);}
 }
