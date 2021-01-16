@@ -12,7 +12,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import main.java.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -91,6 +91,35 @@ public class StoreController extends BorderPane implements Initializable {
         }
     }
 
+    private void writeLog(Member user, Purchase purchase) {
+        File logFile = new File("C:/logs/" + user.getLastName() + ".txt");
+        StringBuilder text = new StringBuilder();
+
+        try {
+            if (!logFile.exists()) {
+                logFile.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try(FileWriter writer = new FileWriter(logFile); BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String currentLine = reader.readLine();
+            while(currentLine != null) {
+                text.append(currentLine);
+                currentLine = reader.readLine();
+            }
+
+            text.append(String.format("\n%s %s $%s", purchase.getItemName(), purchase.getDateOf(), purchase.getItemCost()));
+            writer.write(text.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
     /**
      * Handles a user purchasing an item from the store
      * @param e The ActionEvent used to get the product data
@@ -104,16 +133,16 @@ public class StoreController extends BorderPane implements Initializable {
         float userBalance = user.getBalance();
         float productCost = product.getCost();
 
-        if (userBalance >= productCost) {
-            user.setBalance(userBalance - productCost);
-            product.setQuantity(product.getQuantity() - 1);
+        user.setBalance(userBalance - productCost);
+        product.setQuantity(product.getQuantity() - 1);
 
-            purchase = new Purchase(user, new Date(), product);
-            user.addTransaction(purchase);
+        purchase = new Purchase(user, new Date(), product);
+        user.addTransaction(purchase);
 
-            // Save all the altered entities
-            HibernateUtil.saveOrRemove(true, purchase, user);
-        }
+        // Save all the altered entities
+        HibernateUtil.saveOrRemove(true, purchase, user);
+
+        writeLog(user, purchase);
     }
 
     /**
