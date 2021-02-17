@@ -24,10 +24,10 @@
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
-        <mapping class="main.java.Member"/>
-        <mapping class="main.java.Product"/>
-        <mapping class="main.java.ProductCategory"/>
-        <mapping class="main.java.Purchase"/>
+        <mapping class="main.java.com.app.entities.Member"/>
+        <mapping class="main.java.com.app.entities.Product"/>
+        <mapping class="main.java.com.app.entities.ProductCategory"/>
+        <mapping class="main.java.com.app.entities.Purchase"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

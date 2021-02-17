@@ -1,11 +1,10 @@
-package main.java;
+package main.java.com.app;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 

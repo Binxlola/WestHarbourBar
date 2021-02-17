@@ -1,16 +1,16 @@
-package main.java;
+package main.java.com.app;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-import main.java.Login.LoginController;
+import main.java.com.app.Login.LoginController;
 
-public class Main extends Application {
+public class App extends Application {
 
     private Stage mainStage;
-    public static Main _Main;
+    public static App _Main;
     private Scene login;
     private Member user = null;
 
@@ -38,7 +38,7 @@ public class Main extends Application {
     public void setUser(Member user) {this.user = user;}
     public Member getUser() {return this.user;}
 
-    public static Main getInstance() {
+    public static App getInstance() {
         return _Main;
     }
 

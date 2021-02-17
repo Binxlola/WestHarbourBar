@@ -1,4 +1,4 @@
-package main.java.Admin;
+package main.java.com.app.Admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +13,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.java.HibernateUtil;
-import main.java.Product;
-import main.java.ProductCategory;
+import main.java.com.app.HibernateUtil;
+import main.java.com.app.Product;
+import main.java.com.app.ProductCategory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

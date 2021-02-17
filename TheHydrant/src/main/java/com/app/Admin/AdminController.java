@@ -1,4 +1,4 @@
-package main.java.Admin;
+package main.java.com.app.Admin;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import main.java.*;
+import main.java.com.app.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +35,7 @@ public class AdminController extends BorderPane implements Initializable {
     @FXML private TableView<ProductCategory> categoryTable;
     @FXML private Button logoutBtn, membersBtn, productsBtn,  productAdd, categoryAdd, memberAdd;
 
-    private final Main _Main = Main.getInstance();
+    private final App _Main = App.getInstance();
 
 
     public AdminController() {

@@ -1,4 +1,4 @@
-package main.java.Store;
+package main.java.com.app.Store;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
-import main.java.*;
+import main.java.com.app.*;
 
 import java.io.*;
 import java.net.URL;
@@ -26,7 +26,7 @@ public class StoreController extends BorderPane implements Initializable {
     @FXML private Button logoutBtn, storeBtn, historyBtn;
     @FXML private Label userId, userBalance;
     @FXML private TableView<Purchase> transactions;
-    private final Main _Main = Main.getInstance();
+    private final App _Main = App.getInstance();
     private final Member member = _Main.getUser();
 
     public StoreController() {

@@ -1,6 +1,5 @@
-package main.java.Profile;
+package main.java.com.app.Profile;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,8 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import main.java.*;
+import main.java.Main;
+import main.java.com.app.App;
+import main.java.com.app.Member;
+import main.java.com.app.Purchase;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class ProfileController extends AnchorPane implements Initializable {
 
-    private final Member member = Main.getInstance().getUser();
+    private final Member member = App.getInstance().getUser();
     @FXML
     private Label memberID, memberBalance;
     @FXML

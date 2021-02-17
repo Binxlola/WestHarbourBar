@@ -1,11 +1,8 @@
-package main.java;
+package main.java.com.app;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name="Purchases")

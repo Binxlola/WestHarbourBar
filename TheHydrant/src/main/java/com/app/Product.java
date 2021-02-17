@@ -1,4 +1,4 @@
-package main.java;
+package main.java.com.app;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package main.java.Login;
+package main.java.com.app.Login;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,14 +18,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import main.java.Admin.AdminController;
-import main.java.HibernateUtil;
+import main.java.com.app.Admin.AdminController;
+import main.java.com.app.App;
+import main.java.com.app.HibernateUtil;
 import main.java.Main;
-import main.java.Member;
-import main.java.Store.StoreController;
+import main.java.com.app.Member;
+import main.java.com.app.Store.StoreController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController extends AnchorPane implements Initializable {
@@ -37,7 +39,8 @@ public class LoginController extends AnchorPane implements Initializable {
     @FXML private Button loginBtn, adminLogin;
     @FXML private ImageView logo;
     private boolean isAdmin = false;
-    private final Main _Main = Main.getInstance();
+    private final App _Main = App.getInstance();
+
 
     public LoginController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -129,11 +132,11 @@ public class LoginController extends AnchorPane implements Initializable {
         adminLogin.toFront();
 
         // MAIN LOGO
-        image = new Image("resources/logo.jpg");
+        image = new Image("logo.jpg");
         logo.setImage(image);
 
         // ADMIN pathway button
-        image = new Image("resources/admin.png");
+        image = new Image("admin.png");
         adminLogin.setGraphic(new ImageView(image));
 
         // Set the login on each numpad button
