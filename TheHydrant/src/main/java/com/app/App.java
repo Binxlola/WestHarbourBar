@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import main.java.com.app.Login.LoginController;
+import main.java.com.app.entities.Member;
+import main.java.com.app.util.HibernateUtil;
 
 public class App extends Application {
 

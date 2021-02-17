@@ -1,4 +1,4 @@
-package main.java.com.app;
+package main.java.com.app.entities;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

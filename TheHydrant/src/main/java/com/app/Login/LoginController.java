@@ -20,14 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import main.java.com.app.Admin.AdminController;
 import main.java.com.app.App;
-import main.java.com.app.HibernateUtil;
-import main.java.Main;
-import main.java.com.app.Member;
+import main.java.com.app.util.HibernateUtil;
+import main.java.com.app.entities.Member;
 import main.java.com.app.Store.StoreController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController extends AnchorPane implements Initializable {

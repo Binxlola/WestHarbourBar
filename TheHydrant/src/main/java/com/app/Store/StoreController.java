@@ -11,6 +11,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import main.java.com.app.*;
+import main.java.com.app.entities.Member;
+import main.java.com.app.entities.Product;
+import main.java.com.app.entities.ProductCategory;
+import main.java.com.app.entities.Purchase;
+import main.java.com.app.util.HibernateUtil;
 
 import java.io.*;
 import java.net.URL;
@@ -149,17 +154,17 @@ public class StoreController extends BorderPane implements Initializable {
      * Adds any extra requirements any button may need after it's initial creation
      */
     private void setupButtons() {
-        logoutBtn.setGraphic(new ImageView("resources/logout.png"));
+        logoutBtn.setGraphic(new ImageView("logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> _Main.logout());
 
-        storeBtn.setGraphic(new ImageView("resources/card.png"));
+        storeBtn.setGraphic(new ImageView("card.png"));
         storeBtn.setTooltip(new Tooltip("Store"));
         storeBtn.setOnAction(actionEvent -> storeScroll.toFront());
         storeBtn.getTooltip().setShowDelay(Duration.millis(700));
 
-        historyBtn.setGraphic(new ImageView("resources/history.png"));
+        historyBtn.setGraphic(new ImageView("history.png"));
         historyBtn.setTooltip(new Tooltip("Purchase History"));
         historyBtn.setOnAction(actionEvent -> transactions.toFront());
         historyBtn.getTooltip().setShowDelay(Duration.millis(700));

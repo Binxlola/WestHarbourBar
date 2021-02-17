@@ -7,10 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import main.java.Main;
 import main.java.com.app.App;
-import main.java.com.app.Member;
-import main.java.com.app.Purchase;
+import main.java.com.app.entities.Member;
+import main.java.com.app.entities.Purchase;
 
 import java.io.IOException;
 import java.net.URL;

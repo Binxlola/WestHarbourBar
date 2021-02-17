@@ -8,8 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import main.java.com.app.HibernateUtil;
-import main.java.com.app.Member;
+import main.java.com.app.util.HibernateUtil;
+import main.java.com.app.entities.Member;
 
 import java.io.IOException;
 import java.net.URL;

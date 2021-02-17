@@ -18,6 +18,10 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import main.java.com.app.*;
+import main.java.com.app.entities.Member;
+import main.java.com.app.entities.Product;
+import main.java.com.app.entities.ProductCategory;
+import main.java.com.app.util.HibernateUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -129,8 +133,8 @@ public class AdminController extends BorderPane implements Initializable {
         TableColumn<Member, Void> removeBtn = new TableColumn<>("");
 
         // Crete the cell factor for each column of buttons
-        editBtn.setCellFactory(buttonFactory(this::openMemberEdit, new ImageView("resources/edit.png")));
-        removeBtn.setCellFactory(buttonFactory(this::handleMemberDel, new ImageView("resources/delete.png")));
+        editBtn.setCellFactory(buttonFactory(this::openMemberEdit, new ImageView("edit.png")));
+        removeBtn.setCellFactory(buttonFactory(this::handleMemberDel, new ImageView("delete.png")));
 
         // Add the new button columns to the table
         membersTable.getColumns().add(editBtn);
@@ -143,17 +147,17 @@ public class AdminController extends BorderPane implements Initializable {
         addProductImages();
         addTableButtons();
 
-        logoutBtn.setGraphic(new ImageView("resources/logout.png"));
+        logoutBtn.setGraphic(new ImageView("logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> _Main.logout());
 
-        membersBtn.setGraphic(new ImageView("resources/members.png"));
+        membersBtn.setGraphic(new ImageView("members.png"));
         membersBtn.setTooltip(new Tooltip("Manage Members"));
         membersBtn.getTooltip().setShowDelay(Duration.millis(700));
         membersBtn.setOnAction(ActionEvent -> membersTable.toFront());
 
-        productsBtn.setGraphic(new ImageView("resources/products.png"));
+        productsBtn.setGraphic(new ImageView("products.png"));
         productsBtn.setTooltip(new Tooltip("Manage Products"));
         productsBtn.getTooltip().setShowDelay(Duration.millis(700));
         productsBtn.setOnAction(ActionEvent -> productManagementContainer.toFront());

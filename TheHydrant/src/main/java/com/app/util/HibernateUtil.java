@@ -1,10 +1,11 @@
-package main.java.com.app;
+package main.java.com.app.util;
 
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.java.com.app.entities.Member;
+import main.java.com.app.entities.Product;
+import main.java.com.app.entities.ProductCategory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,6 +14,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
+
 
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
@@ -26,10 +28,9 @@ public class HibernateUtil {
 
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
-    private static final String configFileName = "resources/hibernate.cfg.xml";
+    private static final String configFileName = "hibernate.cfg.xml";
 
     public static SessionFactory getSessionFactory() {
-
         if (sessionFactory == null) {
             try {
                 // Create registry
