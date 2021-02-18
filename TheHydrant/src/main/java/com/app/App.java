@@ -5,6 +5,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import main.java.com.app.Login.LoginController;
 import main.java.com.app.entities.Member;
 import main.java.com.app.util.HibernateUtil;
@@ -28,7 +30,20 @@ public class App extends Application {
         mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         mainStage.setFullScreen(true);
         mainStage.setScene(login);
+        mainStage.initStyle(StageStyle.TRANSPARENT);
+        mainStage.initStyle(StageStyle.UNDECORATED);
+
+        // USED TO MAKE SMOOTH FULLSCREEN TRANSITIONS
+//        int width = (int) Screen.getPrimary().getBounds().getWidth();
+//        int height = (int) Screen.getPrimary().getBounds().getHeight();
+//        mainLayout = new HBox();
+//        mainLayout.getChildren().add(new Text("hello!"));
+//        myLayout = new MyLayout(this);
+//        scene = new Scene(myLayout,width,height);
+
+
         mainStage.show();
+        ((LoginController) login.getRoot()).initialSetup(login);
     }
 
     public void setScene(Scene newScene) {

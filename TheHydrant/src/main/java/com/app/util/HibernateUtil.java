@@ -21,6 +21,7 @@ import javax.persistence.Entity;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import static javafx.collections.FXCollections.observableList;
 
@@ -53,6 +54,24 @@ public class HibernateUtil {
             }
         }
         return sessionFactory;
+    }
+
+
+    /**
+     * Used to determine if there are any entries in a given database table
+     * @param table The name of the table in question
+     * @return boolean if table is empty or not
+     */
+    public static boolean isTableEmpty(String table) {
+        boolean isEmpty = true;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            isEmpty = session.createQuery("Select 1 from " + table).setMaxResults(1).list().isEmpty();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isEmpty;
     }
 
     /**

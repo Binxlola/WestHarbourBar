@@ -5,8 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
@@ -18,13 +21,15 @@ import java.util.ResourceBundle;
 public class MemberController extends AnchorPane implements Initializable {
 
     private final Stage parentStage;
-    private final AdminController parentController;
+    private final Pane parentController;
     private boolean isEdit = false;
     private Member member = null;
     @FXML private TextField id, email, firstName, lastName, phone, balance;
     @FXML private Button apply, cancel;
+    @FXML private CheckBox isAdmin;
+    @FXML private PasswordField password;
 
-    public MemberController(Stage parentStage, AdminController parentController) {
+    public MemberController(Stage parentStage, Pane parentController) {
         this.parentStage = parentStage;
         this.parentController = parentController;
         this.buildView();
@@ -69,17 +74,17 @@ public class MemberController extends AnchorPane implements Initializable {
                         lastName.getText(),
                         phone.getText());
 
-                HibernateUtil.saveOrRemove(member, true);
             } else {
                 member.setEmail(email.getText());
                 member.setBalance(Float.parseFloat(balance.getText()));
                 member.setPhone(phone.getText());
 
-                HibernateUtil.saveOrRemove(member, true);
             }
+            HibernateUtil.saveOrRemove(member, true);
 
-
-            parentController.update();
+            if(parentController instanceof AdminController) {
+                ((AdminController) parentController).update();
+            }
             parentStage.close();
         }
     }

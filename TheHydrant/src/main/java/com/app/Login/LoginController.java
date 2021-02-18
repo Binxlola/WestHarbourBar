@@ -18,7 +18,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.java.com.app.Admin.AdminController;
+import main.java.com.app.Admin.MemberController;
 import main.java.com.app.App;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
@@ -49,6 +53,17 @@ public class LoginController extends AnchorPane implements Initializable {
             fxmlLoader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void initialSetup(Scene scene) {
+        if(HibernateUtil.isTableEmpty("Member")) {
+            Stage stage = new Stage();
+            stage.setScene(new Scene(new MemberController(stage, this)));
+            stage.initOwner(scene.getWindow());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.show();
         }
     }
 
