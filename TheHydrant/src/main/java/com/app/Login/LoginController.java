@@ -59,7 +59,9 @@ public class LoginController extends AnchorPane implements Initializable {
     public void initialSetup(Scene scene) {
         if(HibernateUtil.isTableEmpty("Member")) {
             Stage stage = new Stage();
-            stage.setScene(new Scene(new MemberController(stage, this)));
+            MemberController controller = new MemberController(stage, this);
+            controller.lockIsAdmin(true, true);
+            stage.setScene(new Scene(controller));
             stage.initOwner(scene.getWindow());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);

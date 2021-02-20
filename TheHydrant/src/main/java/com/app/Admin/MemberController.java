@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.java.com.app.entities.Admin;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
 
@@ -68,18 +69,21 @@ public class MemberController extends AnchorPane implements Initializable {
         } else if(source.equals(apply)) {
 
             if(!isEdit) {
-                member = new Member(Long.parseLong(id.getText()),
-                        email.getText(),
-                        firstName.getText(),
-                        lastName.getText(),
-                        phone.getText());
+                member = isAdmin.isSelected() ? new Admin() : new Member();
+                member.setId(Long.parseLong(id.getText()));
+                member.setFirstName(firstName.getText());
+                member.setLastName(lastName.getText());
 
-            } else {
-                member.setEmail(email.getText());
-                member.setBalance(Float.parseFloat(balance.getText()));
-                member.setPhone(phone.getText());
+                if(isAdmin.isSelected()) {
+                    ((Admin) member).setPassword(password.getText());
+                    ((Admin) member).setAdmin(true);
+                }
 
             }
+            member.setEmail(email.getText());
+            member.setBalance(Float.parseFloat(balance.getText()));
+            member.setPhone(phone.getText());
+
             HibernateUtil.saveOrRemove(member, true);
 
             if(parentController instanceof AdminController) {
@@ -87,6 +91,16 @@ public class MemberController extends AnchorPane implements Initializable {
             }
             parentStage.close();
         }
+    }
+
+    public void lockIsAdmin(boolean lock, boolean check) {
+        isAdmin.setSelected(check);
+        isAdmin.setDisable(lock);
+        update();
+    }
+
+    public void update() {
+        password.setDisable(!isAdmin.isSelected());
     }
 
 
