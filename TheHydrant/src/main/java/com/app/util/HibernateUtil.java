@@ -18,6 +18,7 @@ import org.hibernate.query.Query;
 
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -62,11 +63,11 @@ public class HibernateUtil {
      * @param table The name of the table in question
      * @return boolean if table is empty or not
      */
-    public static boolean isTableEmpty(String table) {
+    public static boolean isTableEmpty(String table, Object entity) {
         boolean isEmpty = true;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            isEmpty = session.createQuery("Select 1 from " + table).setMaxResults(1).list().isEmpty();
+            isEmpty = session.createQuery("Select 1 from " + table + " a").setMaxResults(1).list().isEmpty();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,8 +84,10 @@ public class HibernateUtil {
      */
     public static void saveOrRemove(Object o, boolean isSave) {
         Transaction transaction = null;
+        Entity entity = o.getClass().getAnnotation(Entity.class);
+        MappedSuperclass superClass = o.getClass().getAnnotation(MappedSuperclass.class);
 
-        if(o.getClass().getAnnotation(Entity.class) != null) {
+        if(entity != null || superClass != null) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();

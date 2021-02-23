@@ -23,34 +23,33 @@ public class PasswordUtil {
      * @param salt The salt to be used by the hashing algorithm
      * @return A container with the hashed password
      */
-    public static Optional<String> hashPassword(String password, String salt) {
+    public static byte[] hashPassword(String password, byte[] salt) {
         char[] chars = password.toCharArray();
-        byte[] saltBytes = salt.getBytes();
 
-        PBEKeySpec spec = new PBEKeySpec(chars, saltBytes, ITERATIONS, KEY_LENGTH);
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(chars, Character.MIN_VALUE);
 
         try {
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
             byte[] securePassword = keyFactory.generateSecret(spec).getEncoded();
-            return Optional.of(Base64.getEncoder().encodeToString(securePassword));
+            return Optional.of(Base64.getEncoder().encodeToString(securePassword)).get().getBytes();
         } catch (Exception e) {
             System.err.println("There was an error hashing the password in setPassword()");
         } finally {
             spec.clearPassword();
         }
 
-        return Optional.empty();
+        return null;
     }
 
     /**
      * Will generate a random string to be used as a salt in password hashing
      * @return Salt string
      */
-    public static String generateSaltString() {
+    public static byte[] generateSaltByteArray() {
         byte[] salt = new byte[KEY_LENGTH];
         RANDOM.nextBytes(salt);
-        return Optional.of(Base64.getEncoder().encodeToString(salt)).get();
+        return Optional.of(Base64.getEncoder().encodeToString(salt)).get().getBytes();
     }
 
 
@@ -61,8 +60,8 @@ public class PasswordUtil {
      * @param salt The salt to use when comparing passwords
      * @return A boolean if the passwords match or not
      */
-    public static boolean verifyPassword(String password, String hashedPassword, String salt) {
-        Optional<String> hashed = hashPassword(password, salt);
-        return hashed.isPresent() && hashed.get().equals(hashedPassword);
+    public static boolean verifyPassword(String password, byte[] hashedPassword, byte[] salt) {
+        byte[] hashed = hashPassword(password, salt);
+        return hashed!= null && Arrays.equals(hashed, hashedPassword);
     }
 }

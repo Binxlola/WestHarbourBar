@@ -33,17 +33,7 @@ public class App extends Application {
         mainStage.initStyle(StageStyle.TRANSPARENT);
         mainStage.initStyle(StageStyle.UNDECORATED);
 
-        // USED TO MAKE SMOOTH FULLSCREEN TRANSITIONS
-//        int width = (int) Screen.getPrimary().getBounds().getWidth();
-//        int height = (int) Screen.getPrimary().getBounds().getHeight();
-//        mainLayout = new HBox();
-//        mainLayout.getChildren().add(new Text("hello!"));
-//        myLayout = new MyLayout(this);
-//        scene = new Scene(myLayout,width,height);
-
-
         mainStage.show();
-        ((LoginController) login.getRoot()).initialSetup(login);
     }
 
     public void setScene(Scene newScene) {

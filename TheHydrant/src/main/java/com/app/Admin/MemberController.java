@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.java.com.app.entities.Admin;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
 
@@ -69,14 +68,14 @@ public class MemberController extends AnchorPane implements Initializable {
         } else if(source.equals(apply)) {
 
             if(!isEdit) {
-                member = isAdmin.isSelected() ? new Admin() : new Member();
+                member = new Member();
                 member.setId(Long.parseLong(id.getText()));
                 member.setFirstName(firstName.getText());
                 member.setLastName(lastName.getText());
 
                 if(isAdmin.isSelected()) {
-                    ((Admin) member).setPassword(password.getText());
-                    ((Admin) member).setAdmin(true);
+                    member.setPassword(password.getText());
+                    member.setAdmin(true);
                 }
 
             }

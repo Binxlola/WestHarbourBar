@@ -18,15 +18,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import main.java.com.app.Admin.AdminController;
-import main.java.com.app.Admin.MemberController;
 import main.java.com.app.App;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
 import main.java.com.app.Store.StoreController;
+import main.java.com.app.util.PasswordUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,21 +51,19 @@ public class LoginController extends AnchorPane implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    public void initialSetup(Scene scene) {
-        if(HibernateUtil.isTableEmpty("Member")) {
-            Stage stage = new Stage();
-            MemberController controller = new MemberController(stage, this);
-            controller.lockIsAdmin(true, true);
-            stage.setScene(new Scene(controller));
-            stage.initOwner(scene.getWindow());
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.show();
+        // Catch first time app startup
+        if(HibernateUtil.getSessionFactory() != null && HibernateUtil.isTableEmpty("Member", Member.class)) {
+            Member defaultAdmin = new Member();
+            defaultAdmin.setAdmin(true);
+            defaultAdmin.setPassword("admin");
+            defaultAdmin.setId(0000);
+            defaultAdmin.setFirstName("Admin");
+            defaultAdmin.setLastName("Admin");
+
+            HibernateUtil.saveOrRemove(defaultAdmin, true);
         }
     }
-
 
     /**
      * Runs logic required to validate and login a user with the currently typed ID
@@ -83,7 +78,7 @@ public class LoginController extends AnchorPane implements Initializable {
             if (!isAdmin && user != null) {
                 this._Main.setUser(user);
                 this._Main.setScene(new Scene(new StoreController()));
-            } else if (isAdmin) {
+            } else if (isAdmin && PasswordUtil.verifyPassword(adminPassword.getText(), user.getPassword(), user.getSalt())) {
                 this._Main.setScene(new Scene(new AdminController()));
             } else {
                 errorBox.setText("Incorrect Login Details");
