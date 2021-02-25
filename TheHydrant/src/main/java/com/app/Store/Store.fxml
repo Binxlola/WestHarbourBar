@@ -24,8 +24,8 @@
                     <RadioButton fx:id="stockFilter" text="In Stock"/>
                 </HBox>
                 <HBox maxHeight="16.0" BorderPane.alignment="TOP_RIGHT" spacing="3.0">
-                    <Label fx:id="userId" text="ID: " prefWidth="100.0" prefHeight="16.0" maxHeight="16.0" maxWidth="100.0"/>
-                    <Label fx:id="userBalance" text="Balance: " prefWidth="100.0" prefHeight="16.0" maxHeight="16.0" maxWidth="100.0"/>
+                    <Label fx:id="userId" prefWidth="100.0" prefHeight="16.0" maxHeight="16.0" maxWidth="100.0"/>
+                    <Label fx:id="userBalance" prefWidth="100.0" prefHeight="16.0" maxHeight="16.0" maxWidth="100.0"/>
                 </HBox>
             </HBox>
         </top>

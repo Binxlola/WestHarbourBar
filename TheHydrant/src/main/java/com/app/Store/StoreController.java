@@ -148,6 +148,28 @@ public class StoreController extends BorderPane implements Initializable {
         HibernateUtil.saveOrRemove(true, purchase, user);
 
         writeLog(user, purchase);
+        update();
+    }
+
+    private void update() {
+        buildItems();
+        setUserBalance();
+        updateTransactionHistory();
+    }
+
+
+    // === VIEW UTIL METHODS ===
+    private void setUserID() {
+        userId.setText("ID: " + member.getId());
+    }
+
+    private void setUserBalance() {
+        userBalance.setText("Balance: " + member.getBalance());
+    }
+
+    private void updateTransactionHistory() {
+        transactions.setItems(member.getTransactions());
+        transactions.refresh();
     }
 
     /**
@@ -177,11 +199,9 @@ public class StoreController extends BorderPane implements Initializable {
         storeScroll.setStyle("-fx-background-color:transparent;");
 
         setupButtons();
-
-        userId.setText(userId.getText() + _Main.getUser().getId());
-        userBalance.setText(userBalance.getText() + member.getBalance());
-
-        transactions.setItems(member.getTransactions());
+        setUserID();
+        setUserBalance();
+        updateTransactionHistory();
 
         storeScroll.toFront();
     }
