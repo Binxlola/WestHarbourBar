@@ -76,15 +76,18 @@ public class ProductController extends AnchorPane implements Initializable {
      */
     private void addProduct() {
         //#TODO error handling
-        Product newProduct = new Product();
-        newProduct.setName(productName.getText());
-        newProduct.setCost(Float.parseFloat(cost.getText()));
-        newProduct.setQuantity(Integer.parseInt(quantity.getText()));
-        newProduct.setCategory(categoryComboBox.getValue());
-        newProduct.setImage(selectedImageFile);
-        newProduct.setImageFileName(imageFileName);
+        if(!isEdit) {
+            product = new Product();
+            product.setName(productName.getText());
+            product.setCategory(categoryComboBox.getValue());
+        }
 
-        HibernateUtil.saveOrRemove(newProduct, true);
+        product.setCost(Float.parseFloat(cost.getText()));
+        product.setQuantity(Integer.parseInt(quantity.getText()));
+        product.setImage(selectedImageFile);
+        product.setImageFileName(imageFileName);
+
+        HibernateUtil.saveOrRemove(product, true);
 
         parentController.update();
         parentStage.close();
