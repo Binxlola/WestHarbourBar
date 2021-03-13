@@ -11,10 +11,10 @@
 
         <top>
             <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
-                <HBox maxWidth="100.0" maxHeight="16.0" spacing="5.0">
-                    <Button fx:id="logoutBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
-                    <Button fx:id="membersBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
-                    <Button fx:id="productsBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
+                <HBox maxHeight="16.0" spacing="3.0">
+                    <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
+                    <Button fx:id="membersBtn" text="Users" maxHeight="16.0"/>
+                    <Button fx:id="productsBtn" text="Products" maxHeight="16.0"/>
                 </HBox>
             </HBox>
         </top>
@@ -46,11 +46,6 @@
                         <TableColumn text="Phone">
                             <cellValueFactory>
                                 <PropertyValueFactory property="phone"/>
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn text="Balance">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="balance"/>
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
@@ -85,11 +80,6 @@
                                         <PropertyValueFactory property="cost"/>
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Quantity">
-                                    <cellValueFactory>
-                                        <PropertyValueFactory property="quantity"/>
-                                    </cellValueFactory>
-                                </TableColumn>
                             </columns>
                         </TableView>
 
@@ -107,16 +97,18 @@
                                 </TableColumn>
                             </columns>
                         </TableView>
-
-                        <HBox maxHeight="60.0" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2" spacing="20.0">
-                            <HBox maxWidth="400.0" maxHeight="50.0" spacing="5.0">
-                                <Button fx:id="productAdd" text="product" prefHeight="50.0" prefWidth="100.0" maxHeight="50.0" maxWidth="100.0"/>
-                                <Button fx:id="categoryAdd" text="category" prefHeight="50.0" prefWidth="100.0" maxHeight="50.0" maxWidth="100.0"/>
-                                <Button fx:id="memberAdd" text="member" prefHeight="50.0" prefWidth="100.0" maxHeight="50.0" maxWidth="100.0"/>
-                            </HBox>
-                        </HBox>
                     </GridPane>
                 </AnchorPane>
             </StackPane>
         </center>
+
+        <bottom>
+            <HBox maxHeight="60.0" BorderPane.alignment="BOTTOM_LEFT" spacing="20.0">
+                <HBox maxWidth="400.0" maxHeight="16.0" spacing="5.0">
+                    <Button fx:id="productAdd" text="Add Product" maxHeight="16.0"/>
+                    <Button fx:id="categoryAdd" text="Add Category" maxHeight="16.0"/>
+                    <Button fx:id="memberAdd" text="Add Member" maxHeight="16.0"/>
+                </HBox>
+            </HBox>
+        </bottom>
 </fx:root>

@@ -36,6 +36,9 @@ public class Product {
     private int quantity;
     public int getQuantity() {return this.quantity;}
     public void setQuantity(int quantity) {this.quantity = quantity;}
+    public void updateQuantity(int updateAmount) {
+        setQuantity(this.quantity + updateAmount);
+    }
 
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )

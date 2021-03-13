@@ -74,19 +74,7 @@ public class MemberController extends AnchorPane implements Initializable {
         }
     }
 
-    public void lockIsAdmin(boolean lock, boolean check) {
-        isAdmin.setSelected(check);
-        isAdmin.setDisable(lock);
-        update();
-    }
-
     public void update() {
-        password.setDisable(!isAdmin.isSelected());
-    }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
         if (isEdit) {
             id.setText(String.valueOf(member.getId()));
             id.setDisable(true);
@@ -100,11 +88,28 @@ public class MemberController extends AnchorPane implements Initializable {
             phone.setText(member.getPhone());
             email.setText(member.getEmail());
             balance.setText(String.valueOf(member.getBalance()));
+
+            // Lock the admin logic, so current admin can not be demoted
+            if(member.isAdmin()) {
+                isAdmin.setSelected(true);
+                isAdmin.setDisable(true);
+            }
         } else {
             balance.setText("0.0");
             balance.setDisable(true);
         }
 
+        password.setDisable(!isAdmin.isSelected());
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        update();
+
+        isAdmin.setOnAction((ActionEvent e) -> {
+            update();
+        });
         apply.setOnAction(this::handler);
         cancel.setOnAction(this::handler);
     }

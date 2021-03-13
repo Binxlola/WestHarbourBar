@@ -1,5 +1,6 @@
 package main.java.com.app.Store;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import main.java.com.app.*;
 import main.java.com.app.entities.Member;
@@ -147,8 +150,21 @@ public class StoreController extends BorderPane implements Initializable {
         // Save all the altered entities
         HibernateUtil.saveOrRemove(true, purchase, user);
 
-        writeLog(user, purchase);
+//        writeLog(user, purchase);
         update();
+
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setContentText("Purchased");
+        alert.initOwner(_Main.getCurrentScene().getWindow());
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.show();
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        delay.setOnFinished(event -> {
+            alert.setResult(ButtonType.CANCEL);
+            alert.close();
+        });
+        delay.play();
     }
 
     private void update() {

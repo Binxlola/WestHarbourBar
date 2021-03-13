@@ -14,10 +14,10 @@
 
         <top>
             <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
-                <HBox maxWidth="100.0" maxHeight="16.0" spacing="5.0">
-                    <Button fx:id="logoutBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
-                    <Button fx:id="storeBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
-                    <Button fx:id="historyBtn" prefHeight="16.0" prefWidth="16.0" maxHeight="16.0" maxWidth="16.0"/>
+                <HBox maxHeight="16.0" spacing="3.0">
+                    <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
+                    <Button fx:id="storeBtn" text="Store" maxHeight="16.0"/>
+                    <Button fx:id="historyBtn" text="Transactions" maxHeight="16.0"/>
                 </HBox>
                 <HBox maxHeight="24.0" maxWidth="300.0" spacing="10" alignment="TOP_CENTER">
                     <ComboBox fx:id="categoryFilter" promptText="Category" prefWidth="200.0"/>

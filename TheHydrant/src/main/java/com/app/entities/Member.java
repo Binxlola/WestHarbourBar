@@ -53,6 +53,9 @@ public class Member {
     private float balance;
     public float getBalance() {return balance;}
     public void setBalance(float balance) {this.balance = balance;}
+    public void updateBalance(float updateAmount) {
+        setBalance(this.balance + updateAmount);
+    }
 
     @OneToMany(fetch=FetchType.EAGER, mappedBy="member", cascade=CascadeType.PERSIST)
     private final List<Purchase> transactions = new ArrayList<>();
@@ -92,4 +95,5 @@ public class Member {
             System.err.println("There was an error hashing or verifying the hashed password");
         }
     }
+    public boolean hasPassword() {return getPassword() == null;}
 }

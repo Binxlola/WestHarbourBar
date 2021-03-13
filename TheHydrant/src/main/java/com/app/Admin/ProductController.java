@@ -28,8 +28,8 @@ import java.util.ResourceBundle;
 
 public class ProductController extends AnchorPane implements Initializable {
 
-    private final Stage parentStage;
-    private final AdminController parentController;
+    private Stage parentStage;
+    private AdminController parentController;
     private byte[] selectedImageFile = null;
     private String imageFileName;
     private boolean isProduct;
@@ -43,21 +43,26 @@ public class ProductController extends AnchorPane implements Initializable {
     @FXML private Label imageSelected;
 
     public ProductController(Stage parentStage, AdminController parentController, boolean isProduct) {
-        this.isEdit = false;
-        this.parentStage = parentStage;
-        this.parentController = parentController;
-        this.isProduct = isProduct;
+        setCommonVariables(parentStage, parentController, isProduct, false);
         CommonUtil.buildView(this, "Product.fxml");
         setManaged();
     }
 
-    public ProductController(Stage parentStage, AdminController parentController, Product product) {
-        this.isEdit = true;
+    public ProductController(Stage parentStage, AdminController parentController, Product product, boolean isProduct) {
+        setCommonVariables(parentStage, parentController, isProduct, true);
         this.product = product;
+        CommonUtil.buildView(this, "Product.fxml");
+        setManaged();
+    }
 
+    /**
+     * A helper method to set the common variable used across class constructors
+     */
+    private void setCommonVariables(Stage parentStage, AdminController parentController, boolean isProduct, boolean isEdit) {
         this.parentStage = parentStage;
         this.parentController = parentController;
-        CommonUtil.buildView(this, "Product.fxml");
+        this.isProduct = isProduct;
+        this.isEdit = isEdit;
     }
 
     /**
