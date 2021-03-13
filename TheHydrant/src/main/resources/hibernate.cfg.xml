@@ -7,8 +7,8 @@
         <property name="dialect">org.hibernate.dialect.H2Dialect</property>
         <property name="connection.url">jdbc:h2:~\TheHydrant</property>
         <property name="connection.driver_class">org.h2.Driver</property>
-        <property name="connection.username">"Admin"</property>
-        <property name="connection.password">"Admin"</property>
+        <property name="connection.username">WestHarbour</property>
+        <property name="connection.password">1467#</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="connection.pool_size">1</property>
         <!-- Echo the SQL to stdout -->

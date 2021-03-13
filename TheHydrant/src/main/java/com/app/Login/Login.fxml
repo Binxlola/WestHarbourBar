@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
@@ -16,8 +15,7 @@
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
 
-    <Button fx:id="adminLogin" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" text="Admin"
-            textAlignment="RIGHT"/>
+    <Button fx:id="loginSwitch" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" textAlignment="RIGHT"/>
 
     <GridPane alignment="CENTER" hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">

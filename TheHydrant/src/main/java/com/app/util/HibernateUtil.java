@@ -18,9 +18,11 @@ import org.hibernate.query.Query;
 
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import static javafx.collections.FXCollections.observableList;
 
@@ -55,6 +57,24 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
+
+    /**
+     * Used to determine if there are any entries in a given database table
+     * @param table The name of the table in question
+     * @return boolean if table is empty or not
+     */
+    public static boolean isTableEmpty(String table, Object entity) {
+        boolean isEmpty = true;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            isEmpty = session.createQuery("Select 1 from " + table + " a").setMaxResults(1).list().isEmpty();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isEmpty;
+    }
+
     /**
      * Basic utility method to allow an easy save or deletion of data through hibernate by getting the current session,
      * and committing a change through a transaction.
@@ -64,8 +84,10 @@ public class HibernateUtil {
      */
     public static void saveOrRemove(Object o, boolean isSave) {
         Transaction transaction = null;
+        Entity entity = o.getClass().getAnnotation(Entity.class);
+        MappedSuperclass superClass = o.getClass().getAnnotation(MappedSuperclass.class);
 
-        if(o.getClass().getAnnotation(Entity.class) != null) {
+        if(entity != null || superClass != null) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();

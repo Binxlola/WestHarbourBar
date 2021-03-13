@@ -2,32 +2,36 @@ package main.java.com.app.Admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
+import main.java.com.app.util.CommonUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MemberController extends AnchorPane implements Initializable {
 
     private final Stage parentStage;
-    private final AdminController parentController;
+    private final Pane parentController;
     private boolean isEdit = false;
     private Member member = null;
     @FXML private TextField id, email, firstName, lastName, phone, balance;
     @FXML private Button apply, cancel;
+    @FXML private CheckBox isAdmin;
+    @FXML private PasswordField password;
 
-    public MemberController(Stage parentStage, AdminController parentController) {
+    public MemberController(Stage parentStage, Pane parentController) {
         this.parentStage = parentStage;
         this.parentController = parentController;
-        this.buildView();
+        CommonUtil.buildView(this, "Member.fxml");
     }
 
     public MemberController(Stage parentStage, AdminController parentController, Member member) {
@@ -36,24 +40,7 @@ public class MemberController extends AnchorPane implements Initializable {
 
         this.parentStage = parentStage;
         this.parentController = parentController;
-        this.buildView();
-
-
-    }
-
-    /**
-     * Because there are two ways to construct this controller the FXML build has been pulled out to avoid large duplicated code.
-     * This method Builds the FXML from the view part of the controller
-     */
-    private void buildView() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Member.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CommonUtil.buildView(this, "Member.fxml");
     }
 
     private void handler(ActionEvent e) {
@@ -63,30 +50,31 @@ public class MemberController extends AnchorPane implements Initializable {
         } else if(source.equals(apply)) {
 
             if(!isEdit) {
-                member = new Member(Long.parseLong(id.getText()),
-                        email.getText(),
-                        firstName.getText(),
-                        lastName.getText(),
-                        phone.getText());
+                member = new Member();
+                member.setId(Long.parseLong(id.getText()));
+                member.setFirstName(firstName.getText());
+                member.setLastName(lastName.getText());
 
-                HibernateUtil.saveOrRemove(member, true);
-            } else {
-                member.setEmail(email.getText());
-                member.setBalance(Float.parseFloat(balance.getText()));
-                member.setPhone(phone.getText());
+                if(isAdmin.isSelected()) {
+                    member.setPassword(password.getText());
+                    member.setAdmin(true);
+                }
 
-                HibernateUtil.saveOrRemove(member, true);
             }
+            member.setEmail(email.getText());
+            member.setBalance(Float.parseFloat(balance.getText()));
+            member.setPhone(phone.getText());
 
+            HibernateUtil.saveOrRemove(member, true);
 
-            parentController.update();
+            if(parentController instanceof AdminController) {
+                ((AdminController) parentController).update();
+            }
             parentStage.close();
         }
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void update() {
         if (isEdit) {
             id.setText(String.valueOf(member.getId()));
             id.setDisable(true);
@@ -100,11 +88,28 @@ public class MemberController extends AnchorPane implements Initializable {
             phone.setText(member.getPhone());
             email.setText(member.getEmail());
             balance.setText(String.valueOf(member.getBalance()));
+
+            // Lock the admin logic, so current admin can not be demoted
+            if(member.isAdmin()) {
+                isAdmin.setSelected(true);
+                isAdmin.setDisable(true);
+            }
         } else {
             balance.setText("0.0");
             balance.setDisable(true);
         }
 
+        password.setDisable(!isAdmin.isSelected());
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        update();
+
+        isAdmin.setOnAction((ActionEvent e) -> {
+            update();
+        });
         apply.setOnAction(this::handler);
         cancel.setOnAction(this::handler);
     }

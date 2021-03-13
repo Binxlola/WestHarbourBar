@@ -22,7 +22,7 @@ public class Product {
     public long getID() {return this.id;}
     public void setID(long id) {this.id = id;}
 
-    @Column(name="name", nullable=false, length=20)
+    @Column(name="name", nullable=false, length=20, unique=true)
     private String name;
     public String getName() {return this.name;}
     public void setName(String name) {this.name = name;}
@@ -36,6 +36,9 @@ public class Product {
     private int quantity;
     public int getQuantity() {return this.quantity;}
     public void setQuantity(int quantity) {this.quantity = quantity;}
+    public void updateQuantity(int updateAmount) {
+        setQuantity(this.quantity + updateAmount);
+    }
 
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
@@ -49,4 +52,9 @@ public class Product {
     private byte[] image;
     public byte[] getImage() {return image;}
     public void setImage(byte[] image) {this.image = image;}
+
+    @Column(name="file", nullable=false)
+    private String imageFileName;
+    public String getImageFileName() {return imageFileName;}
+    public void setImageFileName(String fileName) {this.imageFileName = fileName;}
 }
