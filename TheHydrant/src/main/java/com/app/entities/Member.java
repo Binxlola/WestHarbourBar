@@ -48,8 +48,8 @@ public class Member {
     public String getPhone() {return phone;}
     public void setPhone(String phone) {this.phone=phone;}
 
-    @Column(name="balance", nullable=false)
-    @ColumnDefault("0")
+    @Column(name="balance", nullable=false, columnDefinition="Decimal(19,2)")
+    @ColumnDefault("0.00")
     private float balance;
     public float getBalance() {return balance;}
     public void setBalance(float balance) {this.balance = balance;}

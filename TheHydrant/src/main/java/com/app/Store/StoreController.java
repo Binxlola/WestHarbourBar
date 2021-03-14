@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -180,7 +181,11 @@ public class StoreController extends BorderPane implements Initializable {
     }
 
     private void setUserBalance() {
-        userBalance.setText("Balance: " + member.getBalance());
+        float balance = member.getBalance();
+        userBalance.setText("Balance: " + balance);
+        if(balance != 0) {
+            userBalance.setTextFill(balance > 0 ? Color.GREEN : Color.RED);
+        }
     }
 
     private void updateTransactionHistory() {
