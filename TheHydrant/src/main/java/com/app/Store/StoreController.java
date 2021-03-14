@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -32,7 +33,7 @@ public class StoreController extends BorderPane implements Initializable {
     @FXML private ComboBox<ProductCategory> categoryFilter;
     @FXML private ScrollPane storeScroll;
     @FXML private Button logoutBtn, storeBtn, historyBtn;
-    @FXML private Label userId, userBalance;
+    @FXML private Label userId, userBalance, userName;
     @FXML private TableView<Purchase> transactions;
     private final App _Main = App.getInstance();
     private final Member member = _Main.getUser();
@@ -173,14 +174,18 @@ public class StoreController extends BorderPane implements Initializable {
         updateTransactionHistory();
     }
 
-
-    // === VIEW UTIL METHODS ===
-    private void setUserID() {
+    private void setupUserDetails() {
         userId.setText("ID: " + member.getId());
+        userName.setText("Name: " + member.getFirstName() + " " + member.getLastName());
+        setUserBalance();
     }
 
     private void setUserBalance() {
-        userBalance.setText("Balance: " + member.getBalance());
+        float balance = member.getBalance();
+        userBalance.setText("Balance: " + balance);
+        if(balance != 0) {
+            userBalance.setTextFill(balance > 0 ? Color.GREEN : Color.RED);
+        }
     }
 
     private void updateTransactionHistory() {
@@ -215,8 +220,7 @@ public class StoreController extends BorderPane implements Initializable {
         storeScroll.setStyle("-fx-background-color:transparent;");
 
         setupButtons();
-        setUserID();
-        setUserBalance();
+        setupUserDetails();
         updateTransactionHistory();
 
         storeScroll.toFront();

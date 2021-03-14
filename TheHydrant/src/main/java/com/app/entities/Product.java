@@ -1,5 +1,7 @@
 package main.java.com.app.entities;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 @Entity
@@ -27,7 +29,8 @@ public class Product {
     public String getName() {return this.name;}
     public void setName(String name) {this.name = name;}
 
-    @Column(name="cost", nullable=false)
+    @Column(name="cost", nullable=false, columnDefinition="Decimal(19,2)")
+    @ColumnDefault("0.00")
     private float cost;
     public float getCost() {return this.cost;}
     public void setCost(float cost) {this.cost = cost;}
