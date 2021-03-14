@@ -143,10 +143,28 @@ public class AdminController extends BorderPane implements Initializable {
      * Hibernate utility method to remove the entity from the database
      * @param e The click event of the delete button
      */
-    private void handleObjectDel(ActionEvent e) {
-        Object o = ((Button) e.getSource()).getUserData();
-        HibernateUtil.saveOrRemove(o, false);
-        this.update();
+    private void handleObjectDel(ActionEvent e) { ;
+
+        // Selection buttons
+        ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.APPLY);
+        ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        // Build alert dialog
+        Alert confirmDelete = new Alert(Alert.AlertType.WARNING);
+        confirmDelete.initStyle(StageStyle.UNDECORATED);
+        confirmDelete.initModality(Modality.APPLICATION_MODAL);
+        confirmDelete.initOwner(_Main.getCurrentScene().getWindow());
+        confirmDelete.getButtonTypes().setAll(no, yes);
+        confirmDelete.setTitle("Warning!");
+        confirmDelete.setHeaderText("Are you sure you want to PERMANENTLY delete the selected item?");
+        Optional<ButtonType> result = confirmDelete.showAndWait();
+
+        // User confirms delete, so we delete item
+        if(result.isPresent() && result.get().getButtonData() == ButtonBar.ButtonData.APPLY) {
+            Object o = ((Button) e.getSource()).getUserData();
+            HibernateUtil.saveOrRemove(o, false);
+            this.update();
+        }
     }
 
     // === BUTTON FACTORY METHODS ===

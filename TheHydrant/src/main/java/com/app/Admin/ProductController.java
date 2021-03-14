@@ -81,12 +81,12 @@ public class ProductController extends AnchorPane implements Initializable {
      */
     private void addProduct() {
         //#TODO error handling
-        if(!isEdit) {
-            product = new Product();
-            product.setName(productName.getText());
-            product.setCategory(categoryComboBox.getValue());
-        }
 
+        // New product is being created
+        if(!isEdit) {product = new Product();}
+
+        product.setName(productName.getText());
+        product.setCategory(categoryComboBox.getValue());
         product.setCost(Float.parseFloat(cost.getText()));
         product.setQuantity(Integer.parseInt(quantity.getText()));
         product.setImage(selectedImageFile);
@@ -157,22 +157,25 @@ public class ProductController extends AnchorPane implements Initializable {
         }
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        categoryComboBox.setItems(HibernateUtil.getProductCategories());
-
+    /**
+     * Called on controller initialization, and will fill in any form values that should have a set starting value.
+     * Will also disable certain fields that can not be changed once set.
+     */
+    private void setupFormFields() {
         if(isEdit) {
             productName.setText(product.getName());
-            productName.setDisable(true);
-
             categoryComboBox.setValue(product.getCategory());
-            categoryComboBox.setDisable(true);
-
             quantity.setText(String.valueOf(product.getQuantity()));
             cost.setText(String.valueOf(product.getCost()));
             imageSelected.setText(product.getImageFileName());
         }
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        categoryComboBox.setItems(HibernateUtil.getProductCategories());
+        setupFormFields();
 
         apply.setOnAction(this::handler);
         cancel.setOnAction(this::handler);

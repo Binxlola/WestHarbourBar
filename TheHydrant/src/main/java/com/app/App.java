@@ -2,6 +2,7 @@ package main.java.com.app;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
@@ -9,6 +10,7 @@ import javafx.stage.StageStyle;
 import main.java.com.app.Login.LoginController;
 import main.java.com.app.entities.Member;
 import main.java.com.app.util.HibernateUtil;
+import main.java.com.app.util.TimeOut;
 
 public class App extends Application {
 
@@ -17,6 +19,7 @@ public class App extends Application {
     private Scene login;
     private Scene currentScene;
     private Member user = null;
+    private TimeOut idleMonitor;
 
     @Override
     public void start(Stage stage) {
@@ -34,13 +37,18 @@ public class App extends Application {
         mainStage.initStyle(StageStyle.UNDECORATED);
 
         mainStage.show();
+        idleMonitor = new TimeOut(_Main);
     }
 
     public void setScene(Scene newScene) {
         currentScene = newScene;
         mainStage.setScene(newScene);
         mainStage.setFullScreen(true);
+        currentScene.addEventFilter(Event.ANY, e -> {
+            idleMonitor.resetTimer();
+        });
         mainStage.show();
+        idleMonitor.startTimer();
     }
 
     public Scene getCurrentScene() {
@@ -59,6 +67,7 @@ public class App extends Application {
         mainStage.setFullScreen(true);
         mainStage.show();
         user = null;
+        idleMonitor.cancelTimer();
     }
 
     @Override

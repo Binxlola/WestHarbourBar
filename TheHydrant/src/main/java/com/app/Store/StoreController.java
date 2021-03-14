@@ -33,7 +33,7 @@ public class StoreController extends BorderPane implements Initializable {
     @FXML private ComboBox<ProductCategory> categoryFilter;
     @FXML private ScrollPane storeScroll;
     @FXML private Button logoutBtn, storeBtn, historyBtn;
-    @FXML private Label userId, userBalance;
+    @FXML private Label userId, userBalance, userName;
     @FXML private TableView<Purchase> transactions;
     private final App _Main = App.getInstance();
     private final Member member = _Main.getUser();
@@ -174,10 +174,10 @@ public class StoreController extends BorderPane implements Initializable {
         updateTransactionHistory();
     }
 
-
-    // === VIEW UTIL METHODS ===
-    private void setUserID() {
+    private void setupUserDetails() {
         userId.setText("ID: " + member.getId());
+        userName.setText("Name: " + member.getFirstName() + " " + member.getLastName());
+        setUserBalance();
     }
 
     private void setUserBalance() {
@@ -220,8 +220,7 @@ public class StoreController extends BorderPane implements Initializable {
         storeScroll.setStyle("-fx-background-color:transparent;");
 
         setupButtons();
-        setUserID();
-        setUserBalance();
+        setupUserDetails();
         updateTransactionHistory();
 
         storeScroll.toFront();
