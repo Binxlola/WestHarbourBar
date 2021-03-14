@@ -5,12 +5,12 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Products")
+@Table(name = "Products")
 public class Product {
 
     public Product() {}
 
-    public Product(String name, float cost, int quantity, ProductCategory  category, byte[] image) {
+    public Product(String name, float cost, int quantity, ProductCategory category, byte[] image) {
         setName(name);
         setCost(cost);
         setQuantity(quantity);
@@ -24,18 +24,18 @@ public class Product {
     public long getID() {return this.id;}
     public void setID(long id) {this.id = id;}
 
-    @Column(name="name", nullable=false, length=20, unique=true)
+    @Column(name = "name", nullable = false, length = 20, unique = true)
     private String name;
     public String getName() {return this.name;}
     public void setName(String name) {this.name = name;}
 
-    @Column(name="cost", nullable=false, columnDefinition="Decimal(19,2)")
+    @Column(name = "cost", nullable = false, columnDefinition = "Decimal(19,2)")
     @ColumnDefault("0.00")
     private float cost;
     public float getCost() {return this.cost;}
     public void setCost(float cost) {this.cost = cost;}
 
-    @Column(name="quantity")
+    @Column(name = "quantity")
     private int quantity;
     public int getQuantity() {return this.quantity;}
     public void setQuantity(int quantity) {this.quantity = quantity;}
@@ -44,19 +44,19 @@ public class Product {
     }
 
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-    @JoinColumn(name="category", nullable=false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "category", nullable = false)
     private ProductCategory category;
     public ProductCategory getCategory() {return category;}
     public void setCategory(ProductCategory category) {this.category = category;}
 
     @Lob
-    @Column(name="image", nullable=false, columnDefinition="mediumblob")
+    @Column(name = "image", nullable = false, columnDefinition = "mediumblob")
     private byte[] image;
     public byte[] getImage() {return image;}
     public void setImage(byte[] image) {this.image = image;}
 
-    @Column(name="file", nullable=false)
+    @Column(name = "file", nullable = false)
     private String imageFileName;
     public String getImageFileName() {return imageFileName;}
     public void setImageFileName(String fileName) {this.imageFileName = fileName;}

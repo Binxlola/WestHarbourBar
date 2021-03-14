@@ -1,4 +1,4 @@
-package main.java.com.app.Admin;
+package main.java.com.app.admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +13,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
 import main.java.com.app.util.CommonUtil;
+import main.java.com.app.util.HibernateUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -114,7 +114,7 @@ public class ProductController extends AnchorPane implements Initializable {
 
             BufferedImage bImage = ImageIO.read(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "jpg", bos );
+            ImageIO.write(bImage, "jpg", bos);
             selectedImageFile = bos.toByteArray();
 
             imageSelected.setText(file.getName());
@@ -132,7 +132,7 @@ public class ProductController extends AnchorPane implements Initializable {
         ProductCategory category = new ProductCategory();
         String name = categoryName.getText();
         //#TODO error handling for this
-        if(!name.equals("")) {
+        if (!name.equals("")) {
             category.setName(name);
             HibernateUtil.saveOrRemove(category, true);
             parentController.update();
@@ -142,17 +142,22 @@ public class ProductController extends AnchorPane implements Initializable {
 
     /**
      * The main button handler for the controller
+     *
      * @param e The action event taking place
      */
     private void handler(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source.equals(cancel)) {
+        if (source.equals(cancel)) {
             parentStage.close();
-        } else if(source.equals(apply)) {
+        } else if (source.equals(apply)) {
             // Are we adding product or category?
-            if (isProduct) { addProduct(); } else { addCategory(); }
-        } else if(source.equals(imageSelect)) {
+            if (isProduct) {
+                addProduct();
+            } else {
+                addCategory();
+            }
+        } else if (source.equals(imageSelect)) {
             selectProductImage();
         }
     }
@@ -162,7 +167,7 @@ public class ProductController extends AnchorPane implements Initializable {
      * Will also disable certain fields that can not be changed once set.
      */
     private void setupFormFields() {
-        if(isEdit) {
+        if (isEdit) {
             productName.setText(product.getName());
             categoryComboBox.setValue(product.getCategory());
             quantity.setText(String.valueOf(product.getQuantity()));

@@ -9,8 +9,9 @@ public class CommonUtil {
 
     /**
      * Will build the view from an xml file and set it to the corresponding controller
+     *
      * @param controller The controller for the FXML view
-     * @param FXMLName The name of the FXML file containing the view information
+     * @param FXMLName   The name of the FXML file containing the view information
      */
     public static void buildView(Pane controller, String FXMLName) {
         FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getResource(FXMLName));

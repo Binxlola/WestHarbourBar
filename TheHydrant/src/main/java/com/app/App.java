@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.java.com.app.Login.LoginController;
 import main.java.com.app.entities.Member;
+import main.java.com.app.login.LoginController;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.util.TimeOut;
 
@@ -52,7 +52,7 @@ public class App extends Application {
     }
 
     public Scene getCurrentScene() {
-        return  this.currentScene;
+        return this.currentScene;
     }
 
     public void setUser(Member user) {this.user = user;}

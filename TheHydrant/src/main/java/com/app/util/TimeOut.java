@@ -1,10 +1,10 @@
 package main.java.com.app.util;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javafx.application.Platform;
 import main.java.com.app.App;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TimeOut {
 

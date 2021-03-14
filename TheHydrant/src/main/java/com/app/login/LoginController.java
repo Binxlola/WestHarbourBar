@@ -1,4 +1,4 @@
-package main.java.com.app.Login;
+package main.java.com.app.login;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,11 +18,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import main.java.com.app.Admin.AdminController;
 import main.java.com.app.App;
-import main.java.com.app.util.HibernateUtil;
+import main.java.com.app.admin.AdminController;
 import main.java.com.app.entities.Member;
-import main.java.com.app.Store.StoreController;
+import main.java.com.app.store.StoreController;
+import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.util.PasswordUtil;
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class LoginController extends AnchorPane implements Initializable {
         }
 
         // Catch first time app startup
-        if(HibernateUtil.getSessionFactory() != null && HibernateUtil.isTableEmpty("Member", Member.class)) {
+        if (HibernateUtil.getSessionFactory() != null && HibernateUtil.isTableEmpty("Member", Member.class)) {
             Member defaultAdmin = new Member();
             defaultAdmin.setAdmin(true);
             defaultAdmin.setPassword("admin");
@@ -72,7 +72,7 @@ public class LoginController extends AnchorPane implements Initializable {
         long loginId = Long.parseLong(isAdmin ? adminID.getText() : userID.getText());
         GridPane currentForm = isAdmin ? adminLoginForm : userLoginForm;
 
-        if(!this.validateForm(currentForm)) {
+        if (!this.validateForm(currentForm)) {
             Member user = HibernateUtil.getMember(loginId);
 
             if (!isAdmin && user != null) {
@@ -99,6 +99,7 @@ public class LoginController extends AnchorPane implements Initializable {
 
     /**
      * Change the text and icon based on the current login screen
+     *
      * @param isAdmin A boolean describing if the user is on the admin screen
      */
     private void setSwitch(boolean isAdmin) {
@@ -110,20 +111,21 @@ public class LoginController extends AnchorPane implements Initializable {
     /**
      * Check the different input fields for the specific login form being used.
      * If there are validation issues the user will be informed and no further login logic will execute.
+     *
      * @param form The form requiring the validation of type GridPane
      * @return A boolean value stating is there were any validation issues found.
      */
     private boolean validateForm(GridPane form) {
         boolean hasFailed = false;
         Tooltip tooltip = new Tooltip();
-        if(form.equals(userLoginForm)) {
-            if(userID.getText().equals("")) {
+        if (form.equals(userLoginForm)) {
+            if (userID.getText().equals("")) {
                 tooltip.setText("Cannot be empty");
                 errorBox.setText("The fire ID field must not be blank.");
                 hasFailed = true;
             }
         } else if (form.equals(adminLoginForm)) {
-            if(adminID.getText().equals("") || adminPassword.getText().equals("")) {
+            if (adminID.getText().equals("") || adminPassword.getText().equals("")) {
                 errorBox.setText("The username and password fields must not be blank.");
                 hasFailed = true;
             }
@@ -140,7 +142,7 @@ public class LoginController extends AnchorPane implements Initializable {
 
         // Link enter press to login
         this.setOnKeyPressed((KeyEvent e) -> {
-            if(e.getCode().equals(KeyCode.ENTER)) {
+            if (e.getCode().equals(KeyCode.ENTER)) {
                 login();
             }
         });
@@ -165,12 +167,12 @@ public class LoginController extends AnchorPane implements Initializable {
         setSwitch(true);
 
         // Set the login on each numpad button
-        for(Node node: numPad.getChildren()) {
+        for (Node node : numPad.getChildren()) {
             ((Button) node).setOnAction((ActionEvent e) -> {
                 Button btn = (Button) e.getSource();
                 String text = userID.getText();
 
-                if(btn.getText().equals("del")) {
+                if (btn.getText().equals("del")) {
                     userID.setText(text.substring(0, text.length() - 1));
                 } else {
                     userID.setText(text + btn.getText());

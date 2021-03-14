@@ -11,15 +11,19 @@
         <Insets top="5" right="5" bottom="5" left="5"/>
     </padding>
 
-    <GridPane alignment="CENTER" hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+    <GridPane alignment="CENTER" hgap="10" vgap="10" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
         <TextField fx:id="id" promptText="ID" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="email" promptText="Email" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        <TextField fx:id="firstName" promptText="First Name" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="lastName" promptText="Last Name" prefWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <TextField fx:id="firstName" promptText="First Name" prefWidth="200" GridPane.rowIndex="1"
+                   GridPane.columnIndex="0"/>
+        <TextField fx:id="lastName" promptText="Last Name" prefWidth="200" GridPane.rowIndex="1"
+                   GridPane.columnIndex="1"/>
         <TextField fx:id="phone" promptText="Phone no" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <TextField fx:id="balance" promptText="Balance" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
         <CheckBox fx:id="isAdmin" text="Admin" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <PasswordField fx:id="password" promptText="Password" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <PasswordField fx:id="password" promptText="Password" prefWidth="200" GridPane.rowIndex="3"
+                       GridPane.columnIndex="1"/>
     </GridPane>
 
     <Button fx:id="apply" text="Apply" AnchorPane.rightAnchor="60.0" AnchorPane.bottomAnchor="0.0"/>

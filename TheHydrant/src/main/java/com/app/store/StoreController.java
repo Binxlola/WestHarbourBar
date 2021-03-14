@@ -1,4 +1,4 @@
-package main.java.com.app.Store;
+package main.java.com.app.store;
 
 import javafx.animation.PauseTransition;
 import javafx.collections.ObservableList;
@@ -9,12 +9,14 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import main.java.com.app.*;
+import main.java.com.app.App;
 import main.java.com.app.entities.Member;
 import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
@@ -58,7 +60,7 @@ public class StoreController extends BorderPane implements Initializable {
         int row = 0;
         int col = 0;
 
-        for(Product product : productList) {
+        for (Product product : productList) {
             BorderPane productCard = new BorderPane();
 
             //TODO add this to css sheet
@@ -87,7 +89,7 @@ public class StoreController extends BorderPane implements Initializable {
             productCard.setTop(name);
             productCard.setCenter(image);
             productCard.setBottom(productPrimaryInfo);
-            
+
             storeContainer.add(productCard, col, row);
 
             // Increment or reset
@@ -112,9 +114,9 @@ public class StoreController extends BorderPane implements Initializable {
             e.printStackTrace();
         }
 
-        try(FileWriter writer = new FileWriter(logFile); BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+        try (FileWriter writer = new FileWriter(logFile); BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
             String currentLine = reader.readLine();
-            while(currentLine != null) {
+            while (currentLine != null) {
                 text.append(currentLine);
                 currentLine = reader.readLine();
             }
@@ -126,11 +128,11 @@ public class StoreController extends BorderPane implements Initializable {
         }
 
 
-
     }
 
     /**
      * Handles a user purchasing an item from the store
+     *
      * @param e The ActionEvent used to get the product data
      */
     private void handleBuy(ActionEvent e) {
@@ -183,7 +185,7 @@ public class StoreController extends BorderPane implements Initializable {
     private void setUserBalance() {
         float balance = member.getBalance();
         userBalance.setText("Balance: " + balance);
-        if(balance != 0) {
+        if (balance != 0) {
             userBalance.setTextFill(balance > 0 ? Color.GREEN : Color.RED);
         }
     }

@@ -19,8 +19,9 @@ public class PasswordUtil {
     /**
      * Used to hash a password with a given plaintext password and a given salt. Will use the default
      * algorithm, iterations, and key length set as constants in the PasswordUtil class.
+     *
      * @param password The plaintext password to be hashed
-     * @param salt The salt to be used by the hashing algorithm
+     * @param salt     The salt to be used by the hashing algorithm
      * @return A container with the hashed password
      */
     public static byte[] hashPassword(String password, byte[] salt) {
@@ -44,6 +45,7 @@ public class PasswordUtil {
 
     /**
      * Will generate a random string to be used as a salt in password hashing
+     *
      * @return Salt string
      */
     public static byte[] generateSaltByteArray() {
@@ -55,13 +57,14 @@ public class PasswordUtil {
 
     /**
      * Compares a hash of a plaintext password against an already hashed password using the given salt.
-     * @param password The plain text password
+     *
+     * @param password       The plain text password
      * @param hashedPassword The already hashed password
-     * @param salt The salt to use when comparing passwords
+     * @param salt           The salt to use when comparing passwords
      * @return A boolean if the passwords match or not
      */
     public static boolean verifyPassword(String password, byte[] hashedPassword, byte[] salt) {
         byte[] hashed = hashPassword(password, salt);
-        return hashed!= null && Arrays.equals(hashed, hashedPassword);
+        return hashed != null && Arrays.equals(hashed, hashedPassword);
     }
 }

@@ -15,14 +15,12 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 
-
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
 
 import static javafx.collections.FXCollections.observableList;
 
@@ -60,6 +58,7 @@ public class HibernateUtil {
 
     /**
      * Used to determine if there are any entries in a given database table
+     *
      * @param table The name of the table in question
      * @return boolean if table is empty or not
      */
@@ -79,7 +78,8 @@ public class HibernateUtil {
      * Basic utility method to allow an easy save or deletion of data through hibernate by getting the current session,
      * and committing a change through a transaction.
      * Will only attempt the commit if the object passed in is classed as an Entity
-     * @param o The Object of data to be saved
+     *
+     * @param o      The Object of data to be saved
      * @param isSave A flag representing if change is a save or a deletion
      */
     public static void saveOrRemove(Object o, boolean isSave) {
@@ -87,7 +87,7 @@ public class HibernateUtil {
         Entity entity = o.getClass().getAnnotation(Entity.class);
         MappedSuperclass superClass = o.getClass().getAnnotation(MappedSuperclass.class);
 
-        if(entity != null || superClass != null) {
+        if (entity != null || superClass != null) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();
@@ -111,7 +111,7 @@ public class HibernateUtil {
     public static void update(Object o) {
         Transaction transaction = null;
 
-        if(o.getClass().getAnnotation(Entity.class) != null) {
+        if (o.getClass().getAnnotation(Entity.class) != null) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();
@@ -127,13 +127,14 @@ public class HibernateUtil {
     }
 
     public static void saveOrRemove(boolean isSave, Object... entities) {
-        for(Object entity : entities) {
+        for (Object entity : entities) {
             saveOrRemove(entity, isSave);
         }
     }
 
     /**
      * Uses a hibernate session to retrieve all members and creates an observableList of the result set.
+     *
      * @return Member ObservableList
      */
     public static ObservableList<Member> getMembers() {
@@ -151,7 +152,7 @@ public class HibernateUtil {
     public static Member getMember(long id) {
         Member result = null;
 
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createQuery("Select a from Member a where a.Id=:id");
             query.setParameter("id", id);
             result = (Member) query.uniqueResult();
@@ -164,6 +165,7 @@ public class HibernateUtil {
 
     /**
      * Uses a hibernate session to retrieve all products and creates an observableList of the result set.
+     *
      * @return Product ObservableList
      */
     public static ObservableList<Product> getProducts() {
@@ -181,7 +183,7 @@ public class HibernateUtil {
     public static ObservableList<ProductCategory> getProductCategories() {
         ObservableList<ProductCategory> results = null;
 
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             results = observableList(session.createQuery("select a from ProductCategory a", ProductCategory.class).getResultList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,7 +210,7 @@ public class HibernateUtil {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
             BufferedImage bufferedImage = ImageIO.read(inputStream);
             image.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
