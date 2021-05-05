@@ -7,5 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="h2-1.4.200" level="application" />
+    <orderEntry type="library" name="JavaFX15" level="application" />
+    <orderEntry type="library" name="GitHub-API" level="application" />
   </component>
 </module>
