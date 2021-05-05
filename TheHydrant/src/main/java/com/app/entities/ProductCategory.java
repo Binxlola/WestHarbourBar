@@ -3,7 +3,7 @@ package main.java.com.app.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name="ProductCategories")
+@Table(name = "ProductCategories")
 public class ProductCategory {
 
     public ProductCategory() {}
@@ -17,7 +17,7 @@ public class ProductCategory {
     private int id;
     public int getId() {return this.id;}
 
-    @Column(name="name", nullable=false, length=32, unique=true)
+    @Column(name = "name", nullable = false, length = 32, unique = true)
     private String name;
     public String getName() {return this.name;}
     public void setName(String name) {this.name = name;}

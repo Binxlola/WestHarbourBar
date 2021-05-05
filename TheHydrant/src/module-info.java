@@ -18,10 +18,10 @@ module TheHydrant {
     requires com.fasterxml.classmate;
 
     opens main.java.com.app to javafx.fxml;
-    opens main.java.com.app.Admin to javafx.fxml;
-    opens main.java.com.app.Login to javafx.fxml;
-    opens main.java.com.app.Settings to javafx.fxml;
-    opens main.java.com.app.Store to javafx.fxml;
+    opens main.java.com.app.admin to javafx.fxml;
+    opens main.java.com.app.login to javafx.fxml;
+    opens main.java.com.app.settings to javafx.fxml;
+    opens main.java.com.app.store to javafx.fxml;
     opens main.java.com.app.entities to org.hibernate.orm.core, javafx.base;
     opens main.java.com.app.util to org.hibernate.orm.core;
 

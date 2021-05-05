@@ -1,4 +1,4 @@
-package main.java.com.app.Admin;
+package main.java.com.app.admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,9 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.entities.Member;
 import main.java.com.app.util.CommonUtil;
+import main.java.com.app.util.HibernateUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,17 +45,17 @@ public class MemberController extends AnchorPane implements Initializable {
 
     private void handler(ActionEvent e) {
         Object source = e.getSource();
-        if(source.equals(cancel)) {
+        if (source.equals(cancel)) {
             parentStage.close();
-        } else if(source.equals(apply)) {
+        } else if (source.equals(apply)) {
 
-            if(!isEdit) {
+            if (!isEdit) {
                 member = new Member();
                 member.setId(Long.parseLong(id.getText()));
                 member.setFirstName(firstName.getText());
                 member.setLastName(lastName.getText());
 
-                if(isAdmin.isSelected()) {
+                if (isAdmin.isSelected()) {
                     member.setPassword(password.getText());
                     member.setAdmin(true);
                 }
@@ -67,7 +67,7 @@ public class MemberController extends AnchorPane implements Initializable {
 
             HibernateUtil.saveOrRemove(member, true);
 
-            if(parentController instanceof AdminController) {
+            if (parentController instanceof AdminController) {
                 ((AdminController) parentController).update();
             }
             parentStage.close();
@@ -90,7 +90,7 @@ public class MemberController extends AnchorPane implements Initializable {
             balance.setText(String.valueOf(member.getBalance()));
 
             // Lock the admin logic, so current admin can not be demoted
-            if(member.isAdmin()) {
+            if (member.isAdmin()) {
                 isAdmin.setSelected(true);
                 isAdmin.setDisable(true);
             }

@@ -28,6 +28,7 @@
         <mapping class="main.java.com.app.entities.Product"/>
         <mapping class="main.java.com.app.entities.ProductCategory"/>
         <mapping class="main.java.com.app.entities.Purchase"/>
+        <mapping class="main.java.com.app.entities.AppData"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

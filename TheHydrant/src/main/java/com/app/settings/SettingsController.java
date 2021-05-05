@@ -1,4 +1,4 @@
-package main.java.com.app.Settings;
+package main.java.com.app.settings;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

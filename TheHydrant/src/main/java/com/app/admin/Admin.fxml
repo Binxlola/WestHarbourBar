@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
+    <padding>
+        <Insets top="5" right="5" bottom="5" left="5"/>
+    </padding>
+
+    <top>
+        <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
+            <HBox maxHeight="16.0" spacing="3.0">
+                <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
+                <Button fx:id="membersBtn" text="Users" maxHeight="16.0"/>
+                <Button fx:id="productsBtn" text="Products" maxHeight="16.0"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane fx:id="adminStack" BorderPane.alignment="CENTER">
+            <TableView fx:id="membersTable" StackPane.alignment="CENTER">
+                <columns>
+                    <TableColumn text="ID">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="Id"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="First Name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="firstName"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Last Name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="lastName"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Email">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="email"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Phone">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="phone"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+            <!-- === PRODUCT MANAGEMENT === -->
+            <AnchorPane fx:id="productManagementContainer" style="-fx-background-color: white">
+                <GridPane fx:id="productManagement" StackPane.alignment="CENTER" hgap="5"
+                          AnchorPane.topAnchor="0.0"
+                          AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0">
+                    <TableView fx:id="productTable" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="ID">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="ID"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Name">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="name"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Category">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="category"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Cost">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="cost"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+
+                    <TableView fx:id="categoryTable" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="ID">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="id"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Name">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="name"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+                </GridPane>
+            </AnchorPane>
+        </StackPane>
+    </center>
+
+    <bottom>
+        <HBox maxHeight="60.0" BorderPane.alignment="BOTTOM_LEFT" spacing="20.0">
+            <HBox maxWidth="400.0" maxHeight="16.0" spacing="5.0">
+                <Button fx:id="productAdd" text="Add Product" maxHeight="16.0"/>
+                <Button fx:id="categoryAdd" text="Add Category" maxHeight="16.0"/>
+                <Button fx:id="memberAdd" text="Add Member" maxHeight="16.0"/>
+            </HBox>
+        </HBox>
+    </bottom>
+</fx:root>

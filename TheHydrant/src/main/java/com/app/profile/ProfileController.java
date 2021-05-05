@@ -1,4 +1,4 @@
-package main.java.com.app.Profile;
+package main.java.com.app.profile;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
