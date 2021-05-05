@@ -35,7 +35,7 @@ public class AdminController extends BorderPane implements Initializable {
     @FXML private TableView<ProductCategory> categoryTable;
     @FXML private Button logoutBtn, membersBtn, productsBtn,  productAdd, categoryAdd, memberAdd;
 
-    private final App _Main = App.getInstance();
+    private final App APP = App.getInstance();
 
 
     public AdminController() {
@@ -92,7 +92,7 @@ public class AdminController extends BorderPane implements Initializable {
             default -> null;
         };
 
-        stage.initOwner(_Main.getCurrentScene().getWindow());
+        stage.initOwner(APP.getCurrentScene().getWindow());
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
 
@@ -113,7 +113,7 @@ public class AdminController extends BorderPane implements Initializable {
 
         TextInputDialog dialog = new TextInputDialog();
         dialog.setContentText(String.format("Enter the change in %s:", entity instanceof Member ? "User balance" : "Stock level"));
-        dialog.initOwner(_Main.getCurrentScene().getWindow());
+        dialog.initOwner(APP.getCurrentScene().getWindow());
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initStyle(StageStyle.UNDECORATED);
 
@@ -149,7 +149,7 @@ public class AdminController extends BorderPane implements Initializable {
         Alert confirmDelete = new Alert(Alert.AlertType.WARNING);
         confirmDelete.initStyle(StageStyle.UNDECORATED);
         confirmDelete.initModality(Modality.APPLICATION_MODAL);
-        confirmDelete.initOwner(_Main.getCurrentScene().getWindow());
+        confirmDelete.initOwner(APP.getCurrentScene().getWindow());
         confirmDelete.getButtonTypes().setAll(no, yes);
         confirmDelete.setTitle("Warning!");
         confirmDelete.setHeaderText("Are you sure you want to PERMANENTLY delete the selected item?");
@@ -348,7 +348,7 @@ public class AdminController extends BorderPane implements Initializable {
         logoutBtn.setGraphic(new ImageView("logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
-        logoutBtn.setOnAction((ActionEvent e) -> _Main.logout());
+        logoutBtn.setOnAction((ActionEvent e) -> APP.logout());
 
         membersBtn.setGraphic(new ImageView("members.png"));
         membersBtn.setTooltip(new Tooltip("Manage Members"));

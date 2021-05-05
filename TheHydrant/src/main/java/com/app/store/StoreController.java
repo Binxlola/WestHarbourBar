@@ -37,8 +37,8 @@ public class StoreController extends BorderPane implements Initializable {
     @FXML private Button logoutBtn, storeBtn, historyBtn;
     @FXML private Label userId, userBalance, userName;
     @FXML private TableView<Purchase> transactions;
-    private final App _Main = App.getInstance();
-    private final Member member = _Main.getUser();
+    private final App APP = App.getInstance();
+    private final Member member = APP.getUser();
 
     public StoreController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Store.fxml"));
@@ -138,7 +138,7 @@ public class StoreController extends BorderPane implements Initializable {
     private void handleBuy(ActionEvent e) {
         Button source = (Button) e.getSource();
         Product product = (Product) source.getUserData();
-        Member user = _Main.getUser();
+        Member user = APP.getUser();
         Purchase purchase;
 
         float userBalance = user.getBalance();
@@ -158,7 +158,7 @@ public class StoreController extends BorderPane implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setContentText("Purchased");
-        alert.initOwner(_Main.getCurrentScene().getWindow());
+        alert.initOwner(APP.getCurrentScene().getWindow());
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.show();
 
@@ -202,7 +202,7 @@ public class StoreController extends BorderPane implements Initializable {
         logoutBtn.setGraphic(new ImageView("logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
-        logoutBtn.setOnAction((ActionEvent e) -> _Main.logout());
+        logoutBtn.setOnAction((ActionEvent e) -> APP.logout());
 
         storeBtn.setGraphic(new ImageView("card.png"));
         storeBtn.setTooltip(new Tooltip("Store"));

@@ -3,6 +3,7 @@ package main.java.com.app.util;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.java.com.app.entities.AppData;
 import main.java.com.app.entities.Member;
 import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
@@ -72,6 +73,17 @@ public class HibernateUtil {
         }
 
         return isEmpty;
+    }
+
+    public static AppData getAppData() {
+        AppData result = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            result = session.createQuery("select a from AppData a", AppData.class).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**
