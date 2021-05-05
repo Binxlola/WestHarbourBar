@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.java.com.app.entities.Member;
 import main.java.com.app.login.LoginController;
-import main.java.com.app.tasks.IdleController;
-import main.java.com.app.tasks.TaskTimer;
 import main.java.com.app.util.HibernateUtil;
+import main.java.com.app.tasks.TaskTimer;
+import main.java.com.app.tasks.IdleController;
 
 public class App extends Application {
 
@@ -37,25 +37,35 @@ public class App extends Application {
         mainStage.initStyle(StageStyle.TRANSPARENT);
         mainStage.initStyle(StageStyle.UNDECORATED);
 
+        setupTimedTasks();
+
         mainStage.show();
     }
 
+    /**
+     * Called when moving to a new screen/scene. The idle monitor is cancelled and has a new task set for the new screen
+     * The application current scene is updated to be that of the passed in scene. Then there is an event filter added to the
+     * scene which will be used by the idle monitor, anytime there is user interaction the idle monitor will be reset.
+     * Finally the new scene in shown and the idle monitor is started
+     * @param newScene New scene to display
+     */
     public void setScene(Scene newScene) {
+        // Stop the idle monitor task that was being used on the previous scene
+        idleMonitor.cancelTimer();
+        idleMonitor.setTask(new IdleController());
+
         currentScene = newScene;
         mainStage.setScene(newScene);
         mainStage.setFullScreen(true);
-        currentScene.addEventFilter(Event.ANY, e -> {
-            idleMonitor.startTimer();
-        });
+        currentScene.addEventFilter(Event.ANY, e -> idleMonitor.resetTimer(new IdleController()));
         mainStage.show();
+
         idleMonitor.startTimer();
     }
 
     private void setupTimedTasks() {
-
         IdleController idleController = new IdleController();
-        idleMonitor = new TaskTimer(15, idleController);
-        idleMonitor.startTimer();
+        idleMonitor = new TaskTimer(30000, idleController);
 
     }
 
@@ -65,6 +75,7 @@ public class App extends Application {
 
     public void setUser(Member user) {this.user = user;}
     public Member getUser() {return this.user;}
+    public TaskTimer getIdleMonitor() {return idleMonitor;}
 
     public static App getInstance() {
         return APP;

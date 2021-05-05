@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<fx:root type="javafx.scene.control.TableView"
+         xmlns:fx="http://javafx.com/fxml"
+         xmlns="https://javafx.com/javafx">
+
+        <columns>
+            <TableColumn text="ID">
+                <cellValueFactory>
+                    <PropertyValueFactory property="Id"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="transactionName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Date">
+                <cellValueFactory>
+                    <PropertyValueFactory property="dateShort"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+
+</fx:root>

@@ -1,12 +1,14 @@
 package main.java.com.app.entities;
 
-import javax.persistence.*;
-import java.text.SimpleDateFormat;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Table(name = "Purchases")
-public class Purchase {
+public class Purchase extends Transaction {
 
     public Purchase() {}
 
@@ -14,32 +16,15 @@ public class Purchase {
         setMember(member);
         setDateOf(dateOf);
         setProduct(product);
+        setType(TransactionType.PURCHASE);
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long Id;
-    public long getId() {return Id;}
-    public void setId(long Id) {this.Id = Id;}
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-    public Member getMember() {return member;}
-    public void setMember(Member member) {this.member = member;}
-
-    @Column(name = "dateOf", nullable = false)
-    private Date dateOf;
-    public Date getDateOf() {return dateOf;}
-    public void setDateOf(Date dateOf) {this.dateOf = dateOf;}
-    public String getDateShort() {return new SimpleDateFormat("dd MMM yyyy").format(dateOf); }
 
     @OneToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product item;
     public Product getProduct() {return this.item;}
     public void setProduct(Product items) {this.item = items;}
-    public String getItemName() {return item.getName();}
-    public float getItemCost() {return item.getCost();}
+    public String getProductName() {return item.getName();}
+    public float getProductCost() {return item.getCost();}
 
 }

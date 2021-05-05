@@ -21,6 +21,7 @@ import main.java.com.app.entities.Member;
 import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
 import main.java.com.app.entities.Purchase;
+import main.java.com.app.sharedComponents.Transactions;
 import main.java.com.app.util.HibernateUtil;
 
 import java.io.*;
@@ -36,7 +37,7 @@ public class StoreController extends BorderPane implements Initializable {
     @FXML private ScrollPane storeScroll;
     @FXML private Button logoutBtn, storeBtn, historyBtn;
     @FXML private Label userId, userBalance, userName;
-    @FXML private TableView<Purchase> transactions;
+    @FXML private Transactions transactions;
     private final App APP = App.getInstance();
     private final Member member = APP.getUser();
 
@@ -102,34 +103,6 @@ public class StoreController extends BorderPane implements Initializable {
         }
     }
 
-    private void writeLog(Member user, Purchase purchase) {
-        File logFile = new File("C:/logs/" + user.getLastName() + ".txt");
-        StringBuilder text = new StringBuilder();
-
-        try {
-            if (!logFile.exists()) {
-                logFile.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try (FileWriter writer = new FileWriter(logFile); BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
-            String currentLine = reader.readLine();
-            while (currentLine != null) {
-                text.append(currentLine);
-                currentLine = reader.readLine();
-            }
-
-            text.append(String.format("\n%s %s $%s", purchase.getItemName(), purchase.getDateOf(), purchase.getItemCost()));
-            writer.write(text.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
     /**
      * Handles a user purchasing an item from the store
      *
@@ -153,7 +126,6 @@ public class StoreController extends BorderPane implements Initializable {
         // Save all the altered entities
         HibernateUtil.saveOrRemove(true, purchase, user);
 
-//        writeLog(user, purchase);
         update();
 
         Alert alert = new Alert(Alert.AlertType.NONE);
@@ -173,7 +145,7 @@ public class StoreController extends BorderPane implements Initializable {
     private void update() {
         buildItems();
         setUserBalance();
-        updateTransactionHistory();
+        transactions.update();
     }
 
     private void setupUserDetails() {
@@ -188,11 +160,6 @@ public class StoreController extends BorderPane implements Initializable {
         if (balance != 0) {
             userBalance.setTextFill(balance > 0 ? Color.GREEN : Color.RED);
         }
-    }
-
-    private void updateTransactionHistory() {
-        transactions.setItems(member.getTransactions());
-        transactions.refresh();
     }
 
     /**
@@ -215,15 +182,18 @@ public class StoreController extends BorderPane implements Initializable {
         historyBtn.getTooltip().setShowDelay(Duration.millis(700));
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buildItems();
+        transactions.setUser(member);
+        transactions.build();
         categoryFilter.setItems(HibernateUtil.getProductCategories());
         storeScroll.setStyle("-fx-background-color:transparent;");
 
         setupButtons();
         setupUserDetails();
-        updateTransactionHistory();
 
         storeScroll.toFront();
     }

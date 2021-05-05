@@ -9,7 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import main.java.com.app.App;
 import main.java.com.app.entities.Member;
-import main.java.com.app.entities.Purchase;
+import main.java.com.app.entities.Transaction;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +23,7 @@ public class ProfileController extends AnchorPane implements Initializable {
     @FXML
     private Button topUp;
     @FXML
-    private TableView<Purchase> transactions;
+    private TableView<Transaction> transactions;
 
     public ProfileController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));

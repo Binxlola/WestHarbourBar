@@ -29,8 +29,8 @@
         <mapping class="main.java.com.app.entities.ProductCategory"/>
         <mapping class="main.java.com.app.entities.Purchase"/>
         <mapping class="main.java.com.app.entities.AppData"/>
+        <mapping class="main.java.com.app.entities.Transaction"/>
+        <mapping class="main.java.com.app.entities.BalanceModify"/>
 
-        <!-- DB schema will be updated if needed -->
-        <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
     </session-factory>
 </hibernate-configuration>

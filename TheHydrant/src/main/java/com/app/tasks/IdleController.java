@@ -5,7 +5,7 @@ import main.java.com.app.App;
 
 import java.util.TimerTask;
 
-public class IdleController extends TimerTask implements TimedTask {
+public class IdleController extends TimerTask {
 
     private App APP;
 
@@ -13,20 +13,16 @@ public class IdleController extends TimerTask implements TimedTask {
 
     public IdleController() {
         this.APP = App.getInstance();
+        this.parentTimer = APP.getIdleMonitor();
     }
 
     @Override
     public void run() {
-        parentTimer.setTask(new IdleController());
-
         // Terminate the timer thread
+        parentTimer.cancelTimer();
+
         Platform.runLater(() -> {
             APP.logout();
         });
-    }
-
-    @Override
-    public void setParentTimer(TaskTimer parentTimer) {
-        this.parentTimer = parentTimer;
     }
 }

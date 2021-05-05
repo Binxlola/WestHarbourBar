@@ -18,7 +18,6 @@ import org.hibernate.query.Query;
 
 import javax.imageio.ImageIO;
 import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -97,9 +96,8 @@ public class HibernateUtil {
     public static void saveOrRemove(Object o, boolean isSave) {
         Transaction transaction = null;
         Entity entity = o.getClass().getAnnotation(Entity.class);
-        MappedSuperclass superClass = o.getClass().getAnnotation(MappedSuperclass.class);
 
-        if (entity != null || superClass != null) {
+        if (entity != null) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();
@@ -110,24 +108,6 @@ public class HibernateUtil {
                     session.remove(o);
                 }
                 // commit transaction
-                transaction.commit();
-            } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void update(Object o) {
-        Transaction transaction = null;
-
-        if (o.getClass().getAnnotation(Entity.class) != null) {
-            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-                // start a transaction
-                transaction = session.beginTransaction();
-                session.update(o);
                 transaction.commit();
             } catch (Exception e) {
                 if (transaction != null) {

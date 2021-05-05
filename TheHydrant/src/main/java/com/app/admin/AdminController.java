@@ -15,13 +15,16 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import main.java.com.app.App;
+import main.java.com.app.entities.BalanceModify;
 import main.java.com.app.entities.Member;
 import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
+import main.java.com.app.sharedComponents.Transactions;
 import main.java.com.app.util.CommonUtil;
 import main.java.com.app.util.HibernateUtil;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -121,15 +124,40 @@ public class AdminController extends BorderPane implements Initializable {
 
         if (input.isPresent()) {
             if (entity instanceof Member) {
-                ((Member) entity).updateBalance(Float.parseFloat(input.get()));
+                Member member = (Member) entity;
+                float value = Float.parseFloat(input.get());
+
+                member.updateBalance(Float.parseFloat(input.get()));
+                BalanceModify transaction = new BalanceModify((Member) entity, new Date(), value);
+                member.addTransaction(transaction);
+                HibernateUtil.saveOrRemove(true, transaction, member);
             } else if (entity instanceof Product) {
                 ((Product) entity).updateQuantity(Integer.parseInt(input.get()));
+                HibernateUtil.saveOrRemove(entity, true);
             }
 
-            HibernateUtil.saveOrRemove(entity, true);
             update();
         }
 
+    }
+
+    /**
+     * Will open the dialog used for any object that has edit functionality. The controller to be opened will be based on the
+     * ID set to the button clicked following the pattern 'Entity:Action'
+     *
+     * @param e The action event used to get data about the entity
+     */
+    private void openTransactions(ActionEvent e) {
+        Button btn = (Button) e.getSource();
+        Stage stage = new Stage();
+        Pane pane = new Pane();
+        pane.getChildren().add(new Transactions((Member) btn.getUserData()));
+
+        stage.initOwner(APP.getCurrentScene().getWindow());
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        stage.setScene(new Scene(pane));
+        stage.show();
     }
 
 
@@ -310,6 +338,7 @@ public class AdminController extends BorderPane implements Initializable {
         // MEMBER TABLE BUTTONS
         TableColumn<Member, Void> editBtnMember = new TableColumn<>("");
         TableColumn<Member, Void> removeBtnMember = new TableColumn<>("");
+        TableColumn<Member, Void> viewTransactionsBtn = new TableColumn<>("");
         TableColumn<Member, Void> updateBalanceBtn = new TableColumn<>("");
 
         // PRODUCT TABLE BUTTONS
@@ -323,9 +352,11 @@ public class AdminController extends BorderPane implements Initializable {
         // Crete the cell factory for each column of buttons and add to table
         editBtnMember.setCellFactory(buttonFactoryMembers(this::openObjectEditAdd, "edit.png", "Member:Edit", "Edit Member"));
         updateBalanceBtn.setCellFactory(buttonFactoryMembers(this::openValueUpdate, "update_balance.png", "Member", "Update Balance"));
+        viewTransactionsBtn.setCellFactory(buttonFactoryMembers(this::openTransactions, "bill.png", "Member", "Update Balance"));
         removeBtnMember.setCellFactory(buttonFactoryMembers(this::handleObjectDel, "delete.png", "Member", "Delete Member"));
         membersTable.getColumns().add(editBtnMember);
         membersTable.getColumns().add(updateBalanceBtn);
+        membersTable.getColumns().add(viewTransactionsBtn);
         membersTable.getColumns().add(removeBtnMember);
 
         editBtnProduct.setCellFactory(buttonFactoryProducts(this::openObjectEditAdd, "edit.png", "Product:Edit", "Edit Product"));
