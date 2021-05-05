@@ -50,8 +50,8 @@ public class TaskTimer {
      */
     public void resetTimer(TimerTask task) {
         // Cannot schedule the same task, require a new instance of task
-        this.task = task;
         cancelTimer();
+        this.task = task;
         startTimer();
     }
 

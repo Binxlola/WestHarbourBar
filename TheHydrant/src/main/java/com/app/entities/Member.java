@@ -54,14 +54,15 @@ public class Member {
     private float balance;
     public float getBalance() {return balance;}
     public void setBalance(float balance) {this.balance = balance;}
-    public void updateBalance(float updateAmount) {
+    public float updateBalance(float updateAmount) {
         setBalance(this.balance + updateAmount);
+        return getBalance();
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.PERSIST)
-    private final List<Purchase> transactions = new ArrayList<>();
-    public ObservableList<Purchase> getTransactions() {return FXCollections.observableList(transactions);}
-    public void addTransaction(Purchase purchase) {transactions.add(purchase);}
+    private final List<Transaction> transactions = new ArrayList<>();
+    public ObservableList<Transaction> getTransactions() {return FXCollections.observableList(transactions);}
+    public void addTransaction(Transaction transaction) {transactions.add(transaction);}
 
     @Column(name = "admin", nullable = false)
     @ColumnDefault("false")
