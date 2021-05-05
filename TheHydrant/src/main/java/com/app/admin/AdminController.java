@@ -157,6 +157,7 @@ public class AdminController extends BorderPane implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         stage.setScene(new Scene(pane));
+        stage.setResizable(false);
         stage.show();
     }
 

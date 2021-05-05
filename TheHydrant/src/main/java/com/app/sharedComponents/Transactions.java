@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import main.java.com.app.entities.BalanceModify;
 import main.java.com.app.entities.Member;
+import main.java.com.app.entities.Purchase;
 import main.java.com.app.entities.Transaction;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class Transactions extends TableView<Transaction> {
     public void setUser(Member user) {this.user = user;}
 
     public void build() {
+        setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         extendTable();
         update();
     }
@@ -45,34 +47,55 @@ public class Transactions extends TableView<Transaction> {
         refresh();
     }
 
+    /**
+     * Extends the table with columns that require further logic from creating a column that just reads a get method.
+     * An example would be a cell with coloured text
+     */
     private void extendTable() {
-        TableColumn<Transaction, String> quantity = new TableColumn<>("Value");
-        quantity.setCellFactory(balanceFactoryTransactions());
-        getColumns().add(quantity);
-    }
+        // Add the value column
+        TableColumn<Transaction, String> value = new TableColumn<>("Value");
+        value.setCellFactory(colourCellCallback(false));
+        getColumns().add(value);
 
-    private Callback<TableColumn<Transaction, String>, TableCell<Transaction, String>> balanceFactoryTransactions() {
-        return param -> (TableCell<Transaction, String>) createColouredCell();
+        // Add the balance after column
+        TableColumn<Transaction, String> balanceAfter = new TableColumn<>("Balance After");
+        balanceAfter.setCellFactory(colourCellCallback(true));
+        getColumns().add(balanceAfter);
     }
 
     /**
-     * Changes the colour of cell text based on a negative or positive value (currently used for Members and Products)
-     *
+     * A callback method that will return a cell that has it's text coloured. Will be called after the cell is initially
+     * initialized.
+     * @param isBalanceAfter A flag to identify is the current cell is a balance after cell
+     * @return TableCell<Transaction, String> The cell that will have colored text
+     */
+    private Callback<TableColumn<Transaction, String>, TableCell<Transaction, String>> colourCellCallback(boolean isBalanceAfter) {
+        return param -> (TableCell<Transaction, String>) createColouredCell(isBalanceAfter);
+    }
+
+    /**
+     * Changes the colour of cell text based on a negative or positive value. If current transaction is an instance of a
+     * purchase, only the balance after will be coloured. If the transaction is an instance of a balance modify then both
+     * balance after and update amount will be coloured.
+     * NOTE: Only values that are not 0 will have their colour changed
+     * @param isBalanceAfter A flag to identify is the current cell is a balance after cell
      * @return Coloured table cell
      */
-    private TableCell<?, String> createColouredCell() {
+    private TableCell<?, String> createColouredCell(boolean isBalanceAfter) {
         return new TableCell<>() {
 
             @Override
             public void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (!isEmpty()) {
-                    Object object = getTableView().getItems().get(getIndex());
+                    Transaction transaction = (Transaction) getTableView().getItems().get(getIndex());
 
-                    float value = ((Transaction) object).getTransactionValue();
-                    if(object instanceof BalanceModify) {
-                        if (value != 0) {
-                            this.setTextFill(value > 0 ? Color.GREEN : Color.RED);
+                    float value = isBalanceAfter ? transaction.getBalanceAfter() : transaction.getTransactionValue();
+                    if(value != 0) {
+                        if(transaction instanceof Purchase && isBalanceAfter) {
+                            setTextFill(value > 0 ? Color.GREEN : Color.RED);
+                        } else if (transaction instanceof BalanceModify) {
+                            setTextFill(value > 0 ? Color.GREEN : Color.RED);
                         }
                     }
 
@@ -82,9 +105,4 @@ public class Transactions extends TableView<Transaction> {
             }
         };
     }
-
-//    @FXML
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        buildTable();
-//    }
 }

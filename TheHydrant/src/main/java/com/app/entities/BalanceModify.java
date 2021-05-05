@@ -16,6 +16,7 @@ public class BalanceModify extends  Transaction{
         setDateOf(dateOf);
         setType(amount < 0.0 ? TransactionType.CASH_OUT : TransactionType.CASH_IN);
         setAmount(amount);
+        setBalanceAfter(member.getBalance());
     }
 
     @Column(name = "amount", nullable = false, columnDefinition = "Decimal(19,2)")

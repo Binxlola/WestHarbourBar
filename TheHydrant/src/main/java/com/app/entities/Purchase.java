@@ -17,6 +17,7 @@ public class Purchase extends Transaction {
         setDateOf(dateOf);
         setProduct(product);
         setType(TransactionType.PURCHASE);
+        setBalanceAfter(member.getBalance());
     }
 
     @OneToOne

@@ -31,6 +31,11 @@ public abstract class Transaction {
     public void setDateOf(Date dateOf) {this.dateOf = dateOf;}
     public String getDateShort() {return new SimpleDateFormat("dd MMM yyyy").format(dateOf); }
 
+    @Column(name = "balance_after", nullable = false, columnDefinition = "Decimal(19,2)")
+    private float balanceAfter;
+    public float getBalanceAfter() {return balanceAfter;}
+    public void setBalanceAfter(float balance) {this.balanceAfter = balance;}
+
     public String getTransactionName() {
         if(this instanceof Purchase) {
             return ((Purchase)this).getProductName();
