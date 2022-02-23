@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import main.java.com.app.sharedComponents.store.StoreController?>
+<?import main.java.com.app.sharedComponents.transactions.TransactionsController?>
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" stylesheets="user.css">
+
+    <TabPane fx:id="adminTabs" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">
+        <Tab fx:id="storeTab" text="Store" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="card.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip><Tooltip text="Store" showDelay="700ms"/></tooltip>
+            <StoreController fx:id="store" isAdminMode="false"/>
+        </Tab>
+        <Tab fx:id="transactionsTab" text="Transactions" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="history.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip><Tooltip text="Transactions" showDelay="700ms"/></tooltip>
+            <TransactionsController fx:id="transactions"/>
+        </Tab>
+    </TabPane>
+
+    <!-- TOOLBAR   -->
+    <HBox maxHeight="16.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" spacing="20.0" alignment="CENTER">
+        <padding>
+            <Insets right="1"/>
+        </padding>
+        <HBox maxHeight="16.0" spacing="3.0" alignment="CENTER">
+            <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
+        </HBox>
+    </HBox>
+</fx:root>

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <fx:root type="javafx.scene.layout.AnchorPane"
          xmlns:fx="http://javafx.com/fxml"
          xmlns="http://javafx.com/javafx"
          fx:id="login"
-         stylesheets="theme.css">
+         stylesheets="login.css">
 
     <Button fx:id="loginSwitch" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" textAlignment="RIGHT"/>
 

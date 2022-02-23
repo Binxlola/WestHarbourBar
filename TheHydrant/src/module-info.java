@@ -23,14 +23,20 @@ module TheHydrant {
     requires org.apache.commons.lang3;
     requires org.apache.commons.io;
 
+    // Main parent packages for the module
     opens main.java.com.app to javafx.fxml;
     opens main.java.com.app.admin to javafx.fxml;
+    opens main.java.com.app.user to javafx.fxml;
+
+    // Secondary Packages
     opens main.java.com.app.login to javafx.fxml;
-    opens main.java.com.app.sharedComponents to javafx.fxml;
     opens main.java.com.app.settings to javafx.fxml;
-    opens main.java.com.app.store to javafx.fxml;
     opens main.java.com.app.entities to org.hibernate.orm.core, javafx.base;
     opens main.java.com.app.util to org.hibernate.orm.core;
+
+    // Shared packages
+    opens main.java.com.app.sharedComponents.store to javafx.fxml;
+    opens main.java.com.app.sharedComponents.transactions to javafx.fxml;
 
     exports main.java.com.app;
 }

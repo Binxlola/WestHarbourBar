@@ -19,7 +19,8 @@ import main.java.com.app.entities.BalanceModify;
 import main.java.com.app.entities.Member;
 import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
-import main.java.com.app.sharedComponents.Transactions;
+import main.java.com.app.sharedComponents.store.StoreController;
+import main.java.com.app.sharedComponents.transactions.TransactionsController;
 import main.java.com.app.util.CommonUtil;
 import main.java.com.app.util.HibernateUtil;
 
@@ -36,6 +37,7 @@ public class AdminController extends AnchorPane implements Initializable {
     @FXML private TableView<Member> membersTable;
     @FXML private TableView<Product> productTable;
     @FXML private TableView<ProductCategory> categoryTable;
+    @FXML private StoreController store;
     @FXML private Button logoutBtn, productAdd, categoryAdd, memberAdd;
 
     private final App APP = App.getInstance();
@@ -91,7 +93,7 @@ public class AdminController extends AnchorPane implements Initializable {
         Pane pane = switch (actionId[0]) {
             case "Member" -> actionId[1].equals("Edit") ? new MemberController(stage, this, (Member) btn.getUserData()) : new MemberController(stage, this);
             case "Product" -> actionId[1].equals("Edit") ? new ProductController(stage, this, (Product) btn.getUserData(), true) : new ProductController(stage, this, true);
-            case "Category" -> new ProductController(stage, this, false); // Category cant be edited
+            case "Category" -> new ProductController(stage, this, false); // Category can't be edited
             default -> null;
         };
 
@@ -155,7 +157,7 @@ public class AdminController extends AnchorPane implements Initializable {
         Button btn = (Button) e.getSource();
         Stage stage = new Stage();
         Pane pane = new Pane();
-        pane.getChildren().add(new Transactions((Member) btn.getUserData()));
+        pane.getChildren().add(new TransactionsController((Member) btn.getUserData()));
 
         stage.initOwner(APP.getCurrentScene().getWindow());
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -381,6 +383,13 @@ public class AdminController extends AnchorPane implements Initializable {
         categoryTable.getColumns().add(removeBtnCategory);
     }
 
+    public void update() throws IllegalAccessException {
+        membersTable.setItems(HibernateUtil.getMembers());
+        productTable.setItems(HibernateUtil.getProducts());
+        categoryTable.setItems(HibernateUtil.getProductCategories());
+        store.update();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -408,11 +417,5 @@ public class AdminController extends AnchorPane implements Initializable {
         // Add action handling for the add member button
         memberAdd.setId("Member:Add");
         memberAdd.setOnAction(this::openObjectEditAdd);
-    }
-
-    public void update() throws IllegalAccessException {
-        membersTable.setItems(HibernateUtil.getMembers());
-        productTable.setItems(HibernateUtil.getProducts());
-        categoryTable.setItems(HibernateUtil.getProductCategories());
     }
 }

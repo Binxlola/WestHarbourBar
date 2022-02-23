@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import main.java.com.app.sharedComponents.store.MemberCellFactory?>
+<fx:root type="javafx.scene.layout.AnchorPane"
+         xmlns:fx="http://javafx.com/fxml"
+         xmlns="https://javafx.com/javafx">
+
+    <BorderPane>
+        <top>
+            <HBox maxHeight="24.0" maxWidth="300.0" spacing="10" BorderPane.alignment="CENTER">
+                <ComboBox fx:id="categoryFilter" promptText="Category" maxWidth="200.0"/>
+                <RadioButton fx:id="stockFilter" text="In Stock"/>
+            </HBox>
+        </top>
+        <center>
+            <HBox>
+                <children>
+                    <ScrollPane fx:id="productsScroll"
+                                hbarPolicy="NEVER"
+                                vbarPolicy="NEVER">
+                            <GridPane fx:id="productsContainer"
+                                      hgap="15"
+                                      vgap="15"
+                            />
+                    </ScrollPane>
+
+                    <ListView fx:id="memberList">
+                        <cellFactory>
+                            <MemberCellFactory/>
+                        </cellFactory>
+                    </ListView>
+                </children>
+            </HBox>
+        </center>
+    </BorderPane>
+
+    <HBox maxHeight="16.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" spacing="20.0" alignment="CENTER">
+        <padding>
+            <Insets right="1"/>
+        </padding>
+        <HBox maxHeight="16.0" spacing="10.0" alignment="CENTER">
+            <Label fx:id="userId" maxHeight="16.0"/>
+            <Label fx:id="userName" maxHeight="16.0"/>
+            <Label fx:id="userBalance" maxHeight="16.0"/>
+        </HBox>
+    </HBox>
+</fx:root>

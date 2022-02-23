@@ -21,16 +21,4 @@ public class ImageUtil {
 
         return bytes;
     }
-
-//    public static byte[] convertImageToByteArray(InputStream file) throws IOException {
-//        byte[] bytes;
-//        BufferedImage bImage;
-//
-//        bImage = ImageIO.read(file);
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        ImageIO.write(bImage, "jpg", bos);
-//        bytes = bos.toByteArray();
-//
-//        return bytes;
-//    }
 }

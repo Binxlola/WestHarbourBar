@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<fx:root type="javafx.scene.layout.BorderPane"
+         xmlns:fx="http://javafx.com/fxml"
+         xmlns="https://javafx.com/javafx">
+
+    <top>
+        <Label fx:id="nameLabel" prefWidth="180" prefHeight="25"/>
+    </top>
+
+    <center>
+        <ImageView fx:id="itemImg" fitWidth="180" fitHeight="180"/>
+    </center>
+
+    <bottom>
+        <HBox fx:id="productPrimaryInfo"
+              spacing="8"
+              alignment="CENTER">
+            <Label fx:id="costLabel" prefWidth="180" prefHeight="25"/>
+            <Button fx:id="buyBtn" prefWidth="180" prefHeight="25" text="Buy"/>
+        </HBox>
+    </bottom>
+</fx:root>

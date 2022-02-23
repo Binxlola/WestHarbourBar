@@ -17,7 +17,7 @@ import javafx.scene.layout.GridPane;
 import main.java.com.app.App;
 import main.java.com.app.admin.AdminController;
 import main.java.com.app.entities.Member;
-import main.java.com.app.store.StoreController;
+import main.java.com.app.user.UserController;
 import main.java.com.app.util.HibernateUtil;
 import main.java.com.app.util.PasswordUtil;
 
@@ -74,12 +74,16 @@ public class LoginController extends AnchorPane implements Initializable {
                 this._Main.setUser(user);
                 if (!isAdminLogin) {
                     clearInputFields();
-                    this._Main.setScene(new Scene(new StoreController()));
+                    this._Main.setScene(new Scene(
+                            new UserController()
+                    ));
                 } else if (user.getPassword() != null &&
                         user.getSalt() != null &&
                         PasswordUtil.verifyPassword(adminPassword.getText(), user.getPassword(), user.getSalt())) {
                     clearInputFields();
-                    this._Main.setScene(new Scene(new AdminController()));
+                    this._Main.setScene(new Scene(
+                            new AdminController()
+                    ));
                 } else {
                     errorBox.setText("Incorrect Login Details");
                 }

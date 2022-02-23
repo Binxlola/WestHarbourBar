@@ -1,4 +1,4 @@
-package main.java.com.app.sharedComponents;
+package main.java.com.app.sharedComponents.transactions;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableCell;
@@ -13,10 +13,10 @@ import main.java.com.app.entities.Transaction;
 
 import java.io.IOException;
 
-public class Transactions extends TableView<Transaction> {
+public class TransactionsController extends TableView<Transaction> {
     private Member user;
 
-    public Transactions() {
+    public TransactionsController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Transactions.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -28,7 +28,7 @@ public class Transactions extends TableView<Transaction> {
         }
     }
 
-    public Transactions(Member user) {
+    public TransactionsController(Member user) {
         this();
         this.user = user;
         build();

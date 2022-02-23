@@ -3,10 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" stylesheets="theme.css">
+<?import main.java.com.app.sharedComponents.store.StoreController?>
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" stylesheets="admin.css">
 
     <TabPane fx:id="adminTabs" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">
         <Tab fx:id="membersTab" text="Members" closable="false">
@@ -158,6 +158,17 @@
                     </HBox>
                 </bottom>
             </BorderPane>
+        </Tab>
+        <Tab fx:id="storeTab" text="Store" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="card.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip><Tooltip text="Store" showDelay="700ms"/></tooltip>
+            <StoreController fx:id="store" isAdminMode="true"/>
         </Tab>
     </TabPane>
 

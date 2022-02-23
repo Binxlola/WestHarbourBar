@@ -1,154 +1,18 @@
 /*#ee4540 #c72c41 #801336 #510a32 #2d142c*/
+@import "rowedViews.css";
 
-@font-face {
-    src: url("NightmarePills-BV2w.ttf");
-}
-
-@font-face {
-    src: url("TrenchThin-aZ1J.ttf");
-}
-
-/* LOGIN SCREEN STYLES */
-
-#login {
-    -fx-background-color: linear-gradient(to bottom right, #ee4540, #2d142c);
-    -fx-padding: 5 5 5 5;
-}
-
-#header {
-    -fx-font-size: 3em;
-    -fx-alignment: center;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-font-family: "nightmare pills";
-}
-
-#userLoginForm #userID, #adminLoginForm #adminID, #adminLoginForm #adminPassword, #errorBox {
-    /*-fx-font-family:"trench thin";*/
-    -fx-font-size: 1.5em;
-    -fx-font-weight: 500;
-}
-
-#userLoginForm .button, #loginBtn, #loginSwitch {
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
-    -fx-background-radius: 0;
-    -fx-background-color: transparent;
-    -fx-font-family:"trench thin";
-    -fx-font-size: 2em;
-    -fx-text-fill: white;
-    -fx-font-weight: 500;
-}
-
-#userLoginForm .button:hover, #loginBtn:hover, #loginSwitch:hover {
-    -fx-border-color: #2d142c;
-    -fx-border-width: 1, 1;
-    -fx-border-radius: 5, 5;
-    -fx-border-insets: 1 1 1 1, 0;
-}
-
-#userLoginForm .button:pressed, #loginBtn:pressed, #loginSwitch:pressed {
-    -fx-background-color: #2d142c;
-    -fx-text-fill: white;
-}
-
-#errorBox {
-    -fx-font-size: 2.5em;
-    -fx-font-weight: 500;
-    -fx-font-family:"trench thin";
-    -fx-text-fill: white;
-}
-
-.tableContainer {
-    -fx-background-color: white;
-}
-
-.table-view{
-    -fx-background-color: transparent;
-}
-
-.table-view:focused{
-    -fx-background-color: transparent;
-}
-
-.table-view .column-header-background{
-    -fx-background-color:#FFFFFF;
-    -fx-border-color: #ee4540;
-    -fx-border-width: 0px 0px 1px 0px ;
-    -fx-border-style: solid;
-}
-.table-view:row-selection .column-header-background .filler{
-    -fx-background-color:#FFFFFF;
-}
-.table-view:row-selection .column-header-background .show-hide-columns-button{
-    -fx-background-color:#e0e0e0;
-}
-
-.table-view .column-header-background .label{
-    -fx-background-color: transparent;
-    -fx-text-fill: #ee4540;
-    -fx-font-family: "trench thin";
-}
-
-.table-view .column-header {
-    -fx-background-color: transparent;
-    -fx-pref-height:50px;
-}
-.table-view  .table-column{
-    -fx-padding: 18 0 0 10;
-    -fx-border-width: 0px 0px 0px 0px ;
-}
-
-.table-view > .virtual-flow > .scroll-bar:vertical,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
-.table-view > .virtual-flow > .scroll-bar:horizontal,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
-    -fx-background-color: transparent;
-}
-
-.table-view > .virtual-flow > .scroll-bar > .increment-button,
-.table-view > .virtual-flow > .scroll-bar > .decrement-button {
-    -fx-opacity: 0;
-}
-
-.table-view .table-row-cell{
-    -fx-background-color:#FFF;
-    -fx-font-size:14px;
-    -fx-pref-height:50px;
-    -fx-border-width: 0px 0px 1px 0px ;
-    -fx-border-color:#e0e0e0;
-}
-
-.table-view .table-row-cell:hover {
-    -fx-background-color:#e0e0e0;
-}
-
-.table-view .table-row-cell:selected{
-    -fx-background-color: #005797;
-}
-.table-view:row-selection .virtual-flow .scroll-bar:vertical .thumb{
-    -fx-background-color:#e0e0e0;
-    -fx-border-color:#262626;
-}
-.table-view .table-row-cell:empty{
-    -fx-background-color:#FFFFFF;
-    -fx-border-color:#FFFFFF;
-}
-
-/* scroll bar starts here */
+/* SCROLLBAR STYLES */
 
 /* The increment and decrement button CSS class of scrollbar */
-.table-view .increment-button ,.table-view .decrement-button {
+.increment-button, .decrement-button {
     -fx-background-color:transparent;
     -fx-background-radius: 2em;
 
 }
 
 /* The main scrollbar **track** CSS class  */
-.table-view .scroll-bar:horizontal .track,
-.table-view .scroll-bar:vertical .track{
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
     -fx-background-color: transparent;
     -fx-border-color:derive( #6622CC,80%);
 
@@ -157,8 +21,8 @@
 }
 
 /* The main scrollbar **thumb** CSS class which we drag every time (movable) */
-.table-view .scroll-bar:horizontal .thumb,
-.table-view .scroll-bar:vertical .thumb {
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
     -fx-background-color:derive( #6622CC,90%);
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 2em;

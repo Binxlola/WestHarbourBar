@@ -180,8 +180,7 @@ public class HibernateUtil {
 
         if(App.getInstance().getUser().isAdmin()) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-                results = observableList(session.createQuery("Select a from Product a" +
-                        "", Product.class).getResultList());
+                results = observableList(session.createQuery("Select a from Product a", Product.class).getResultList());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -3,6 +3,7 @@ package main.java.com.app.entities;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Products")
@@ -65,11 +66,7 @@ public class Product {
     @ColumnDefault(value = "'0'")
     private Product.ProductVisibility visibility;
     public void setVisibility(Product.ProductVisibility visibility) {
-        if (visibility == null) {
-            this.visibility = ProductVisibility.PUBLIC;
-        } else {
-            this.visibility = visibility;
-        }
+        this.visibility = Objects.requireNonNullElse(visibility, ProductVisibility.PUBLIC);
     }
     public Product.ProductVisibility getVisibility() {return visibility;}
 
