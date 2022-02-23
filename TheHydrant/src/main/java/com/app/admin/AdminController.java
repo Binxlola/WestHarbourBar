@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AdminController extends BorderPane implements Initializable {
+public class AdminController extends AnchorPane implements Initializable {
 
     @FXML private StackPane adminStack;
     @FXML private GridPane productManagement;
@@ -36,7 +36,7 @@ public class AdminController extends BorderPane implements Initializable {
     @FXML private TableView<Member> membersTable;
     @FXML private TableView<Product> productTable;
     @FXML private TableView<ProductCategory> categoryTable;
-    @FXML private Button logoutBtn, membersBtn, productsBtn,  productAdd, categoryAdd, memberAdd;
+    @FXML private Button logoutBtn, productAdd, categoryAdd, memberAdd;
 
     private final App APP = App.getInstance();
 
@@ -68,7 +68,7 @@ public class AdminController extends BorderPane implements Initializable {
 
     private void addProductImages() {
         // Create 2 unnamed columns for the table
-        TableColumn<Product, Void> image = new TableColumn<>("");
+        TableColumn<Product, Void> image = new TableColumn<>("Image");
 
         // Crete the cell factor for each column of buttons
         image.setCellFactory(imageFactory());
@@ -136,7 +136,11 @@ public class AdminController extends BorderPane implements Initializable {
                 HibernateUtil.saveOrRemove(entity, true);
             }
 
-            update();
+            try {
+                update();
+            } catch (IllegalAccessException exception) {
+                exception.printStackTrace();
+            }
         }
 
     }
@@ -188,7 +192,13 @@ public class AdminController extends BorderPane implements Initializable {
         if (result.isPresent() && result.get().getButtonData() == ButtonBar.ButtonData.APPLY) {
             Object o = ((Button) e.getSource()).getUserData();
             HibernateUtil.saveOrRemove(o, false);
-            this.update();
+
+
+            try {
+                this.update();
+            } catch (IllegalAccessException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 
@@ -373,7 +383,13 @@ public class AdminController extends BorderPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        update();
+
+        try {
+            update();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         addProductImages();
         buildTables();
 
@@ -382,32 +398,19 @@ public class AdminController extends BorderPane implements Initializable {
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> APP.logout());
 
-        membersBtn.setGraphic(new ImageView("members.png"));
-        membersBtn.setTooltip(new Tooltip("Manage Members"));
-        membersBtn.getTooltip().setShowDelay(Duration.millis(700));
-        membersBtn.setOnAction(ActionEvent -> membersTable.toFront());
-
-        productsBtn.setGraphic(new ImageView("products.png"));
-        productsBtn.setTooltip(new Tooltip("Manage Products"));
-        productsBtn.getTooltip().setShowDelay(Duration.millis(700));
-        productsBtn.setOnAction(ActionEvent -> productManagementContainer.toFront());
-
         // Add action handling for the add member button
         productAdd.setId("Product:Add");
-        productAdd.setGraphic(new ImageView("add_row.png"));
         productAdd.setOnAction(this::openObjectEditAdd);
 
         categoryAdd.setId("Category:Add");
-        categoryAdd.setGraphic(new ImageView("add_row.png"));
         categoryAdd.setOnAction(this::openObjectEditAdd);
 
         // Add action handling for the add member button
         memberAdd.setId("Member:Add");
-        memberAdd.setGraphic(new ImageView("add_row.png"));
         memberAdd.setOnAction(this::openObjectEditAdd);
     }
 
-    public void update() {
+    public void update() throws IllegalAccessException {
         membersTable.setItems(HibernateUtil.getMembers());
         productTable.setItems(HibernateUtil.getProducts());
         categoryTable.setItems(HibernateUtil.getProductCategories());

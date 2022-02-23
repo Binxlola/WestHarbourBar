@@ -9,10 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.util.Duration;
@@ -24,18 +24,18 @@ import main.java.com.app.entities.Purchase;
 import main.java.com.app.sharedComponents.Transactions;
 import main.java.com.app.util.HibernateUtil;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class StoreController extends BorderPane implements Initializable {
+public class StoreController extends AnchorPane implements Initializable {
 
-    @FXML private GridPane storeContainer;
-    @FXML private StackPane storeStack;
+    @FXML private GridPane productsContainer;
+    @FXML private TabPane storeTabs;
     @FXML private ComboBox<ProductCategory> categoryFilter;
-    @FXML private ScrollPane storeScroll;
-    @FXML private Button logoutBtn, storeBtn, historyBtn;
+    @FXML private ScrollPane productsScroll;
+    @FXML private Button logoutBtn;
     @FXML private Label userId, userBalance, userName;
     @FXML private Transactions transactions;
     private final App APP = App.getInstance();
@@ -57,7 +57,7 @@ public class StoreController extends BorderPane implements Initializable {
      * Builds the product cards and adds them to the store GridPane
      */
     private void buildItems() {
-        ObservableList<Product> productList = HibernateUtil.getProducts();
+        ObservableList<? extends Product> productList = HibernateUtil.getProducts(Product.ProductVisibility.PUBLIC);
         int row = 0;
         int col = 0;
 
@@ -70,9 +70,9 @@ public class StoreController extends BorderPane implements Initializable {
             Label name = new Label(product.getName());
             name.setPrefWidth(180.0);
 
+            // Set up products info and action bar
             HBox productPrimaryInfo = new HBox(8);
             productPrimaryInfo.setAlignment(Pos.CENTER);
-
             Label cost = new Label("$" + product.getCost());
             cost.setPrefWidth(180.0);
             cost.setPrefHeight(25.0);
@@ -83,6 +83,7 @@ public class StoreController extends BorderPane implements Initializable {
             buy.setOnAction(this::handleBuy);
             productPrimaryInfo.getChildren().addAll(cost, buy);
 
+            // Set image for product
             ImageView image = HibernateUtil.buildImage(product.getImage());
             image.setFitWidth(180.0);
             image.setFitHeight(180.0);
@@ -91,7 +92,7 @@ public class StoreController extends BorderPane implements Initializable {
             productCard.setCenter(image);
             productCard.setBottom(productPrimaryInfo);
 
-            storeContainer.add(productCard, col, row);
+            productsContainer.add(productCard, col, row);
 
             // Increment or reset
             if (col >= 2) {
@@ -124,7 +125,7 @@ public class StoreController extends BorderPane implements Initializable {
         user.addTransaction(purchase);
 
         // Save all the altered entities
-        HibernateUtil.saveOrRemove(true, purchase, user);
+        HibernateUtil.saveOrRemove(true, purchase, user, product);
 
         update();
 
@@ -170,16 +171,6 @@ public class StoreController extends BorderPane implements Initializable {
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> APP.logout());
-
-        storeBtn.setGraphic(new ImageView("card.png"));
-        storeBtn.setTooltip(new Tooltip("Store"));
-        storeBtn.setOnAction(actionEvent -> storeScroll.toFront());
-        storeBtn.getTooltip().setShowDelay(Duration.millis(700));
-
-        historyBtn.setGraphic(new ImageView("history.png"));
-        historyBtn.setTooltip(new Tooltip("Purchase History"));
-        historyBtn.setOnAction(actionEvent -> transactions.toFront());
-        historyBtn.getTooltip().setShowDelay(Duration.millis(700));
     }
 
 
@@ -190,11 +181,11 @@ public class StoreController extends BorderPane implements Initializable {
         transactions.setUser(member);
         transactions.build();
         categoryFilter.setItems(HibernateUtil.getProductCategories());
-        storeScroll.setStyle("-fx-background-color:transparent;");
+        productsScroll.setStyle("-fx-background-color:transparent;");
 
         setupButtons();
         setupUserDetails();
 
-        storeScroll.toFront();
+        productsScroll.toFront();
     }
 }

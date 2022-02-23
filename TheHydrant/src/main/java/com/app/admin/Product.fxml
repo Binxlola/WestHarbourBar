@@ -23,6 +23,8 @@
         <Button fx:id="imageSelect" text="Select Image" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <Label fx:id="imageSelected" text="No Image Selected" prefWidth="200" GridPane.rowIndex="2"
                GridPane.columnIndex="1"/>
+        <ComboBox fx:id="visibilityComboBox" promptText="Product Visibility" prefWidth="200" GridPane.rowIndex="3"
+                  GridPane.columnIndex="0"/>
     </GridPane>
 
     <GridPane fx:id="categoryGrid" alignment="CENTER" hgap="10" vgap="10" AnchorPane.topAnchor="0.0"

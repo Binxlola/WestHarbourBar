@@ -60,4 +60,20 @@ public class Product {
     private String imageFileName;
     public String getImageFileName() {return imageFileName;}
     public void setImageFileName(String fileName) {this.imageFileName = fileName;}
+
+    @Column(name="visibility", nullable = false)
+    @ColumnDefault(value = "'0'")
+    private Product.ProductVisibility visibility;
+    public void setVisibility(Product.ProductVisibility visibility) {
+        if (visibility == null) {
+            this.visibility = ProductVisibility.PUBLIC;
+        } else {
+            this.visibility = visibility;
+        }
+    }
+    public Product.ProductVisibility getVisibility() {return visibility;}
+
+    public enum ProductVisibility {
+        PUBLIC, ADMIN_ONLY
+    }
 }

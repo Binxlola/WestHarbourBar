@@ -17,14 +17,16 @@ import main.java.com.app.entities.Product;
 import main.java.com.app.entities.ProductCategory;
 import main.java.com.app.util.CommonUtil;
 import main.java.com.app.util.HibernateUtil;
+import main.java.com.app.util.ImageUtil;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import static javafx.collections.FXCollections.observableList;
 
 public class ProductController extends AnchorPane implements Initializable {
 
@@ -39,6 +41,7 @@ public class ProductController extends AnchorPane implements Initializable {
     @FXML private GridPane productGrid, categoryGrid;
     @FXML private TextField productName, categoryName, quantity, cost;
     @FXML private ComboBox<ProductCategory> categoryComboBox;
+    @FXML private ComboBox<Product.ProductVisibility> visibilityComboBox;
     @FXML private Button apply, cancel, imageSelect;
     @FXML private Label imageSelected;
 
@@ -83,18 +86,37 @@ public class ProductController extends AnchorPane implements Initializable {
         //#TODO error handling
 
         // New product is being created
-        if(!isEdit) {product = new Product();}
+        if(!isEdit) {
+            product = new Product();
+        }
 
         product.setName(productName.getText());
         product.setCategory(categoryComboBox.getValue());
         product.setCost(Float.parseFloat(cost.getText()));
         product.setQuantity(Integer.parseInt(quantity.getText()));
+        product.setVisibility(visibilityComboBox.getValue());
+
+        // If product image has not been selected, manually set placeholder
+        if (selectedImageFile == null) {
+            try {
+                File file = new File(getClass().getResource("/no_product_image.png").getPath());
+                imageFileName = file.getName();
+                selectedImageFile = ImageUtil.convertImageToByteArray(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         product.setImage(selectedImageFile);
         product.setImageFileName(imageFileName);
 
         HibernateUtil.saveOrRemove(product, true);
 
-        parentController.update();
+        try {
+            parentController.update();
+        } catch (IllegalAccessException exception) {
+            exception.printStackTrace();
+        }
         parentStage.close();
     }
 
@@ -112,13 +134,12 @@ public class ProductController extends AnchorPane implements Initializable {
             fileChooser.getExtensionFilters().add(extFilter);
             File file = fileChooser.showOpenDialog(stage);
 
-            BufferedImage bImage = ImageIO.read(file);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "jpg", bos);
-            selectedImageFile = bos.toByteArray();
-
-            imageSelected.setText(file.getName());
-            imageFileName = file.getName();
+            // Check that file actually exists before performing any further operations
+            if(file.exists()) {
+                selectedImageFile = ImageUtil.convertImageToByteArray(file);
+                imageSelected.setText(file.getName());
+                imageFileName = file.getName();
+            }
 
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -135,7 +156,12 @@ public class ProductController extends AnchorPane implements Initializable {
         if (!name.equals("")) {
             category.setName(name);
             HibernateUtil.saveOrRemove(category, true);
-            parentController.update();
+
+            try {
+                parentController.update();
+            } catch (IllegalAccessException exception) {
+                exception.printStackTrace();
+            }
             parentStage.close();
         }
     }
@@ -173,6 +199,7 @@ public class ProductController extends AnchorPane implements Initializable {
             quantity.setText(String.valueOf(product.getQuantity()));
             cost.setText(String.valueOf(product.getCost()));
             imageSelected.setText(product.getImageFileName());
+            visibilityComboBox.setValue(product.getVisibility());
         }
     }
 
@@ -180,6 +207,9 @@ public class ProductController extends AnchorPane implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         categoryComboBox.setItems(HibernateUtil.getProductCategories());
+        visibilityComboBox.setItems(observableList(
+                new ArrayList<>(Arrays.asList(Product.ProductVisibility.values())
+                )));
         setupFormFields();
 
         apply.setOnAction(this::handler);

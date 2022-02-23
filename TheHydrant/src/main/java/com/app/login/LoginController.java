@@ -7,17 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import main.java.com.app.App;
 import main.java.com.app.admin.AdminController;
 import main.java.com.app.entities.Member;
@@ -34,10 +30,9 @@ public class LoginController extends AnchorPane implements Initializable {
     @FXML private GridPane userLoginForm, adminLoginForm, numPad;
     @FXML private TextField userID, adminID;
     @FXML private PasswordField adminPassword;
-    @FXML private Text errorBox;
+    @FXML private Label errorBox;
     @FXML private Button loginBtn, loginSwitch;
-    @FXML private ImageView logo;
-    private boolean isAdmin = false;
+    private boolean isAdminLogin = false;
     private final App _Main = App.getInstance();
 
 
@@ -69,21 +64,25 @@ public class LoginController extends AnchorPane implements Initializable {
      * Runs logic required to validate and login a user with the currently typed ID
      */
     private void login() {
-        long loginId = Long.parseLong(isAdmin ? adminID.getText() : userID.getText());
-        GridPane currentForm = isAdmin ? adminLoginForm : userLoginForm;
+        GridPane currentForm = isAdminLogin ? adminLoginForm : userLoginForm;
 
         if (!this.validateForm(currentForm)) {
+            long loginId = Long.parseLong(isAdminLogin ? adminID.getText() : userID.getText());
             Member user = HibernateUtil.getMember(loginId);
 
-            if (!isAdmin && user != null) {
+            if(user != null) {
                 this._Main.setUser(user);
-                this._Main.setScene(new Scene(new StoreController()));
-                clearInputFields();
-            } else if (isAdmin && PasswordUtil.verifyPassword(adminPassword.getText(), user.getPassword(), user.getSalt())) {
-                this._Main.setScene(new Scene(new AdminController()));
-                clearInputFields();
-            } else {
-                errorBox.setText("Incorrect Login Details");
+                if (!isAdminLogin) {
+                    clearInputFields();
+                    this._Main.setScene(new Scene(new StoreController()));
+                } else if (user.getPassword() != null &&
+                        user.getSalt() != null &&
+                        PasswordUtil.verifyPassword(adminPassword.getText(), user.getPassword(), user.getSalt())) {
+                    clearInputFields();
+                    this._Main.setScene(new Scene(new AdminController()));
+                } else {
+                    errorBox.setText("Incorrect Login Details");
+                }
             }
         }
     }
@@ -103,7 +102,7 @@ public class LoginController extends AnchorPane implements Initializable {
      * @param isAdmin A boolean describing if the user is on the admin screen
      */
     private void setSwitch(boolean isAdmin) {
-        Image image = new Image(isAdmin ? "admin.png" : "user.png");
+        Image image = new Image(isAdmin ? "admin_white.png" : "user_white.png");
         loginSwitch.setGraphic(new ImageView(image));
         loginSwitch.setText(isAdmin ? "Admin" : "User");
     }
@@ -151,19 +150,18 @@ public class LoginController extends AnchorPane implements Initializable {
 
         // Login screen change login
         loginSwitch.setOnAction(ActionEvent -> {
-            userLoginForm.setVisible(isAdmin);
-            userLoginForm.setManaged(isAdmin);
-            setSwitch(isAdmin);
+            userLoginForm.setVisible(isAdminLogin);
+            userLoginForm.setManaged(isAdminLogin);
+            setSwitch(isAdminLogin);
 
-            isAdmin = !isAdmin;
+            isAdminLogin = !isAdminLogin;
 
-            adminLoginForm.setVisible(isAdmin);
-            adminLoginForm.setManaged(isAdmin);
+            adminLoginForm.setVisible(isAdminLogin);
+            adminLoginForm.setManaged(isAdminLogin);
         });
         loginSwitch.toFront();
 
         // MAIN LOGO
-        logo.setImage(new Image("logo.jpg"));
         setSwitch(true);
 
         // Set the login on each numpad button

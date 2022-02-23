@@ -3,6 +3,7 @@ package main.java.com.app.util;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.java.com.app.App;
 import main.java.com.app.entities.AppData;
 import main.java.com.app.entities.Member;
 import main.java.com.app.entities.Product;
@@ -62,7 +63,7 @@ public class HibernateUtil {
      * @param table The name of the table in question
      * @return boolean if table is empty or not
      */
-    public static boolean isTableEmpty(String table, Object entity) {
+    public static boolean isTableEmpty(String table, Class<Member> entity) {
         boolean isEmpty = true;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -160,13 +161,32 @@ public class HibernateUtil {
      *
      * @return Product ObservableList
      */
-    public static ObservableList<Product> getProducts() {
+    public static ObservableList<Product> getProducts(Product.ProductVisibility visibility) {
         ObservableList<Product> results = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            results = observableList(session.createQuery("Select a from Product a", Product.class).getResultList());
+            Query<Product> query = session.createQuery("Select a from Product a where a.visibility=:visibility", Product.class);
+            query.setParameter("visibility", visibility == null ? Product.ProductVisibility.PUBLIC : visibility);
+            results = observableList(query.getResultList());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        return results;
+    }
+
+    public static ObservableList<Product> getProducts() throws IllegalAccessException {
+        ObservableList<Product> results = null;
+
+        if(App.getInstance().getUser().isAdmin()) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                results = observableList(session.createQuery("Select a from Product a" +
+                        "", Product.class).getResultList());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new IllegalAccessException("Incorrect privileges for the the Query getProducts()");
         }
 
         return results;

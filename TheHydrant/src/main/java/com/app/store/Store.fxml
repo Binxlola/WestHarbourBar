@@ -5,41 +5,59 @@
 <?import javafx.scene.layout.*?>
 <?import main.java.com.app.sharedComponents.Transactions?>
 
-<fx:root type="javafx.scene.layout.BorderPane"
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<fx:root type="javafx.scene.layout.AnchorPane"
          xmlns:fx="http://javafx.com/fxml"
          xmlns="https://javafx.com/javafx">
-    <padding>
-        <Insets top="5" right="5" bottom="5" left="5"/>
-    </padding>
 
-    <top>
-        <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
-            <HBox maxHeight="16.0" spacing="3.0">
-                <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
-                <Button fx:id="storeBtn" text="Store" maxHeight="16.0"/>
-                <Button fx:id="historyBtn" text="Transactions" maxHeight="16.0"/>
-            </HBox>
-            <HBox maxHeight="24.0" maxWidth="300.0" spacing="10" alignment="TOP_CENTER">
-                <ComboBox fx:id="categoryFilter" promptText="Category" maxWidth="200.0"/>
-                <RadioButton fx:id="stockFilter" text="In Stock"/>
-            </HBox>
-            <HBox maxHeight="16.0" BorderPane.alignment="TOP_RIGHT" spacing="10.0">
-                <Label fx:id="userId" maxHeight="16.0"/>
-                <Label fx:id="userName" maxHeight="16.0"/>
-                <Label fx:id="userBalance" maxHeight="16.0"/>
-            </HBox>
+    <!-- Tab to be used for Products -->
+    <TabPane fx:id="storeTabs" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">
+        <Tab fx:id="productsTab" text="Shop" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="card.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <BorderPane>
+                <top>
+                    <HBox maxHeight="24.0" maxWidth="300.0" spacing="10" BorderPane.alignment="CENTER">
+                        <ComboBox fx:id="categoryFilter" promptText="Category" maxWidth="200.0"/>
+                        <RadioButton fx:id="stockFilter" text="In Stock"/>
+                    </HBox>
+                </top>
+                <center>
+                    <ScrollPane fx:id="productsScroll" hbarPolicy="NEVER" vbarPolicy="NEVER" fitToWidth="true">
+                        <GridPane fx:id="productsContainer" hgap="15" vgap="15"/>
+                    </ScrollPane>
+                </center>
+            </BorderPane>
+        </Tab>
+        <Tab fx:id="transactionsTab" text="Transactions" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="history.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <Transactions fx:id="transactions"/>
+        </Tab>
+    </TabPane>
+
+    <HBox maxHeight="16.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" spacing="20.0" alignment="CENTER">
+        <padding>
+            <Insets right="1"/>
+        </padding>
+        <HBox maxHeight="16.0" spacing="10.0" alignment="CENTER">
+            <Label fx:id="userId" maxHeight="16.0"/>
+            <Label fx:id="userName" maxHeight="16.0"/>
+            <Label fx:id="userBalance" maxHeight="16.0"/>
         </HBox>
-    </top>
-
-    <!-- Grid to be used for Products -->
-    <center>
-        <StackPane fx:id="storeStack" BorderPane.alignment="CENTER">
-            <ScrollPane fx:id="storeScroll" hbarPolicy="NEVER" vbarPolicy="NEVER" fitToWidth="true">
-                <GridPane fx:id="storeContainer" hgap="15" vgap="15">
-                </GridPane>
-            </ScrollPane>
-
-            <Transactions fx:id="transactions"></Transactions>
-        </StackPane>
-    </center>
+        <HBox maxHeight="16.0" spacing="3.0" alignment="CENTER">
+            <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
+        </HBox>
+    </HBox>
 </fx:root>

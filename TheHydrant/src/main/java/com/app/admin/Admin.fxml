@@ -3,69 +3,24 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
-    <padding>
-        <Insets top="5" right="5" bottom="5" left="5"/>
-    </padding>
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" stylesheets="theme.css">
 
-    <top>
-        <HBox maxHeight="60.0" BorderPane.alignment="TOP_LEFT" spacing="20.0">
-            <HBox maxHeight="16.0" spacing="3.0">
-                <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
-                <Button fx:id="membersBtn" text="Users" maxHeight="16.0"/>
-                <Button fx:id="productsBtn" text="Products" maxHeight="16.0"/>
-            </HBox>
-        </HBox>
-    </top>
-
-    <center>
-        <StackPane fx:id="adminStack" BorderPane.alignment="CENTER">
-            <TableView fx:id="membersTable" StackPane.alignment="CENTER">
-
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                </columnResizePolicy>
-
-                <columns>
-                    <TableColumn text="ID">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="Id"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="First Name">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="firstName"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Last Name">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="lastName"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Email">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="email"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Phone">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="phone"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                </columns>
-            </TableView>
-
-            <!-- === PRODUCT MANAGEMENT === -->
-            <AnchorPane fx:id="productManagementContainer" style="-fx-background-color: white">
-                <GridPane fx:id="productManagement" StackPane.alignment="CENTER" hgap="5"
-                          AnchorPane.topAnchor="0.0"
-                          AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.rightAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0">
-                    <TableView fx:id="productTable" GridPane.rowIndex="0" GridPane.columnIndex="0"
-                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-
+    <TabPane fx:id="adminTabs" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">
+        <Tab fx:id="membersTab" text="Members" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="members.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip><Tooltip text="Manage Member" showDelay="700ms"/></tooltip>
+            <BorderPane styleClass="tableContainer">
+                <center>
+                    <TableView fx:id="membersTable" BorderPane.alignment="CENTER">
                         <columnResizePolicy>
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                         </columnResizePolicy>
@@ -73,54 +28,146 @@
                         <columns>
                             <TableColumn text="ID">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="ID"/>
+                                    <PropertyValueFactory property="Id"/>
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn text="Name">
+                            <TableColumn text="First Name">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="name"/>
+                                    <PropertyValueFactory property="firstName"/>
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn text="Category">
+                            <TableColumn text="Last Name">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="category"/>
+                                    <PropertyValueFactory property="lastName"/>
                                 </cellValueFactory>
                             </TableColumn>
-                            <TableColumn text="Cost">
+                            <TableColumn text="Email">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="cost"/>
+                                    <PropertyValueFactory property="email"/>
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Phone">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="phone"/>
                                 </cellValueFactory>
                             </TableColumn>
                         </columns>
                     </TableView>
+                </center>
+                <bottom>
+                    <HBox maxHeight="16.0" spacing="5.0" styleClass="buttonBar">
+                        <Button fx:id="memberAdd" text="Add Member" maxHeight="16.0">
+                            <graphic>
+                                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                                    <image>
+                                        <Image url="add_row.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </bottom>
+            </BorderPane>
+        </Tab>
+        <Tab fx:id="productsTab" text="Products" closable="false">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="products.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            <tooltip><Tooltip text="Manage Products" showDelay="700ms"/></tooltip>
+            <BorderPane styleClass="tableContainer">
+                <center>
+                    <GridPane>
+                        <TableView fx:id="productTable" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                                   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
 
-                    <TableView fx:id="categoryTable" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                               GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="ID">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="id"/>
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Name">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="name"/>
-                                </cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-                </GridPane>
-            </AnchorPane>
-        </StackPane>
-    </center>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
 
-    <bottom>
-        <HBox maxHeight="60.0" BorderPane.alignment="BOTTOM_LEFT" spacing="20.0">
-            <HBox maxWidth="400.0" maxHeight="16.0" spacing="5.0">
-                <Button fx:id="productAdd" text="Add Product" maxHeight="16.0"/>
-                <Button fx:id="categoryAdd" text="Add Category" maxHeight="16.0"/>
-                <Button fx:id="memberAdd" text="Add Member" maxHeight="16.0"/>
-            </HBox>
+                            <columns>
+                                <TableColumn text="ID">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="ID"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Name">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="name"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Category">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="category"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Cost">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="cost"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Visibility">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="visibility"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+
+                        <TableView fx:id="categoryTable" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                                   GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn text="ID">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="id"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Name">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="name"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+                    </GridPane>
+                </center>
+
+                <bottom>
+                    <HBox maxHeight="16.0" spacing="5.0" styleClass="buttonBar">
+                        <Button fx:id="productAdd" text="Add Product" maxHeight="16.0">
+                            <graphic>
+                                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                                    <image>
+                                        <Image url="add_row.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="categoryAdd" text="Add Category" maxHeight="16.0">
+                            <graphic>
+                                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true" pickOnBounds="true">
+                                    <image>
+                                        <Image url="add_row.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </bottom>
+            </BorderPane>
+        </Tab>
+    </TabPane>
+
+    <!-- TOOLBAR   -->
+    <HBox maxHeight="16.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" spacing="20.0" alignment="CENTER">
+        <padding>
+            <Insets right="1"/>
+        </padding>
+        <HBox maxHeight="16.0" spacing="3.0" alignment="CENTER">
+            <Button fx:id="logoutBtn" text="Logout" maxHeight="16.0"/>
         </HBox>
-    </bottom>
+    </HBox>
 </fx:root>

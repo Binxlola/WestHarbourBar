@@ -55,20 +55,25 @@ public class MemberController extends AnchorPane implements Initializable {
                 member.setFirstName(firstName.getText());
                 member.setLastName(lastName.getText());
 
-                if (isAdmin.isSelected()) {
-                    member.setPassword(password.getText());
-                    member.setAdmin(true);
-                }
-
             }
+            member.setAdmin(isAdmin.isSelected());
             member.setEmail(email.getText());
             member.setBalance(Float.parseFloat(balance.getText()));
             member.setPhone(phone.getText());
 
+            if (isAdmin.isSelected()) {
+                member.setPassword(password.getText());
+            }
+
             HibernateUtil.saveOrRemove(member, true);
 
             if (parentController instanceof AdminController) {
-                ((AdminController) parentController).update();
+
+                try {
+                    ((AdminController) parentController).update();
+                } catch (IllegalAccessException exception) {
+                    exception.printStackTrace();
+                }
             }
             parentStage.close();
         }
