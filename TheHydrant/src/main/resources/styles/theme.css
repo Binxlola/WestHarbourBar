@@ -1,5 +1,5 @@
 /*#ee4540 #c72c41 #801336 #510a32 #2d142c*/
-@import "rowedViews.css";
+@import "/styles/rowedViews.css";
 
 /* SCROLLBAR STYLES */
 
@@ -27,4 +27,14 @@
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 2em;
 
+}
+
+
+/* SHARED STORE COMPONENT*/
+#storeController {
+    -fx-background-color: white;
+}
+
+#productsContainer, #storeCenterContainer, #productsScroll, #productsScroll > .viewport{
+    -fx-background-color: transparent;
 }

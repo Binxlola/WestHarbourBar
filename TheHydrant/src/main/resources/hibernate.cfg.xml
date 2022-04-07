@@ -24,13 +24,13 @@
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
-        <mapping class="main.java.com.app.entities.Member"/>
-        <mapping class="main.java.com.app.entities.Product"/>
-        <mapping class="main.java.com.app.entities.ProductCategory"/>
-        <mapping class="main.java.com.app.entities.Purchase"/>
-        <mapping class="main.java.com.app.entities.AppData"/>
-        <mapping class="main.java.com.app.entities.Transaction"/>
-        <mapping class="main.java.com.app.entities.BalanceModify"/>
+        <mapping class="com.app.entities.Member"/>
+        <mapping class="com.app.entities.Product"/>
+        <mapping class="com.app.entities.ProductCategory"/>
+        <mapping class="com.app.entities.Purchase"/>
+        <mapping class="com.app.entities.AppData"/>
+        <mapping class="com.app.entities.Transaction"/>
+        <mapping class="com.app.entities.BalanceModify"/>
 
     </session-factory>
 </hibernate-configuration>

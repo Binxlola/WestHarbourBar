@@ -1,4 +1,4 @@
-package main.java.com.app.admin;
+package com.app.admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,9 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import main.java.com.app.entities.Member;
-import main.java.com.app.util.CommonUtil;
-import main.java.com.app.util.HibernateUtil;
+import com.app.entities.Member;
+import com.app.util.CommonUtil;
+import com.app.util.HibernateUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;

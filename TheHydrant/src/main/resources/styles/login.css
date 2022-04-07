@@ -1,9 +1,9 @@
 @font-face {
-    src: url("NightmarePills-BV2w.ttf");
+    src: url("/fonts/NightmarePills-BV2w.ttf");
 }
 
 @font-face {
-    src: url("TrenchThin-aZ1J.ttf");
+    src: url("/fonts/TrenchThin-aZ1J.ttf");
 }
 
 #login {
@@ -20,7 +20,6 @@
 }
 
 #userLoginForm #userID, #adminLoginForm #adminID, #adminLoginForm #adminPassword, #errorBox {
-    /*-fx-font-family:"trench thin";*/
     -fx-font-size: 1.5em;
     -fx-font-weight: 500;
 }

@@ -1,31 +1,20 @@
-package main.java.com.app.sharedComponents.transactions;
+package com.app.sharedComponents.transactions;
 
-import javafx.fxml.FXMLLoader;
+import com.app.entities.BalanceModify;
+import com.app.entities.Member;
+import com.app.entities.Purchase;
+import com.app.entities.Transaction;
+import com.app.util.CommonUtil;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
-import main.java.com.app.entities.BalanceModify;
-import main.java.com.app.entities.Member;
-import main.java.com.app.entities.Purchase;
-import main.java.com.app.entities.Transaction;
-
-import java.io.IOException;
 
 public class TransactionsController extends TableView<Transaction> {
     private Member user;
 
     public TransactionsController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Transactions.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CommonUtil.buildView(this, "fxml/Transactions.fxml");
     }
 
     public TransactionsController(Member user) {
@@ -93,9 +82,11 @@ public class TransactionsController extends TableView<Transaction> {
                     float value = isBalanceAfter ? transaction.getBalanceAfter() : transaction.getTransactionValue();
                     if(value != 0) {
                         if(transaction instanceof Purchase && isBalanceAfter) {
-                            setTextFill(value > 0 ? Color.GREEN : Color.RED);
+                            this.setStyle(value > 0 ? "-fx-text-fill: green" : "-fx-text-fill: red");
                         } else if (transaction instanceof BalanceModify) {
-                            setTextFill(value > 0 ? Color.GREEN : Color.RED);
+                            this.setStyle(value > 0 ? "-fx-text-fill: green" : "-fx-text-fill: red");
+                        } else {
+                            this.setStyle("");
                         }
                     }
 

@@ -12,16 +12,14 @@
     -fx-background-color: #2d142c;
 }
 
-.table-view .table-row-cell:selected .text, .list-view .list-cell:selected .text{
-    -fx-fill: white;
+.table-view .table-row-cell:filled:focused:selected .table-cell, /* Selected row */
+.table-view:row-selection .table-row-cell:filled:hover .table-cell, /* Row hovered */
+.list-view .list-cell:filled:hover {
+    -fx-text-fill: white;
 }
 
 .table-view .table-row-cell:hover, .list-view .list-cell:hover {
     -fx-background-color:#2d142c;
-}
-
-.table-view .table-row-cell:hover .text, .list-view .list-cell:hover .text {
-    -fx-fill: white;
 }
 
 .table-view .table-row-cell, .list-view .list-cell{

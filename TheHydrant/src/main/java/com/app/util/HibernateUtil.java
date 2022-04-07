@@ -1,13 +1,13 @@
-package main.java.com.app.util;
+package com.app.util;
 
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
-import main.java.com.app.App;
-import main.java.com.app.entities.AppData;
-import main.java.com.app.entities.Member;
-import main.java.com.app.entities.Product;
-import main.java.com.app.entities.ProductCategory;
+import com.app.App;
+import com.app.entities.AppData;
+import com.app.entities.Member;
+import com.app.entities.Product;
+import com.app.entities.ProductCategory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -1,4 +1,4 @@
-package main.java.com.app.admin;
+package com.app.admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,11 +13,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.java.com.app.entities.Product;
-import main.java.com.app.entities.ProductCategory;
-import main.java.com.app.util.CommonUtil;
-import main.java.com.app.util.HibernateUtil;
-import main.java.com.app.util.ImageUtil;
+import com.app.entities.Product;
+import com.app.entities.ProductCategory;
+import com.app.util.CommonUtil;
+import com.app.util.HibernateUtil;
+import com.app.util.ImageUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,7 +99,7 @@ public class ProductController extends AnchorPane implements Initializable {
         // If product image has not been selected, manually set placeholder
         if (selectedImageFile == null) {
             try {
-                File file = new File(getClass().getResource("/no_product_image.png").getPath());
+                File file = new File(getClass().getResource("/images/no_product_image.png").getPath());
                 imageFileName = file.getName();
                 selectedImageFile = ImageUtil.convertImageToByteArray(file);
             } catch (Exception e) {

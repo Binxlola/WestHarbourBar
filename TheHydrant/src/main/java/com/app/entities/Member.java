@@ -1,8 +1,8 @@
-package main.java.com.app.entities;
+package com.app.entities;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.java.com.app.util.PasswordUtil;
+import com.app.util.PasswordUtil;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;

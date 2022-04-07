@@ -1,7 +1,6 @@
-package main.java.com.app.util;
+package com.app.util;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -14,8 +13,10 @@ public class CommonUtil {
      * @param controller The controller for the FXML view
      * @param FXMLName   The name of the FXML file containing the view information
      */
-    public static void buildView(Pane controller, String FXMLName) {
-        FXMLLoader fxmlLoader = new FXMLLoader(controller.getClass().getResource(FXMLName));
+    public static void buildView(Object controller, String FXMLName) {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                main.java.Main.class.getClassLoader().getResource(FXMLName)
+        );
         fxmlLoader.setRoot(controller);
         fxmlLoader.setController(controller);
         try {

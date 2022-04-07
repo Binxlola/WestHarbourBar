@@ -1,17 +1,16 @@
-package main.java.com.app.profile;
+package com.app.profile;
 
+import com.app.App;
+import com.app.entities.Member;
+import com.app.entities.Transaction;
+import com.app.util.CommonUtil;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import main.java.com.app.App;
-import main.java.com.app.entities.Member;
-import main.java.com.app.entities.Transaction;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,14 +25,7 @@ public class ProfileController extends AnchorPane implements Initializable {
     private TableView<Transaction> transactions;
 
     public ProfileController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CommonUtil.buildView(this, "fxml/profile.xml");
     }
 
     @Override

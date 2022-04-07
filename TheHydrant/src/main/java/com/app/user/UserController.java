@@ -1,4 +1,4 @@
-package main.java.com.app.user;
+package com.app.user;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,11 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import main.java.com.app.App;
-import main.java.com.app.entities.Member;
-import main.java.com.app.sharedComponents.store.StoreController;
-import main.java.com.app.sharedComponents.transactions.TransactionsController;
-import main.java.com.app.util.CommonUtil;
+import com.app.App;
+import com.app.entities.Member;
+import com.app.sharedComponents.store.StoreController;
+import com.app.sharedComponents.transactions.TransactionsController;
+import com.app.util.CommonUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +43,7 @@ public class UserController extends AnchorPane implements Initializable {
         transactions.setUser(member);
         transactions.build();
 
-        logoutBtn.setGraphic(new ImageView("logout.png"));
+        logoutBtn.setGraphic(new ImageView("images/logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> APP.logout());

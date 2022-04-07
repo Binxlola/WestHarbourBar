@@ -1,5 +1,12 @@
-package main.java.com.app.sharedComponents.store;
+package com.app.sharedComponents.store;
 
+import com.app.App;
+import com.app.entities.Member;
+import com.app.entities.Product;
+import com.app.entities.ProductCategory;
+import com.app.entities.Purchase;
+import com.app.util.CommonUtil;
+import com.app.util.HibernateUtil;
 import javafx.animation.PauseTransition;
 import javafx.beans.NamedArg;
 import javafx.beans.property.BooleanProperty;
@@ -7,30 +14,23 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.util.Duration;
-import main.java.com.app.App;
-import main.java.com.app.entities.Member;
-import main.java.com.app.entities.Product;
-import main.java.com.app.entities.ProductCategory;
-import main.java.com.app.entities.Purchase;
-import main.java.com.app.util.HibernateUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 public class StoreController extends AnchorPane implements Initializable {
 
+    @FXML private HBox toolbar, userDetails;
     @FXML private GridPane productsContainer;
-    @FXML private TabPane storeTabs;
     @FXML private ComboBox<ProductCategory> categoryFilter;
     @FXML private ScrollPane productsScroll;
     @FXML private ListView<Member> memberList;
@@ -41,18 +41,9 @@ public class StoreController extends AnchorPane implements Initializable {
     private final BooleanProperty isAdminMode = new SimpleBooleanProperty();
 
     public StoreController(@NamedArg("isAdminMode") boolean isAdminMode) {
-
+        setId("storeController");
         this.isAdminMode.setValue(isAdminMode && member.isAdmin());
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Store.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CommonUtil.buildView(this, "fxml/Store.fxml");
     }
 
     /**
@@ -181,15 +172,27 @@ public class StoreController extends AnchorPane implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         categoryFilter.setItems(HibernateUtil.getProductCategories());
-        productsScroll.setStyle("-fx-background-color:transparent;");
-        memberList.setItems(HibernateUtil.getMembers());
 
-        // Set Scroll pane width priority and List view height priority
-        productsScroll.prefWidthProperty().bind(this.widthProperty());
-        memberList.prefHeightProperty().bind(this.heightProperty());
+        // Member list should only be displayed and functional when used in admin mode
+        if (isAdminMode.get()) {
+            memberList.prefHeightProperty().bind(this.heightProperty().subtract(toolbar.heightProperty()));
+            memberList.maxHeightProperty().bind(this.heightProperty().subtract(toolbar.heightProperty()));
+            memberList.setItems(HibernateUtil.getMembers());
+            memberList.setManaged(true);
+
+            userDetails.setManaged(false);
+            userDetails.setVisible(false);
+        } else {
+            memberList.setManaged(false);
+            userDetails.setManaged(true);
+        }
+
+        productsScroll.prefWidthProperty().bind(this.widthProperty().subtract(memberList.widthProperty()));
+        productsScroll.maxWidthProperty().bind(this.widthProperty().subtract(memberList.widthProperty()));
+        productsScroll.prefHeightProperty().bind(this.heightProperty().subtract(toolbar.heightProperty()));
+        productsScroll.maxHeightProperty().bind(this.heightProperty().subtract(toolbar.heightProperty()));
 
         setupUserDetails();
-
         update();
 
         productsScroll.toFront();

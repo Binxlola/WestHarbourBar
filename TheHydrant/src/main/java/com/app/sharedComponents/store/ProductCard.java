@@ -1,18 +1,17 @@
-package main.java.com.app.sharedComponents.store;
+package com.app.sharedComponents.store;
 
+import com.app.entities.Product;
+import com.app.util.CommonUtil;
+import com.app.util.HibernateUtil;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import main.java.com.app.entities.Product;
-import main.java.com.app.util.HibernateUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,15 +31,7 @@ public class ProductCard extends BorderPane implements Initializable {
         this.item = item;
         this.handler = handler;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("productCard.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CommonUtil.buildView(this, "fxml/productCard.fxml");
     }
 
     @Override

@@ -1,9 +1,15 @@
-package main.java.com.app.login;
+package com.app.login;
 
+import com.app.App;
+import com.app.admin.AdminController;
+import com.app.entities.Member;
+import com.app.user.UserController;
+import com.app.util.CommonUtil;
+import com.app.util.HibernateUtil;
+import com.app.util.PasswordUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -14,14 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import main.java.com.app.App;
-import main.java.com.app.admin.AdminController;
-import main.java.com.app.entities.Member;
-import main.java.com.app.user.UserController;
-import main.java.com.app.util.HibernateUtil;
-import main.java.com.app.util.PasswordUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,15 +36,7 @@ public class LoginController extends AnchorPane implements Initializable {
 
 
     public LoginController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        CommonUtil.buildView(this,"fxml/Login.fxml");
 
         // Catch first time app startup
         if (HibernateUtil.getSessionFactory() != null && HibernateUtil.isTableEmpty("Member", Member.class)) {
@@ -74,16 +65,12 @@ public class LoginController extends AnchorPane implements Initializable {
                 this._Main.setUser(user);
                 if (!isAdminLogin) {
                     clearInputFields();
-                    this._Main.setScene(new Scene(
-                            new UserController()
-                    ));
+                    this._Main.setScene(new Scene(new UserController()), 300000);
                 } else if (user.getPassword() != null &&
                         user.getSalt() != null &&
                         PasswordUtil.verifyPassword(adminPassword.getText(), user.getPassword(), user.getSalt())) {
                     clearInputFields();
-                    this._Main.setScene(new Scene(
-                            new AdminController()
-                    ));
+                    this._Main.setScene(new Scene(new AdminController()), 600000);
                 } else {
                     errorBox.setText("Incorrect Login Details");
                 }
@@ -106,7 +93,7 @@ public class LoginController extends AnchorPane implements Initializable {
      * @param isAdmin A boolean describing if the user is on the admin screen
      */
     private void setSwitch(boolean isAdmin) {
-        Image image = new Image(isAdmin ? "admin_white.png" : "user_white.png");
+        Image image = new Image(isAdmin ? "images/admin_white.png" : "images/user_white.png");
         loginSwitch.setGraphic(new ImageView(image));
         loginSwitch.setText(isAdmin ? "Admin" : "User");
     }

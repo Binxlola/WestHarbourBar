@@ -5,8 +5,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import main.java.com.app.sharedComponents.store.StoreController?>
-<?import main.java.com.app.sharedComponents.transactions.TransactionsController?>
+<?import com.app.sharedComponents.store.StoreController?>
+<?import com.app.sharedComponents.transactions.TransactionsController?>
 <fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" stylesheets="user.css">
 
     <TabPane fx:id="adminTabs" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">

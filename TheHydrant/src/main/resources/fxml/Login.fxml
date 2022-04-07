@@ -8,7 +8,7 @@
          xmlns:fx="http://javafx.com/fxml"
          xmlns="http://javafx.com/javafx"
          fx:id="login"
-         stylesheets="login.css">
+         stylesheets="@/styles/login.css">
 
     <Button fx:id="loginSwitch" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" textAlignment="RIGHT"/>
 
@@ -25,7 +25,7 @@
                    pickOnBounds="true"
                    cache="true">
             <image>
-                <Image url="logo.png"/>
+                <Image url="@/images/logo.png"/>
             </image>
         </ImageView>
 

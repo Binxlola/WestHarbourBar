@@ -1,4 +1,4 @@
-package main.java.com.app.entities;
+package com.app.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

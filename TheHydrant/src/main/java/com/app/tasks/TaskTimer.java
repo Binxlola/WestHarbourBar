@@ -1,13 +1,17 @@
-package main.java.com.app.tasks;
+package com.app.tasks;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class TaskTimer {
 
-    Timer timer;
-    long delay;
-    TimerTask task;
+    private Timer timer;
+    private long delay = 120000;
+    private TimerTask task;
+
+    public TaskTimer(TimerTask task) {
+        this.task = task;
+    }
 
     public TaskTimer(long delay, TimerTask task) {
         this.delay = delay;
@@ -53,6 +57,14 @@ public class TaskTimer {
         cancelTimer();
         this.task = task;
         startTimer();
+    }
+
+    /**
+     * Updates the delay time of the TaskTimer
+     * @param delay delay time
+     */
+    public void setDelay(long delay) {
+        this.delay = delay;
     }
 
     /**

@@ -1,5 +1,6 @@
-package main.java.com.app;
+package com.app;
 
+import com.app.login.LoginController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -7,11 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.java.com.app.entities.Member;
-import main.java.com.app.login.LoginController;
-import main.java.com.app.util.HibernateUtil;
-import main.java.com.app.tasks.TaskTimer;
-import main.java.com.app.tasks.IdleController;
+import com.app.entities.Member;
+import com.app.tasks.IdleController;
+import com.app.tasks.TaskTimer;
+import com.app.util.HibernateUtil;
 
 public class App extends Application {
 
@@ -25,6 +25,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         stage.setFullScreen(true);
+
         // Set "GLOBAL" variables
         APP = this;
         mainStage = stage;
@@ -49,9 +50,10 @@ public class App extends Application {
      * Finally the new scene in shown and the idle monitor is started
      * @param newScene New scene to display
      */
-    public void setScene(Scene newScene) {
+    public void setScene(Scene newScene, long monitorDelay) {
         // Stop the idle monitor task that was being used on the previous scene
         idleMonitor.cancelTimer();
+        idleMonitor.setDelay(monitorDelay);
         idleMonitor.setTask(new IdleController());
 
         currentScene = newScene;
@@ -65,7 +67,7 @@ public class App extends Application {
 
     private void setupTimedTasks() {
         IdleController idleController = new IdleController();
-        idleMonitor = new TaskTimer(30000, idleController);
+        idleMonitor = new TaskTimer(idleController);
 
     }
 

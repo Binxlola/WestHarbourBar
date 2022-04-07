@@ -1,4 +1,4 @@
-package main.java.com.app.entities;
+package com.app.entities;
 
 import org.hibernate.annotations.ColumnDefault;
 

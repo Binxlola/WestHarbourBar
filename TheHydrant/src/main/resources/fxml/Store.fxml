@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import main.java.com.app.sharedComponents.store.MemberCellFactory?>
+<?import com.app.sharedComponents.store.MemberCellFactory?>
 <fx:root type="javafx.scene.layout.AnchorPane"
          xmlns:fx="http://javafx.com/fxml"
          xmlns="https://javafx.com/javafx">
 
     <BorderPane>
         <top>
-            <HBox maxHeight="24.0" maxWidth="300.0" spacing="10" BorderPane.alignment="CENTER">
+            <HBox fx:id="toolbar" maxHeight="24.0" maxWidth="300.0" spacing="10" BorderPane.alignment="CENTER">
                 <ComboBox fx:id="categoryFilter" promptText="Category" maxWidth="200.0"/>
                 <RadioButton fx:id="stockFilter" text="In Stock"/>
             </HBox>
         </top>
         <center>
-            <HBox>
+            <HBox fx:id="storeCenterContainer">
                 <children>
                     <ScrollPane fx:id="productsScroll"
                                 hbarPolicy="NEVER"
@@ -38,7 +37,7 @@
         </center>
     </BorderPane>
 
-    <HBox maxHeight="16.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" spacing="20.0" alignment="CENTER">
+    <HBox fx:id="userDetails" maxHeight="16.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" spacing="20.0" alignment="CENTER">
         <padding>
             <Insets right="1"/>
         </padding>

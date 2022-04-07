@@ -1,7 +1,7 @@
-package main.java.com.app.tasks;
+package com.app.tasks;
 
 import javafx.application.Platform;
-import main.java.com.app.App;
+import com.app.App;
 
 import java.util.TimerTask;
 

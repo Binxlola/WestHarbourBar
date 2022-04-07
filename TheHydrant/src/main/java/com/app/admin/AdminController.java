@@ -1,28 +1,29 @@
-package main.java.com.app.admin;
+package com.app.admin;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import main.java.com.app.App;
-import main.java.com.app.entities.BalanceModify;
-import main.java.com.app.entities.Member;
-import main.java.com.app.entities.Product;
-import main.java.com.app.entities.ProductCategory;
-import main.java.com.app.sharedComponents.store.StoreController;
-import main.java.com.app.sharedComponents.transactions.TransactionsController;
-import main.java.com.app.util.CommonUtil;
-import main.java.com.app.util.HibernateUtil;
+import com.app.App;
+import com.app.entities.BalanceModify;
+import com.app.entities.Member;
+import com.app.entities.Product;
+import com.app.entities.ProductCategory;
+import com.app.sharedComponents.store.StoreController;
+import com.app.sharedComponents.transactions.TransactionsController;
+import com.app.util.CommonUtil;
+import com.app.util.HibernateUtil;
 
 import java.net.URL;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class AdminController extends AnchorPane implements Initializable {
 
 
     public AdminController() {
-        CommonUtil.buildView(this, "Admin.fxml");
+        CommonUtil.buildView(this, "fxml/Admin.fxml");
     }
 
     private Callback<TableColumn<Product, Void>, TableCell<Product, Void>> imageFactory() {
@@ -81,7 +82,7 @@ public class AdminController extends AnchorPane implements Initializable {
 
     /**
      * Will open the dialog used for any object that has edit functionality. The controller to be opened will be based on the
-     * ID set to the button clicked following the pattern 'Entity:Action'
+     * ID set to the button clicked following the pattern 'Member:Action'
      *
      * @param e The action event used to get data about the entity
      */
@@ -204,123 +205,16 @@ public class AdminController extends AnchorPane implements Initializable {
         }
     }
 
-    // === BUTTON FACTORY METHODS ===
-    private Callback<TableColumn<ProductCategory, Void>, TableCell<ProductCategory, Void>> buttonFactoryCategories(EventHandler<ActionEvent> btnHandler, String btnID, String tooltipText) {
-        return param -> (TableCell<ProductCategory, Void>) createTableCellBtn(btnHandler, "delete.png", btnID, tooltipText);
-    }
-
-    // === PRODUCT TABLE CELL FACTORIES
-    private Callback<TableColumn<Product, Void>, TableCell<Product, Void>> buttonFactoryProducts(EventHandler<ActionEvent> btnHandler, String iconName, String btnID, String tooltipText) {
-        return param -> (TableCell<Product, Void>) createTableCellBtn(btnHandler, iconName, btnID, tooltipText);
-    }
-
-    private Callback<TableColumn<Product, String>, TableCell<Product, String>> quantityFactoryProducts() {
-        return param -> (TableCell<Product, String>) createColouredCell();
-    }
-
-    // === MEMBER TABLE CELL FACTORIES
-    private Callback<TableColumn<Member, Void>, TableCell<Member, Void>> buttonFactoryMembers(EventHandler<ActionEvent> btnHandler, String iconName, String btnID, String tooltipText) {
-        return param -> (TableCell<Member, Void>) createTableCellBtn(btnHandler, iconName, btnID, tooltipText);
-    }
-
-    private Callback<TableColumn<Member, Void>, TableCell<Member, Void>> checkBoxFactoryMembers() {
-        return param -> createTableCheckBox();
-    }
-
-    private Callback<TableColumn<Member, String>, TableCell<Member, String>> balanceFactoryMembers() {
-        return param -> (TableCell<Member, String>) createColouredCell();
-    }
-
-
-    /**
-     * Given and event handler and image file name will create a button to be used on a table
-     *
-     * @param btnHandler The event handler that is to be set on the button
-     * @param iconName   The image name of the icon to be set on the button
-     * @param btnID      The ID to be set on the created button
-     * @return The table cell button
-     */
-    private TableCell<?, Void> createTableCellBtn(EventHandler<ActionEvent> btnHandler, String iconName, String btnID, String tooltipText) {
-        return new TableCell<>() {
-            private final Button btn = new Button();
-
-            @Override
-            public void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    btn.setId(btnID);
-                    btn.setGraphic(new ImageView(iconName));
-                    btn.setOnAction(btnHandler);
-                    btn.setUserData(getTableView().getItems().get(getIndex()));
-                    btn.setTooltip(new Tooltip(tooltipText));
-                    btn.getTooltip().setShowDelay(Duration.millis(700));
-                    setGraphic(btn);
-                }
-            }
-        };
-    }
-
-    /**
-     * Creates a table cell that contains a check box
-     *
-     * @return The table cell containing the disabled checkbox
-     */
-    private TableCell<Member, Void> createTableCheckBox() {
-        return new TableCell<>() {
-            private final CheckBox checkBox = new CheckBox();
-
-            @Override
-            public void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    Member member = getTableView().getItems().get(getIndex());
-                    checkBox.setSelected(member.isAdmin());
-                    checkBox.setDisable(true);
-                    setGraphic(checkBox);
-                }
-            }
-        };
-    }
-
-    /**
-     * Changes the colour of cell text based on a negative or positive value (currently used for Members and Products)
-     *
-     * @return Coloured table cell
-     */
-    private TableCell<?, String> createColouredCell() {
-        return new TableCell<>() {
-
-            @Override
-            public void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!isEmpty()) {
-                    Object object = getTableView().getItems().get(getIndex());
-                    float value = object instanceof Member ? ((Member) object).getBalance() : ((Product) object).getQuantity();
-                    if (value != 0) {
-                        this.setTextFill(value > 0 ? Color.GREEN : Color.RED);
-                    }
-
-                    this.setText(String.valueOf(value));
-
-                }
-            }
-        };
-    }
-
     /**
      * Generates the more complex cells for the members table. These cells require a unique cell factory
      */
     private void extendMemberTable() {
-        TableColumn<Member, String> balance = new TableColumn<>("Balance");
-        balance.setCellFactory(balanceFactoryMembers());
+        TableColumn<Member, Object> balance = new TableColumn<>("Balance");
+        balance.setCellFactory(new MemberTableFactory(MemberTableFactory.ColumnType.BALANCE));
         membersTable.getColumns().add(balance);
 
-        TableColumn<Member, Void> isAdmin = new TableColumn<>("Admin");
-        isAdmin.setCellFactory(checkBoxFactoryMembers());
+        TableColumn<Member, Object> isAdmin = new TableColumn<>("Admin");
+        isAdmin.setCellFactory(new MemberTableFactory(MemberTableFactory.ColumnType.CHECK_BOX));
         membersTable.getColumns().add(isAdmin);
 
     }
@@ -329,8 +223,8 @@ public class AdminController extends AnchorPane implements Initializable {
      * Generates the more complex cells for the products table. These cells require a unique cell factory
      */
     private void extendProductsTable() {
-        TableColumn<Product, String> quantity = new TableColumn<>("Quantity");
-        quantity.setCellFactory(quantityFactoryProducts());
+        TableColumn<Product, Object> quantity = new TableColumn<>("Quantity");
+        quantity.setCellFactory(new ProductTableFactory(ProductTableFactory.ColumnType.BALANCE));
         productTable.getColumns().add(quantity);
     }
 
@@ -349,37 +243,37 @@ public class AdminController extends AnchorPane implements Initializable {
      */
     private void addTableButtons() {
         // MEMBER TABLE BUTTONS
-        TableColumn<Member, Void> editBtnMember = new TableColumn<>("");
-        TableColumn<Member, Void> removeBtnMember = new TableColumn<>("");
-        TableColumn<Member, Void> viewTransactionsBtn = new TableColumn<>("");
-        TableColumn<Member, Void> updateBalanceBtn = new TableColumn<>("");
+        TableColumn<Member, Object> editBtnMember = new TableColumn<>("");
+        TableColumn<Member, Object> removeBtnMember = new TableColumn<>("");
+        TableColumn<Member, Object> viewTransactionsBtn = new TableColumn<>("");
+        TableColumn<Member, Object> updateBalanceBtn = new TableColumn<>("");
 
         // PRODUCT TABLE BUTTONS
-        TableColumn<Product, Void> editBtnProduct = new TableColumn<>("");
-        TableColumn<Product, Void> removeBtnProduct = new TableColumn<>("");
-        TableColumn<Product, Void> updateStockBtn = new TableColumn<>("");
+        TableColumn<Product, Object> editBtnProduct = new TableColumn<>("");
+        TableColumn<Product, Object> removeBtnProduct = new TableColumn<>("");
+        TableColumn<Product, Object> updateStockBtn = new TableColumn<>("");
 
         // CATEGORY TABLE BUTTONS
-        TableColumn<ProductCategory, Void> removeBtnCategory = new TableColumn<>("");
+        TableColumn<ProductCategory, Object> removeBtnCategory = new TableColumn<>("");
 
         // Crete the cell factory for each column of buttons and add to table
-        editBtnMember.setCellFactory(buttonFactoryMembers(this::openObjectEditAdd, "edit.png", "Member:Edit", "Edit Member"));
-        updateBalanceBtn.setCellFactory(buttonFactoryMembers(this::openValueUpdate, "update_balance.png", "Member", "Update Balance"));
-        viewTransactionsBtn.setCellFactory(buttonFactoryMembers(this::openTransactions, "bill.png", "Member", "Update Balance"));
-        removeBtnMember.setCellFactory(buttonFactoryMembers(this::handleObjectDel, "delete.png", "Member", "Delete Member"));
+        editBtnMember.setCellFactory(new MemberTableFactory(this::openObjectEditAdd, "images/edit.png", "Member:Edit", "Edit Member", MemberTableFactory.ColumnType.BUTTON));
+        updateBalanceBtn.setCellFactory(new MemberTableFactory(this::openValueUpdate, "images/update_balance.png", "Member", "Update Balance", MemberTableFactory.ColumnType.BUTTON));
+        viewTransactionsBtn.setCellFactory(new MemberTableFactory(this::openTransactions, "images/bill.png", "Member", "Update Balance", MemberTableFactory.ColumnType.BUTTON));
+        removeBtnMember.setCellFactory(new MemberTableFactory(this::handleObjectDel, "images/delete.png", "Member", "Delete Member", MemberTableFactory.ColumnType.BUTTON));
         membersTable.getColumns().add(editBtnMember);
         membersTable.getColumns().add(updateBalanceBtn);
         membersTable.getColumns().add(viewTransactionsBtn);
         membersTable.getColumns().add(removeBtnMember);
 
-        editBtnProduct.setCellFactory(buttonFactoryProducts(this::openObjectEditAdd, "edit.png", "Product:Edit", "Edit Product"));
-        updateStockBtn.setCellFactory(buttonFactoryProducts(this::openValueUpdate, "add_stock.png", "Product", "Update Stock"));
-        removeBtnProduct.setCellFactory(buttonFactoryProducts(this::handleObjectDel, "delete.png", "Product", "Delete Product"));
+        editBtnProduct.setCellFactory(new ProductTableFactory(this::openObjectEditAdd, "images/edit.png", "Product:Edit", "Edit Product", ProductTableFactory.ColumnType.BUTTON));
+        updateStockBtn.setCellFactory(new ProductTableFactory(this::openValueUpdate, "images/add_stock.png", "Product", "Update Stock", ProductTableFactory.ColumnType.BUTTON));
+        removeBtnProduct.setCellFactory(new ProductTableFactory(this::handleObjectDel, "images/delete.png", "Product", "Delete Product", ProductTableFactory.ColumnType.BUTTON));
         productTable.getColumns().add(editBtnProduct);
         productTable.getColumns().add(updateStockBtn);
         productTable.getColumns().add(removeBtnProduct);
 
-        removeBtnCategory.setCellFactory(buttonFactoryCategories(this::handleObjectDel, "Category", "Delete Category"));
+        removeBtnCategory.setCellFactory(new CategoryTableFactory(this::handleObjectDel, "Category", "Delete Category", CategoryTableFactory.ColumnType.BUTTON));
         categoryTable.getColumns().add(removeBtnCategory);
     }
 
@@ -402,7 +296,7 @@ public class AdminController extends AnchorPane implements Initializable {
         addProductImages();
         buildTables();
 
-        logoutBtn.setGraphic(new ImageView("logout.png"));
+        logoutBtn.setGraphic(new ImageView("images/logout.png"));
         logoutBtn.setTooltip(new Tooltip("Logout"));
         logoutBtn.getTooltip().setShowDelay(Duration.millis(700));
         logoutBtn.setOnAction((ActionEvent e) -> APP.logout());
