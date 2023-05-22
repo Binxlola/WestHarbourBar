@@ -1,4 +1,11 @@
-- name: 'Qodana Scan'
-  uses: JetBrains/qodana-action@main
-  env:
-    QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+name: GitHub Actions
+run-name: ${{ github.actor }} is running GitHub Actions 🚀
+on: [push]
+jobs:
+  Qodana-Scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@main
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
